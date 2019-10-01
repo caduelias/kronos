@@ -49,16 +49,18 @@
 
 
                 <div class="form-group">
-                    <label>Repetições:</label>
-
-                    <div class="input-group date">
-                      <input type="text" class="form-control" name="horario" required />
-                      <div class="invalid-feedback">
-                            Preencha este campo!
+                        <label>Repetições:</label>
+                        <select class="form-control" >
+                          <option>Selecione...  </option>
+                          <option>10x</option>
+                          <option>20x</option>
+                          <option>30x</option>
+                          <option>40x</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Selecione!
                         </div>
                       </div>
-                    <!-- /.input group -->
-                  </div>
 
                   
 
@@ -70,9 +72,7 @@
                         <input type="file" class="custom-file-input" id="exampleInputFile">
                         <label class="custom-file-label" for="exampleInputFile">Procurar</label>
                       </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="">Upload</span>
-                      </div>
+                      
                     </div>
                   </div>
 

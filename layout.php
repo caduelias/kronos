@@ -35,7 +35,7 @@
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link active text-uppercase" data-toggle="dropdown" href="#">
-        <?=$_SESSION["admin"]["nome"];  ?> - <i class="fas fa-user"></i>     
+       <i class="fas fa-user-shield"></i>     
         </a>
         <div class="dropdown-menu dropdown-menu dropdown-menu-right">
           <a href="#" class="dropdown-item text-center"><i class="fas fa-user-lock mr-1"></i> Alterar Senha</a>
@@ -103,13 +103,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="cadastros/plano" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Plano</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="cadastros/horario" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Horário</p>
                 </a>
