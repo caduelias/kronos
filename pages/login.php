@@ -3,6 +3,7 @@
     
     // INCLUIR ARQUIVO DE FUNÇÕES
     include "config/conexao.php";
+    include "config/funcoes.php";
 	
 	// DADOS $_POST
 	if ( $_POST ) {
@@ -14,11 +15,13 @@
 		
 		//verificar se os campos estão em branco
 		if ( empty( $nome ) ) {
-            echo "Preencha o Login!";
-           // alerta($mensagem);    
+          $titulo = "";
+          $mensagem = "Preencha o Login!";
+          warning($titulo, $mensagem);    
 		} else if (empty( $senha)) { 
-            echo "Preencha a Senha!";
-           // alerta($mensagem);
+          $titulo = "";
+          $mensagem = "Preencha a Senha!";
+          warning($titulo, $mensagem);   
         } else {
             //se os campos estiverem preenchidos, buscar usuario no banco
 			$sql = "select codigo_admin, nome, senha, tipo, ativo from Admin where nome = ? limit 1";
@@ -34,8 +37,10 @@
 			if ( isset( $dados->codigo_admin ) && ($dados->ativo == 1) ){
 				//verificar se trouxe algum resultado	
 				if ( !password_verify($senha, $dados->senha) ) {
-					//verificar, se senha não é verdadeira
-					echo "Senha Inválida!";
+          //verificar, se senha não é verdadeira
+          $titulo = "";
+          $mensagem = "Senha Inválida!";
+          error($titulo, $mensagem);
 				} else {
 					//guardar dados na sessão
 					$_SESSION["admin"] = array(
@@ -50,29 +55,31 @@
 					exit;
 				}
 			} else {
-				//se não existir o id
-				echo "Usuário Inexistente ou Desativado";
-				
+        //se não existir o id
+        $titulo = "";
+        $mensagem = "Usuário Inexistente ou Desativado";
+				error($titulo, $mensagem);
 			}      
         }
     }
 ?>
-<body class="hold-transition login-page">
+<body style="background: #000;">
+<div class="hold-transition">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Admin</a>
+    <p class="text-light">Nome Sistema</p>
   </div>
   <!-- /.login-logo -->
   <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+    <div class="card-body login-card-body bg-transparent">
+      <p class="login-box-msg">Realizar login para iniciar a sessão!</p>
 
       <form name="login_admin" action="" method="POST">
         <div class="input-group mb-3">
           <input type="text" class="form-control" name="nome" placeholder="login">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+              <span class="fas fa-user"></span>
             </div>
           </div>
         </div>
@@ -89,34 +96,26 @@
             <div class="icheck-primary">
               <input type="checkbox" id="remember">
               <label for="remember">
-                Remember Me
+                Lembrar Senha
               </label>
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-          </div>
+     
           <!-- /.col -->
         </div>
-      </form>
+      
       <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-        </a>
+      <button type="submit" class="btn btn-block btn-info">
+          Login  <i class="fas fa-sign-in-alt ml-2"></i>
+  </button>
       </div>
       <!-- /.social-auth-links -->
-
+      </form>
       <p class="mb-1">
-        <a href="#">I forgot my password</a>
+        <a href="#">Esqueceu sua senha?</a>
       </p>
-      <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
-      </p>
+
     </div>
     <!-- /.login-card-body -->
   </div>
@@ -124,4 +123,5 @@
 <!-- /.login-box -->
 
 
+  </div>
 </body>

@@ -1,3 +1,11 @@
+<?php
+  include "config/funcoes.php";
+
+  $tipo = $_SESSION["admin"]["tipo"];
+  
+  if ($tipo == "admin"){
+
+?>
 <div class="content-wrapper">
     <form class="form-horizontal needs-validation" name="modalidade" method="POST" action="#" novalidate>
                 
@@ -57,3 +65,11 @@
 
     </form>
 </div>
+<?php
+
+  } else {
+        $titulo = "Erro";
+        $mensagem = "O Usuário não tem permissão!";
+        error($titulo, $mensagem);
+  }
+

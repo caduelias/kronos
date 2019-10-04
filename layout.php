@@ -4,8 +4,10 @@
     if ( !isset ($pagina ) ) {
         header("location: index.php");
     }
-?>
 
+    $tipo = $_SESSION["admin"]["tipo"];
+
+?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -63,9 +65,13 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
+
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="has-treeview">
-        <a class="nav-link text-uppercase" href="#"><i class="fas fa-user-shield"> </i>  <?=$_SESSION["admin"]["tipo"];  ?></a>
+      
+          <a class="nav-link ml-1" href="#"><i class="fas fa-user-shield"> </i> </a>
+    
+        <div class="info">
+          <a href="#" class="d-block text-uppercase mt-1"> <?=$_SESSION["admin"]["nome"];  ?></a>
         </div>
       </div>
 
@@ -77,7 +83,7 @@
           <li class="nav-header">Novo Cadastro</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-folder"></i>
+              <i class="nav-icon fas fa-folder-open"></i>
               <p>
                 Cadastros
                 <i class="right fas fa-angle-left"></i>
@@ -86,43 +92,58 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="cadastros/modalidade" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-table"></i>
                   <p>Modalidade</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="cadastros/treino" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-dumbbell"></i>
                   <p>Treino</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="cadastros/exercicio" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-running"></i>
                   <p>Exercício</p>
                 </a>
               </li>
+
+
+                <?php 
+
+                if ($tipo === "admin")
+
+                {
+
+                ?>
+
               <li class="nav-item">
                 <a href="cadastros/plano" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-file-invoice-dollar"></i>
                   <p>Plano</p>
                 </a>
               </li>
+
+              <?php
+
+                }
+              ?>
               <li class="nav-item">
                 <a href="cadastros/horario" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-clock"></i>
                   <p>Horário</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-male"></i>
                   <p>Aluno</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <i class="nav-icon fas fa-clipboard"></i>
                   <p>Avaliação Física</p>
                 </a>
               </li>
@@ -211,8 +232,55 @@
             </ul>
           </li>
          
+
+          <?php 
+
+          if ($tipo === "admin")
+
+          {
+
+          ?>
+
+          <li class="nav-header">Gerenciar</li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users-cog"></i>
+              <p>
+                Usuários
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="cadastros/admin" class="nav-link">
+                <i class="nav-icon fas fa-user-plus"></i>
+                  <p>Novo</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+              <a href="listar/usuario" class="nav-link">
+                  <i class="fas fa-user-friends nav-icon"></i>
+                  <p>Usuários</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="listar/usuario-inativo" class="nav-link">
+                  <i class="fas fa-user-times nav-icon"></i>
+                  <p>Desativados</p>
+                </a>
+              </li>
             </ul>
           </li>
+
+          <?php
+
+          }
+          ?>
+         
+            </ul>
+          </li>
+          
         
         </ul>
       </nav>
@@ -231,8 +299,8 @@
     </div>
 </main>
    
-<footer class="main-footer">
-    <strong>Copyright &copy; 2019-2020 <a href="#">Admin</a>.</strong>
+<footer class="main-footer bg-light">
+    <strong class="text-dark">Copyright </strong>&copy; 2019-2020 <a class="text-dark" href="#">Nome Sistema</a> -
     Todos os direitos reservados.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 1.0.0

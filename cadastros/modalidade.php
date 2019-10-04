@@ -41,7 +41,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-success float-right"><i class="fas fa-folder-plus"></i> Salvar</button>
+                  <button type="submit" class="btn btn-success float-right"><i class="fas fa-save"></i> Salvar</button>
                 </div>
 
 
