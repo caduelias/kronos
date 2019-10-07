@@ -3,7 +3,7 @@
 
   $tipo = $_SESSION["admin"]["tipo"];
   
-  if ($tipo == "admin"){
+  if ($tipo == "admin" || $tipo == "master"){
 
 ?>
 <div class="content-wrapper">
@@ -70,6 +70,7 @@
   } else {
         $titulo = "Erro";
         $mensagem = "O Usuário não tem permissão!";
-        error($titulo, $mensagem);
+        $link = "pages/500";
+        errorLink($titulo, $mensagem, $link);
   }
 

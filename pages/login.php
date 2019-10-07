@@ -15,13 +15,11 @@
 		
 		//verificar se os campos estão em branco
 		if ( empty( $nome ) ) {
-          $titulo = "";
-          $mensagem = "Preencha o Login!";
-          warning($titulo, $mensagem);    
+          $titulo = "Preencha o Login!";
+          toastLogin($titulo);    
 		} else if (empty( $senha)) { 
-          $titulo = "";
-          $mensagem = "Preencha a Senha!";
-          warning($titulo, $mensagem);   
+          $titulo = "Preencha a Senha!";
+          toastLogin($titulo);   
         } else {
             //se os campos estiverem preenchidos, buscar usuario no banco
 			$sql = "select codigo_admin, nome, senha, tipo, ativo from Admin where nome = ? limit 1";
@@ -74,9 +72,9 @@
     <div class="card-body login-card-body bg-transparent">
       <p class="login-box-msg">Realizar login para iniciar a sessão!</p>
 
-      <form name="login_admin" action="" method="POST">
+      <form name="login" action="" method="POST">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="nome" placeholder="login">
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="login" autofocus>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>

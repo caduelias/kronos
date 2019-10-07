@@ -21,20 +21,10 @@
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
 		}
-		else if ( empty($senha) ) {
-            $mensagem = "Preencha a senha!";
-            warning($titulo, $mensagem);
-        } 
-        else if (empty($tipo))
-        {
-            $mensagem = "Selecione o Tipo!";
-            warning($titulo, $mensagem);
-        }
         
         //var_dump($_POST);
             
             if ( empty ( $codigo_admin ) ) {
-
                 $sql = "SELECT codigo_admin, nome FROM Admin WHERE nome = ? LIMIT 1";
                 $consulta = $pdo->prepare( $sql );
                 $consulta->bindParam(1,$nome);
@@ -61,8 +51,6 @@
             $dataAtual = date('d/m/Y');
 
             $data = formataData($dataAtual);
-
-            $senha = password_hash($senha, PASSWORD_DEFAULT);
             
             //var_dump($ativo);
 
@@ -71,29 +59,11 @@
         $pdo->beginTransaction();
 
 
-		if ( empty ( $codigo_admin ) ) {
-
-			//insert
-			$sql = "INSERT INTO Admin 
-			(codigo_admin, nome, email senha, tipo, ativo, data)
-			VALUES 
-			(NULL, :nome, :email, :senha, :tipo, :ativo, :data)";
-
-			$consulta = $pdo->prepare( $sql );
-			$consulta->bindValue(":nome",$nome);
-            $consulta->bindValue(":senha",$senha);
-            $consulta->bindValue(":email",$email);
-			$consulta->bindValue(":tipo",$tipo);
-			$consulta->bindValue(":ativo",$ativo);
-			$consulta->bindValue(":data",$data);
-
-        
-		} else {
+		if ( !empty ( $codigo_admin ) ) {
 
 			//update
 			$sql = "UPDATE Admin SET nome = :nome,
                     email = :email,
-                    senha = :senha,
                     tipo = :tipo,
                     ativo = :ativo,
                     data = :data
@@ -101,8 +71,7 @@
             $consulta =  $pdo->prepare($sql);
             $consulta->bindValue(":codigo",$codigo_admin);
             $consulta->bindValue(":nome",$nome);
-            $consulta->bindValue(":email", $email);
-            $consulta->bindValue(":senha",$senha);
+            $consulta->bindValue(":email",$email);
 			$consulta->bindValue(":tipo",$tipo);
 			$consulta->bindValue(":ativo",$ativo);
 			$consulta->bindValue(":data",$data);
@@ -113,14 +82,13 @@
 
 			//salvar no banco
 			$pdo->commit();
-            $mensagem = "Usuário cadastrado com sucesso!";
-            $link = "listar/admin";
-			sucessLink($titulo, $mensagem, $link);
+            $mensagem = "Usuário alterado com sucesso!";
+			sucessBack($titulo, $mensagem);
 
 		} else {
 			//erro do sql
 			//echo $consulta->errorInfo()[2];
-			$mensagem = "Erro ao salvar Usuário!";
+			$mensagem = "Erro ao alterar Usuário";
             errorBack( $titulo, $mensagem );
             exit;
 		}

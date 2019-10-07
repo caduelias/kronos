@@ -17,6 +17,47 @@
     }
 
 
+
+    function errorBack($titulo, $mensagem) {
+        
+        ?>
+
+            <script>
+                Swal.fire({
+                type: 'error',  
+                title: '<?= $titulo;?>',
+                text: '<?= $mensagem;?>',
+                confirmButtonText: 'Ok',
+                showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                            history.back();
+                        }
+                })
+            </script> 
+        <?php
+        
+    }
+
+    function sucessBack($titulo, $mensagem) {
+        
+        ?>
+
+            <script>
+                Swal.fire({
+                type: 'success',  
+                title: '<?= $titulo;?>',
+                text: '<?= $mensagem;?>',
+                confirmButtonText: 'Ok',
+                showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                            history.back();
+                        }
+                })
+            </script> 
+        <?php
+        
+    }
+
     function warning($titulo, $mensagem) {
         
         ?>
@@ -37,7 +78,7 @@
         
     }
     // FUNÇÃO MENSAGEM DE CADASTRO
-    function sucess($titulo, $mensagem, $link) {
+    function sucessLink($titulo, $mensagem, $link) {
         
         ?> 
         <!-- Modal -->
@@ -55,6 +96,27 @@
                 </script>
     <?php
     }
+    
+
+    function errorLink($titulo, $mensagem, $link) {
+        
+        ?> 
+        <!-- Modal -->
+                <script>
+                 Swal.fire({
+                type: 'error',  
+                title: '<?= $titulo;?>',
+                text: '<?= $mensagem;?>',
+                confirmButtonText: 'Ok',
+                showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        location.href='<?=$link;?>';
+                        }
+                })
+                </script>
+    <?php
+    }
+
 
     function toast($titulo) {
         
@@ -80,6 +142,31 @@
     
     <?php
     }
+
+
+    function toastLogin($titulo) {
+        
+        ?> 
+        <!-- Modal -->
+                <script>
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+
+                    Toast.fire({
+                        type: 'error',
+                        title: '<?=$titulo;?>'
+                    })
+
+                </script>
+    
+    <?php
+
+    }
+
 	// FUNÇÃO FORMATA VALOR
 	function formataValor ($valor){
 		$valor = str_replace(".", "", $valor);

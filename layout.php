@@ -40,9 +40,9 @@
        <i class="fas fa-user-shield"></i>     
         </a>
         <div class="dropdown-menu dropdown-menu dropdown-menu-right">
-          <a href="#" class="dropdown-item text-center"><i class="fas fa-user-lock mr-1"></i> Alterar Senha</a>
+          <a href="cadastros/alterar-senha" class="dropdown-item text-center"><i class="fas fa-user-lock mr-1"></i> Alterar Senha</a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item text-center"><i class="fas fa-id-card-alt mr-1"></i> Minha Conta</a>
+          <a href="cadastros/perfil" class="dropdown-item text-center"><i class="fas fa-id-card-alt mr-1"></i> Minha Conta</a>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item text-center">
           <a href="logout.php" class="btn btn-block btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Sair</a>  
@@ -68,10 +68,10 @@
 
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       
-          <a class="nav-link ml-1" href="#"><i class="fas fa-user-shield"> </i> </a>
+          <a class="nav-link ml-1" href="cadastros/perfil"><i class="fas fa-user-shield"> </i> </a>
     
         <div class="info">
-          <a href="#" class="d-block text-uppercase mt-1"> <?=$_SESSION["admin"]["nome"];  ?></a>
+          <a href="cadastros/perfil" class="d-block text-uppercase mt-1"> <?=$_SESSION["admin"]["nome"];  ?></a>
         </div>
       </div>
 
@@ -80,12 +80,12 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">Novo Cadastro</li>
+          <li class="nav-header">Cadastros</li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a class="nav-link">
               <i class="nav-icon fas fa-folder-open"></i>
               <p>
-                Cadastros
+                Novo
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -112,7 +112,7 @@
 
                 <?php 
 
-                if ($tipo === "admin")
+                if ($tipo === "admin" || $tipo == "master")
 
                 {
 
@@ -166,7 +166,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-file-alt"></i>
               <p>
-                Relatorios
+                Relatórios
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -201,9 +201,9 @@
               </li>
             </ul>
           </li>
-          <li class="nav-header">Listagem</li>
+          <li class="nav-header">Listagens</li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
                 Listar
@@ -235,7 +235,7 @@
 
           <?php 
 
-          if ($tipo === "admin")
+          if ($tipo === "admin" || $tipo === "master")
 
           {
 
@@ -243,10 +243,10 @@
 
           <li class="nav-header">Gerenciar</li>
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a class="nav-link">
               <i class="nav-icon fas fa-users-cog"></i>
               <p>
-                Usuários
+                Acesso
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -259,15 +259,15 @@
               </li>
 
               <li class="nav-item">
-              <a href="listar/usuario" class="nav-link">
+              <a href="listar/admin" class="nav-link">
                   <i class="fas fa-user-friends nav-icon"></i>
                   <p>Usuários</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="listar/usuario-inativo" class="nav-link">
+                <a href="listar/lista-inativo" class="nav-link">
                   <i class="fas fa-user-times nav-icon"></i>
-                  <p>Desativados</p>
+                  <p>Inativos</p>
                 </a>
               </li>
             </ul>

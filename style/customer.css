@@ -1,0 +1,5 @@
+.parsley-required, .parsley-equalto {
+	color: #f00;
+	list-style: none;
+	margin: 10px 10px 10px -30px;
+}
