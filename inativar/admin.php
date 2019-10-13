@@ -1,74 +1,96 @@
 <?php
 
+    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN E NÍVEL DE PERMISSÃO
+    if ( file_exists ( "permissaoAdmin.php" ) )
+        include "permissaoAdmin.php";
+    else
+        include "../permissaoAdmin.php";
+
     include "config/funcoes.php";
-	//iniciar as variaveis
-	//recuperar as variaveis
-	//$p[0] - excluir
-	//$p[1] - quadrinho-personagem
-	//$p[2] - id do quadrinho
-	//$p[3] - id do personagem
+
+    $codigo_admin = $_SESSION["admin"]["codigo_admin"];
+
 	if ( isset ( $p[2] ) ) {
-        $codigo_admin = trim( $p[2] );
+        $codigo = trim( $p[2] );
         
-	//verificar se algum esta em branco
-	if ( empty ( $codigo_admin ) ) {
+    //$codigo =  base64_decode($param);
+
+    if ($codigo_admin == $codigo || (empty($codigo) ) ) 
+    {
         $titulo = "Erro";
-        $link = "index.php";
+        $mensagem = "Parâmetros inválidos!";
+        $link = "listar/admin";
         errorLink($titulo, $mensagem, $link);
-    } else {
+        exit;
+    } 
+    else 
+    {
         $sql = "SELECT nome, ativo FROM Admin WHERE codigo_admin = ?";
         $consulta = $pdo->prepare( $sql );
-        $consulta->bindParam(1,$codigo_admin);
+        $consulta->bindParam(1,$codigo);
     
     }
 
-    //executar o sql
     $consulta->execute();
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
     $nome = $dados->nome;
     $ativo = $dados->ativo;
     
-    if ($ativo == 1){
+    if ($ativo == 1) 
+    {
         $sql = "UPDATE Admin
 		SET ativo = 0 
 		WHERE codigo_admin = :codigo
-		LIMIT 1";
+        LIMIT 1";
+        
 		$consulta = $pdo->prepare($sql);
-		$consulta->bindValue(":codigo",$codigo_admin);
+		$consulta->bindValue(":codigo",$codigo);
 
-		if ( $consulta->execute() ){
-            $mensagem = "Status do Usuário alterado para Inativo!";
+        if ( $consulta->execute() )
+        {
+            $mensagem = "Status alterado para Inativo!";
             $link = "listar/admin";
             sucessLink($titulo, $mensagem, $link);
-		} else {
+        } 
+        else 
+        {
             $mensagem = "Não foi possível alterar o Status do usuário";
             $link = "listar/admin";
             errorLink($titulo, $mensagem, $link);
 		}
     
-     } else if ($ativo == 0) {
+     } 
+     else if ($ativo == 0) 
+     {
 
 		$sql = "UPDATE Admin
 		SET ativo = 1 
 		WHERE codigo_admin = :codigo
-		LIMIT 1";
+        LIMIT 1";
+        
 		$consulta = $pdo->prepare($sql);
-		$consulta->bindValue(":codigo",$codigo_admin);
+		$consulta->bindValue(":codigo",$codigo);
 
-		if ( $consulta->execute() ){
-            $mensagem = "Status do Usuário alterado para Ativo!";
+        if ( $consulta->execute() ) 
+        {
+            $mensagem = "Status alterado para Ativo!";
             $link = "listar/admin";
             sucessLink($titulo, $mensagem, $link);
-		} else {
+        } 
+        else 
+        {
             $mensagem = "Não foi possível alterar o Status do usuário";
             $link = "listar/admin";
             errorLink($titulo, $mensagem, $link);
 		}
     }
     
-} else {
-    $mensagem = "Parâmetros Inválidos!";
-    $link = "listar/admin";
-    errorLink($titulo, $mensagem, $link);
-}
+
+    } 
+    else 
+    {
+        $mensagem = "Parâmetros Inválidos!";
+        $link = "index.php";
+        errorLink($titulo, $mensagem, $link);
+    }

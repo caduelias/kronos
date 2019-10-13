@@ -265,7 +265,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="listar/lista-inativo" class="nav-link">
+                <a href="listar/inativo" class="nav-link">
                   <i class="fas fa-user-times nav-icon"></i>
                   <p>Inativos</p>
                 </a>
@@ -300,7 +300,7 @@
 </main>
    
 <footer class="main-footer bg-light">
-    <strong class="text-dark">Copyright </strong>&copy; 2019-2020 <a class="text-dark" href="#">Nome Sistema</a> -
+    <strong class="text-dark"></strong>&copy; 2019-2020 <a class="text-dark" href="#">Nome Sistema</a> -
     Todos os direitos reservados.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 1.0.0

@@ -6,60 +6,61 @@
     include "config/funcoes.php";
 	
 	// DADOS $_POST
-	if ( $_POST ) {
-		$nome = $senha = "";
-		if ( isset ( $_POST["nome"] ) )
-			$nome = trim ( $_POST["nome"] );
-		if ( isset ( $_POST["senha"] ) )
-			$senha = trim ( $_POST["senha"]);
-		
-		//verificar se os campos estão em branco
-		if ( empty( $nome ) ) {
-          $titulo = "Preencha o Login!";
-          toastLogin($titulo);    
-		} else if (empty( $senha)) { 
-          $titulo = "Preencha a Senha!";
-          toastLogin($titulo);   
+  if ( $_POST ) {
+      $login = $senha = "";
+      if ( isset ( $_POST["login"] ) )
+        $login = trim ( $_POST["login"] );
+      if ( isset ( $_POST["senha"] ) )
+        $senha = trim ( $_POST["senha"]);
+      
+       // verificar se os campos estão em preenchidos
+        if ( empty( $login ) ) {
+              $titulo = "Preencha o Login!";
+              toastLogin($titulo);    
+        } else if (empty( $senha)) { 
+              $titulo = "Preencha a Senha!";
+              toastLogin($titulo);   
         } else {
-            //se os campos estiverem preenchidos, buscar usuario no banco
-			$sql = "select codigo_admin, nome, senha, tipo, ativo from Admin where nome = ? limit 1";
-			//preparar o sql para execução
-			$consulta = $pdo->prepare($sql);
-			//passar o parâmetro
-			$consulta->bindParam(1, $nome);
-			//executar
-			$consulta->execute();
-			//recuperar os dados da consulta
-			$dados = $consulta->fetch(PDO::FETCH_OBJ); 
-			//se existir o id
-			if ( isset( $dados->codigo_admin ) && ($dados->ativo == 1) ){
-				//verificar se trouxe algum resultado	
-				if ( !password_verify($senha, $dados->senha) ) {
-          //verificar, se senha não é verdadeira
-          $titulo = "";
-          $mensagem = "Senha Inválida!";
-          error($titulo, $mensagem);
-				} else {
-					//guardar dados na sessão
-					$_SESSION["admin"] = array(
-						"codigo_admin"=>$dados->codigo_admin,
-                        "nome"=>$dados->nome,
-                        "tipo"=>$dados->tipo,
-					);
-					//verificar array
-					//print_r( $_SESSION["admin"] );
-					//redirecionar a tela para home com js
-					echo "<script>location.href='pages/home'</script>";
-					exit;
-				}
-			} else {
-        //se não existir o id
-        $titulo = "";
-        $mensagem = "Usuário Inexistente ou Desativado";
-				error($titulo, $mensagem);
-			}      
+          // se os campos estiverem preenchidos, buscar usuario no banco
+          $sql = "SELECT codigo_admin, nome, login, senha, tipo, ativo FROM Admin WHERE login = ? LIMIT 1";
+          //preparar o sql para execução
+          $consulta = $pdo->prepare($sql);
+          //passar o parâmetro
+          $consulta->bindParam(1, $login);
+          //executar
+          $consulta->execute();
+          //recuperar os dados da consulta
+          $dados = $consulta->fetch(PDO::FETCH_OBJ); 
+
+            // se existir o CÓDIGO
+            if ( isset( $dados->codigo_admin ) && ($dados->ativo == 1) ){
+              //verificar se trouxe algum resultado	
+              if ( !password_verify($senha, $dados->senha) ) {
+                //verificar, se senha não é verdadeira
+                $mensagem = "Senha Inválida!";
+                error($titulo, $mensagem);
+              } else {
+                //guardar dados na sessão
+                $_SESSION["admin"] = array(
+                  "codigo_admin"=>$dados->codigo_admin,
+                              "nome"=>$dados->nome,
+                              "tipo"=>$dados->tipo,
+                );
+                //verificar array
+                //print_r( $_SESSION["admin"] );
+                //redirecionar a tela para home com js
+                echo "<script>location.href='pages/home'</script>";
+                exit;
+              }
+
+            } else {
+              //se não existir o código ou estiver inativo
+              $mensagem = "Usuário Inexistente ou Desativado";
+              error($titulo, $mensagem);
+            }
         }
-    }
+  }
+  
 ?>
 <body style="background: #000;">
 <div class="hold-transition">
@@ -74,7 +75,7 @@
 
       <form name="login" action="" method="POST">
         <div class="input-group mb-3">
-        <input type="text" class="form-control" id="nome" name="nome" placeholder="login" autofocus>
+        <input type="text" class="form-control" id="login" name="login" placeholder="login" autofocus>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -119,7 +120,6 @@
   </div>
 </div>
 <!-- /.login-box -->
-
 
   </div>
 </body>

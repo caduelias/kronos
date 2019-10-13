@@ -144,6 +144,31 @@
     }
 
 
+    function confirm($param, $tipo, $button, $titulo, $link,  $mensagem) {
+        
+        ?>
+
+            <script>
+                      Swal.fire({
+             
+             title: '<?=$titulo;?>',
+             text: "<?=$mensagem;?>",
+             type: '<?=$tipo;?>',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: '<?=$button;?>',
+             cancelButtonText: 'Cancelar',
+             showLoaderOnConfirm: true,
+                   preConfirm: () => {
+                       location.href='<?=$link;?>'+<?=$param;?>;
+                       }
+           })
+            </script> 
+        <?php
+        
+    } 
+
     function toastLogin($titulo) {
         
         ?> 

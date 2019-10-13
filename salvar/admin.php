@@ -1,131 +1,193 @@
 <?php
+    
+    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN E NÍVEL DE PERMISSÃO
+    if ( file_exists ( "permissaoAdmin.php" ) )
+       include "permissaoAdmin.php";
+    else
+       include "../permissaoAdmin.php";
 
     include "config/funcoes.php";
 
-    
+
+    if ( $_POST ) 
+    {
         
-    //se os dados vieram por POST
-    if ( $_POST ) {
-        //iniciar as variaveis
-        foreach ($_POST as $key => $value) {
-            //echo "<p>$key $value</p>";
+        foreach ($_POST as $key => $value) 
+        {
             //$key - nome do campo
             //$value - valor do campo (digitado)
-            if ( isset ( $_POST[$key] ) ) {
-                $$key = trim ( $value );
+            if ( isset ( $_POST[$key] ) )
+            {
+                $$key = trim( $value );
             } 
         }
 
-        if ( empty( $nome ) ) 
+        
+        if ( empty( $login ) ) 
         {
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
-		}
-		else if ( empty($senha) ) {
+        } 
+        else if ( empty( $senha ) ) 
+        {
             $mensagem = "Preencha a senha!";
             warning($titulo, $mensagem);
         } 
-        else if (empty($tipo))
+        else if (empty( $tipo ) )
         {
             $mensagem = "Selecione o Tipo!";
             warning($titulo, $mensagem);
         }
         
         //var_dump($_POST);
-            
-            if ( empty ( $codigo_admin ) ) {
+        
+        if ( empty ( $codigo_admin ) ) 
+        {
+            // SELECT BUSCANDO LOGIN COM O LOGIN INFORMADO
+            $sql = "SELECT codigo_admin, login FROM Admin WHERE login = ? LIMIT 1";
+            $consulta = $pdo->prepare( $sql );
+            $consulta->bindParam(1,$login);
 
-                $sql = "SELECT codigo_admin, nome FROM Admin WHERE nome = ? LIMIT 1";
-                $consulta = $pdo->prepare( $sql );
-                $consulta->bindParam(1,$nome);
-    
-            } else {
-                $sql = "SELECT codigo_admin, nome FROM Admin WHERE nome = ? AND codigo_admin <> ? limit 1";
-                $consulta = $pdo->prepare( $sql );
-                $consulta->bindParam(1,$nome);
-                $consulta->bindParam(2,$codigo_admin);
-    
-            }
-    
-            //executar o sql
-            $consulta->execute();
-            $dados = $consulta->fetch(PDO::FETCH_OBJ);
-    
-            //verificar se o dados trouxe algum resultado
-            if ( isset ( $dados->codigo_admin ) ) {
-                $mensagem = "Já existe um usuário cadastrado com esse nome!";
-                warning($titulo, $mensagem);
-                exit;
-            }
+        } 
+        else 
+        {
+            // SELECT BUSCANDO LOGIN ONDE FOR DIFERENTE DO PRÓPIO LOGIN
+            $sql = "SELECT codigo_admin, login FROM Admin WHERE login = ? AND codigo_admin <> ? LIMIT 1";
+            $consulta = $pdo->prepare( $sql );
+            $consulta->bindParam(1,$login);
+            $consulta->bindParam(2,$codigo_admin);
 
-            $dataAtual = date('d/m/Y');
+        }
 
-            $data = formataData($dataAtual);
+        $consulta->execute();
+        $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-            $senha = password_hash($senha, PASSWORD_DEFAULT);
-            
-            //var_dump($ativo);
+        if ( isset ( $dados->codigo_admin ) ) 
+        {
+            // ALERTA
+            $mensagem = "Já existe um usuário cadastrado com esse Login!";
+            warning($titulo, $mensagem);
+            exit;
+        }
 
+        $dataAtual = date('d/m/Y');
 
+        $data = formataData($dataAtual);
 
+        $senha = password_hash($senha, PASSWORD_DEFAULT);
+        
+        // *****************START TRANSACTION************************
         $pdo->beginTransaction();
 
+        if ( empty ( $codigo_admin ) ) 
+        {
+			// INSERT
+			$sql = "
+            SET AUTOCOMMIT=0;
+            START TRANSACTION;
+            
+            INSERT INTO Endereco
+            (codigo_endereco, estado, cidade, bairro, rua, numero)
+            VALUES 
+            (NULL, :estado, :cidade, :bairro, :rua, :numero);
 
-		if ( empty ( $codigo_admin ) ) {
-
-			//insert
-			$sql = "INSERT INTO Admin 
-			(codigo_admin, nome, email senha, tipo, ativo, data)
+            INSERT INTO Admin 
+			(codigo_admin, nome, login, email, senha, tipo, ativo, data, Endereco_codigo_endereco)
 			VALUES 
-			(NULL, :nome, :email, :senha, :tipo, :ativo, :data)";
+            (NULL, :nome, :login, :email, :senha, :tipo, :ativo, :data, (select LAST_INSERT_ID()));
 
-			$consulta = $pdo->prepare( $sql );
-			$consulta->bindValue(":nome",$nome);
+            COMMIT;
+            SET AUTOCOMMIT=1;
+            
+            ";
+
+            $consulta = $pdo->prepare( $sql );
+
+            // Tabela Endereco
+            $consulta->bindValue(":estado",$estado);
+            $consulta->bindValue(":cidade",$cidade);
+            $consulta->bindValue(":bairro",$bairro);
+            $consulta->bindValue(":rua",$rua);
+            $consulta->bindValue(":numero",$numero);
+            
+            // Tabela admin
+            $consulta->bindValue(":nome",$nome);
+            $consulta->bindValue(":login",$login);
             $consulta->bindValue(":senha",$senha);
             $consulta->bindValue(":email",$email);
 			$consulta->bindValue(":tipo",$tipo);
 			$consulta->bindValue(":ativo",$ativo);
 			$consulta->bindValue(":data",$data);
 
-        
-		} else {
+        } 
+        else 
+        { 
+			// UPDATE
+			$sql = "
+            UPDATE Admin as a JOIN Endereco as e SET nome = :nome,
+            a.login = :login,
+            a.email = :email,
+            a.tipo = :tipo,
+            a.ativo = :ativo,
+            a.data = :data,
+               
+            e.estado = :estado,
+            e.cidade = :cidade,
+            e.bairro = :bairro,
+            e.rua = :rua,
+            e.numero = :numero
 
-			//update
-			$sql = "UPDATE Admin SET nome = :nome,
-                    email = :email,
-                    senha = :senha,
-                    tipo = :tipo,
-                    ativo = :ativo,
-                    data = :data
-				WHERE codigo_admin = :codigo LIMIT 1";
+            WHERE a.codigo_admin = :codigo 
+            AND a.Endereco_codigo_endereco = e.codigo_endereco;
+                
+            ";
+
             $consulta =  $pdo->prepare($sql);
+
+            // Tabela Endereco
+            $consulta->bindValue(":estado",$estado);
+            $consulta->bindValue(":cidade",$cidade);
+            $consulta->bindValue(":bairro",$bairro);
+            $consulta->bindValue(":rua",$rua);
+            $consulta->bindValue(":numero",$numero);
+
+            // Tabela Admin
             $consulta->bindValue(":codigo",$codigo_admin);
             $consulta->bindValue(":nome",$nome);
+            $consulta->bindValue(":login",$login);
             $consulta->bindValue(":email", $email);
-            $consulta->bindValue(":senha",$senha);
 			$consulta->bindValue(":tipo",$tipo);
 			$consulta->bindValue(":ativo",$ativo);
 			$consulta->bindValue(":data",$data);
 		}
 
-		//executar
-		if ( $consulta->execute() ) {
-
-			//salvar no banco
-			$pdo->commit();
+		
+        if ( $consulta->execute() ) 
+        {
+			// COMMIT
+            $pdo->commit();
+            // ALERTA
             $mensagem = "Usuário cadastrado com sucesso!";
             $link = "listar/admin";
 			sucessLink($titulo, $mensagem, $link);
 
-		} else {
-			//erro do sql
-			//echo $consulta->errorInfo()[2];
+        } 
+        else 
+        {
+            // ROLLBACK
+            $pdo->rollBack();
+            //echo $consulta->errorInfo()[2];
+            // ALERTA
 			$mensagem = "Erro ao salvar Usuário!";
             errorBack( $titulo, $mensagem );
             exit;
 		}
-          
-    } else {
+       
+    // !POST       
+    } 
+    else 
+    {
+        // ALERTA
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

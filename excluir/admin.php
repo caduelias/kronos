@@ -1,61 +1,73 @@
 <?php 
 
-    include "config/funcoes.php";
-	//iniciar as variaveis
-	//recuperar as variaveis
-	//$p[0] - excluir
-	//$p[1] - quadrinho-personagem
-	//$p[2] - id do quadrinho
-	//$p[3] - id do personagem
-	if ( isset ( $p[2] ) )
-        $codigo_admin = trim( $p[2] );
-        
-        echo $codigo_admin;
+    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN E NÍVEL DE PERMISSÃO
+    if ( file_exists ( "permissaoAdmin.php" ) )
+       include "permissaoAdmin.php";
+    else
+       include "../permissaoAdmin.php";
 
-	//verificar se algum esta em branco
-	if ( ( empty ( $codigo_admin ) ) ) {
+    include "config/funcoes.php";
+
+    $codigo_admin = $_SESSION["admin"]["codigo_admin"];
+
+	if ( isset ( $p[2] ) )
+        $codigo = trim( $p[2] );
+        
+    //$codigo =  base64_decode($param);
+
+    if ($codigo_admin == $codigo || (empty($codigo) ) ) 
+    {
         $titulo = "Erro";
-        $mensagem = "Parâmetros inválidos";
-        $link = "index.php";
+        $mensagem = "Parâmetros inválidos!";
+        $link = "listar/inativo";
         errorLink($titulo, $mensagem, $link);
-    } else {
+        exit;
+    }
+    else 
+    {
         $sql = "SELECT nome, ativo FROM Admin WHERE codigo_admin = ?";
         $consulta = $pdo->prepare( $sql );
-        $consulta->bindParam(1,$codigo_admin);
-    
+        $consulta->bindParam(1,$codigo);
     }
 
-    //executar o sql
     $consulta->execute();
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
     $nome = $dados->nome;
     $ativo = $dados->ativo;
     
-    if ($ativo == 1){
+    if ($ativo == 1)
+    {
         $titulo = "Erro ao Excluir";
-        $mensagem = "O usuário $nome está ativo! Inative para realizar esta operação!";
+        $mensagem = "O usuário $nome está ativo! Inative-o para realizar esta operação!";
         $link = "listar/admin";
         errorLink($titulo, $mensagem, $link);
-    
-     } else {
+    } 
+    else 
+    {
+		$sql = "
+            DELETE a.*, e.* 
+            FROM Admin a 
+            LEFT JOIN Endereco e 
+            ON a.codigo_admin = :codigo 
+            WHERE a.Endereco_codigo_endereco = e.codigo_endereco;
+        ";
 
-		$sql = "DELETE FROM Admin
-		WHERE codigo_admin = :codigo 
-		AND nome = :nome
-		LIMIT 1";
 		$consulta = $pdo->prepare($sql);
-		$consulta->bindValue(":codigo",$codigo_admin);
-        $consulta->bindValue(":nome",$nome);
+		$consulta->bindValue(":codigo",$codigo);
 
-		if ( $consulta->execute() ){
+        if ( $consulta->execute() ) 
+        {
             $mensagem = "Usuário removido com Sucesso!";
-            $link = "listar/lista-inativo";
+            $link = "listar/inativo";
             sucessLink($titulo, $mensagem, $link);
-		} else {
+        } 
+        else 
+        {
             $titulo = "Erro ao Excluir";
             $mensagem = "Não foi possível remover o usuário";
-            $link = "listar/lista-inativo";
+            $link = "listar/inativo";
             errorLink($titulo, $mensagem, $link);
 		}
-	}
+    }
+    

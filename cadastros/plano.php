@@ -1,9 +1,13 @@
 <?php
+
+  if ( file_exists ( "permissaoAdmin.php" ) )
+    include "permissaoAdmin.php";
+  else
+    include "../permissaoAdmin.php";
+
   include "config/funcoes.php";
 
   $tipo = $_SESSION["admin"]["tipo"];
-  
-  if ($tipo == "admin" || $tipo == "master"){
 
 ?>
 <div class="content-wrapper">
@@ -65,12 +69,4 @@
 
     </form>
 </div>
-<?php
-
-  } else {
-        $titulo = "Erro";
-        $mensagem = "O Usuário não tem permissão!";
-        $link = "pages/500";
-        errorLink($titulo, $mensagem, $link);
-  }
 

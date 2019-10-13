@@ -24,80 +24,88 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-
-
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
+  
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+  
+  <!-- Estilos -->
   <link rel="stylesheet" type="text/css" href="style/customer.css">
+
+<!-- DataTables -->
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+ 
+
+
   <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript" src="build/js/parsley.min.js"></script>
+
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
 
 <script type="text/javascript" src="build/js/lightbox-plus-jquery.js"></script>
 
 <!-- SweetAlert2 -->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
+<!-- DataTables -->
+<script type="text/javascript" src="plugins/datatables/jquery.dataTables.js"></script>
+
+
 <!-- Toastr -->
 <script src="plugins/toastr/toastr.min.js"></script>
+
+
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
+
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 
-<script src="plugins/toastr/toastr.min.js"></script>
+
 <script src="plugins/select2/js/select2.full.min.js"></script>
 <!-- Bootstrap4 Duallistbox -->
 <script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+
+
 <!-- InputMask -->
 <script src="plugins/inputmask/jquery.inputmask.bundle.js"></script>
-
+<script type="text/javascript" src="build/js/jquery.maskMoney.min.js"></script>
 
 <script src="plugins/moment/moment.min.js"></script>
+
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
-
-<!-- bootstrap color picker --><script src="plugins/datatables/jquery.dataTables.js"></script>
-
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-
 <script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+
+
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- AdminLTE App -->
-
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
 
-<script type="text/javascript" src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="build/js/jquery.maskMoney.min.js"></script>
-<script type="text/javascript" src="plugins/datatables/jquery.dataTables.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
 </head>
 <body>
 
