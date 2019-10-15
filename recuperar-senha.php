@@ -1,27 +1,6 @@
 <?php
 
-    if ( ( session_status() != PHP_SESSION_ACTIVE ) or ( !isset ( $_SESSION["admin"]["codigo_admin"] ) ) ) 
-    
-    {
-
-    }
-      if ( isset ( $_POST["email"] ) )
-      $email = trim ( $_POST["email"]);
-    
-    
-        // ================================================================
-
-        $sql = "SELECT email from Admin WHERE email = ? LIMIT 1";
-        
-        $consulta = $pdo->prepare($sql);
-        
-        $consulta->bindParam(1, $email);
-        
-        $consulta->execute();
-
-        $dados = $consulta->fetch(PDO::FETCH_OBJ); 
-
-        $email = $dados->email;
+   
 
 
     ?>
@@ -29,11 +8,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base href="http://<?=$_SERVER['SERVER_NAME'] . $_SERVER['SCRIPT_NAME']?>">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
   <title>Recuperar Senha</title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
