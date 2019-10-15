@@ -8,11 +8,15 @@
     include "config/funcoes.php";
 
     $perfil = $_SESSION["admin"]["tipo"];
+
+    $admin = $_SESSION["admin"]["codigo_admin"];
+
+    $propio =  base64_encode($admin);
     
     $codigo_admin = $nome = $email = $senha = $tipo = $ativo = $data = $estado = $cidade = $bairro = $rua = $numero = "";
 
-	if ( isset ( $p[2] ) ) {
-
+    if ( isset ($p[2]) && ($p[2]) != $propio ) 
+    {
         $codigo_admin =  base64_decode($p[2]);
 
         //echo "<p class='text-center'>$codigo_admin</p>";
@@ -53,12 +57,11 @@
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <h1 class="card-title">Cadastro de Usuários</h1>
+                    <h1 class="card-title text-uppercase">Cadastro de Usuários</h1>
                 </div>
                 <div class="col">
                     <div class="text-right">
-                        <a href="listar/admin" class="btn btn-outline-info"><i class="fas fa-list"></i></a>
-                        
+                        <a href="listar/admin" class="btn btn-info">Listar <i class="fas fa-list ml-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -203,7 +206,9 @@
 
     <!-- /.card-body -->
     <div class="card-footer">
-        <button type="submit" class="btn btn-outline-success float-right" onclick="return validarSenha()"><i class="fas fa-save"></i> Salvar</button>
+        <div class="text-right">
+            <button type="submit" class="btn btn-success" onclick="return validarSenha()"><i class="fas fa-save"></i> Salvar</button>
+        </div>
     </div>
 
     </form>

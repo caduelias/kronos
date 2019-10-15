@@ -1,6 +1,6 @@
 <?php
     
-    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN E NÍVEL DE PERMISSÃO
+    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN
     if ( file_exists ( "permissaoAdmin.php" ) )
        include "permissaoAdmin.php";
     else

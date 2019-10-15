@@ -89,9 +89,12 @@
                 text: '<?= $mensagem;?>',
                 confirmButtonText: 'Ok',
                 showLoaderOnConfirm: true,
-                    preConfirm: () => {
-                        location.href='<?=$link;?>';
+                     
+                    preConfirm: ()  => {
+                        window.location='<?=$link;?>';
                         }
+ 
+                    
                 })
                 </script>
     <?php
@@ -188,6 +191,44 @@
 
                 </script>
     
+    <?php
+
+    }
+
+    function updateSenha($titulo, $mensagem, $link) {
+        
+    ?>
+     
+    <script>
+    let timerInterval
+    Swal.fire({
+    title: '<?=$titulo;?>',
+    type: 'success',  
+    html: 'A sessão será encerrada em <strong></strong> segundos!<br /> <?=$mensagem;?>',
+    timer: 10000,
+    onBeforeOpen: () => {
+        Swal.showLoading()
+        timerInterval = setInterval(() => {
+        Swal.getContent().querySelector('strong')
+            .textContent = (Swal.getTimerLeft() / 1000)
+            .toFixed(0)
+        }, 100)
+    },
+    onClose: () => {
+        clearInterval(timerInterval)
+        location.href='<?=$link;?>'
+    }
+    }).then((result) => {
+    if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.timer
+        
+    ) {
+        location.href='<?=$link;?>'
+    }
+    })
+    </script>
+
     <?php
 
     }

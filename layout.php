@@ -40,9 +40,9 @@
        <i class="fas fa-user-shield"></i>     
         </a>
         <div class="dropdown-menu dropdown-menu dropdown-menu-right">
-          <a href="cadastros/alterar-senha" class="dropdown-item text-center"><i class="fas fa-user-lock mr-1"></i> Alterar Senha</a>
+          <a href="pages/alterar-senha" class="dropdown-item text-center"><i class="fas fa-user-lock mr-1"></i> Alterar Senha</a>
           <div class="dropdown-divider"></div>
-          <a href="cadastros/perfil" class="dropdown-item text-center"><i class="fas fa-id-card-alt mr-1"></i> Minha Conta</a>
+          <a href="pages/minha-conta" class="dropdown-item text-center"><i class="fas fa-id-card-alt mr-1"></i> Minha Conta</a>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item text-center">
           <a href="logout.php" class="btn btn-block btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Sair</a>  
@@ -68,10 +68,10 @@
 
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       
-          <a class="nav-link ml-1" href="cadastros/perfil"><i class="fas fa-user-shield"> </i> </a>
+          <a class="nav-link ml-1" href="pages/minha-conta"><i class="fas fa-user-shield"> </i> </a>
     
         <div class="info">
-          <a href="cadastros/perfil" class="d-block text-uppercase mt-1"> <?=$_SESSION["admin"]["nome"];  ?></a>
+          <a href="pages/minha-conta" class="d-block text-uppercase mt-1"> <?=$_SESSION["admin"]["nome"];  ?></a>
         </div>
       </div>
 

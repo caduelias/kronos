@@ -1,6 +1,3 @@
-<?php
-
-?>
 
 <div class="content-wrapper" style="min-height: 1274.25px;">
     <!-- Content Header (Page header) -->
@@ -24,7 +21,7 @@
 
           <p>
           Vamos trabalhar para consertar isso imediatamente.
-            Enquanto isso, você pode <a href="index.php">voltar para o início</a> ou clicar no botão abaixo.
+            Enquanto isso, você pode voltar para o <a href="index.php">início</a> ou clicar no botão abaixo.
           </p>
 
           <form class="search-form">
