@@ -20,7 +20,7 @@
         <div class="card-header">
             <h3 class="card-title">Usuários Inativos</h3>
             <div class="text-right">
-                <a href="cadastros/admin" class="btn btn-success"><i class="fas fa-user-plus"></i></a>
+                <a href="cadastros/admin" class="btn btn-success">Novo<i class="fas fa-user-plus ml-2"></i></a>
             </div>
         </div>
         <!-- /.card-header -->
@@ -83,7 +83,7 @@
                                     <td>$data</td>
                                     <td class='text-center'> 
                                     <a href='javascript:excluir($codigo_admin)' class='mr-2 btn btn-danger'>Excluir</a>
-                                    <a href='javascript:ativar($codigo_admin)' class='btn btn-success'>Ativar</a>
+                                    <a href='javascript:ativar($codigo_admin)' class='btn btn-dark'>Ativar</a>
                                     </td>
                                 </tr>
                             ";
@@ -195,7 +195,7 @@
         <div class="card-header">
             <h3 class="card-title">Usuários Inativos</h3>
             <div class="text-right">
-                <a href="cadastros/admin" class="btn btn-success"><i class="fas fa-user-plus"></i></a>
+                <a href="cadastros/admin" class="btn btn-success">Novo<i class="fas fa-user-plus ml-2"></i></a>
             </div>
         </div>
         <!-- /.card-header -->
@@ -256,8 +256,7 @@
                                         <td class='text-uppercase'>$tipo</td>
                                         <td>$data</td>
                                         <td class='text-center'> 
-                                        <a href='javascript:excluir($codigo_admin)' class='mr-2 btn btn-danger'>Excluir</a>
-                                        <a href='javascript:ativar($codigo_admin)' class='btn btn-success'>Ativar</a></td>
+                                        <a href='javascript:ativar($codigo_admin)' class='btn btn-dark'>Ativar</a></td>
                                     </tr>
                                 ";
                             } 

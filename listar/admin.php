@@ -176,7 +176,7 @@
         <div class="card-header">
             <h3 class="card-title">Usuários Ativos</h3>
             <div class="text-right">
-                <a href="cadastros/admin" class="btn btn-success"><i class="fas fa-user-plus"></i></a>
+                <a href="cadastros/admin" class="btn btn-success">Novo<i class="fas fa-user-plus ml-2"></i></a>
             </div>
         </div>
         <!-- /.card-header -->

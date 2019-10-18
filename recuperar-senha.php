@@ -1,16 +1,12 @@
-<?php
 
-   
-
-
-    ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Recuperar Senha</title>
   <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -89,15 +85,15 @@
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
 
-
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
 </head>
+
 <body>
 
-<div class="content-wrapper card m-5">
-    <form class="form-horizontal" name="recupera" method="POST" action="" data-parsley-validate>        
+<div class="content-wrapper m-5">
+    <form class="" name="recupera" method="POST" action="nova-senha.php" data-parsley-validate>        
         <div class="card-body">
            
             <div class="row">
@@ -107,16 +103,12 @@
             </div>
 
             <div class="form-group">
+                <p class="text-center"> Lembrando que o email informado deve estar associado a uma conta <strong>ativa</strong> no sistema!</p>
+            </div>
+            
+            <div class="form-group">
                 <label for="email">Informe o email:</label>
                 <input type="email" class="form-control" name="email" placeholder="Informe o email cadastrado" autofocus required data-parsley-required-message="Preencha o email!">
-            </div>
-
-            <div class="form-group">
-                <p class="text-center">Será enviado um e-mail para recuperação de senha no email digitado no campo acima!</p>
-                
-                <p class="text-center">Recupere sua senha seguindo as orientações contidas no email!</p>
-
-                <p class="text-center"> Lembrando que o email informado deve estar associado a uma conta ativa no sistema!</p>
             </div>  
      
         </div>
@@ -129,3 +121,4 @@
 </div>
 </body>
 </html>
+

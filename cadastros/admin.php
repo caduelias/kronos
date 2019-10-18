@@ -61,7 +61,7 @@
                 </div>
                 <div class="col">
                     <div class="text-right">
-                        <a href="listar/admin" class="btn btn-info">Listar <i class="fas fa-list ml-2"></i></a>
+                        <a href="listar/admin" class="btn btn-dark">Listar <i class="fas fa-list ml-2"></i></a>
                     </div>
                 </div>
             </div>
