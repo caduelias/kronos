@@ -14,7 +14,7 @@
 	$usuario = "root";
 	$senha = "123";
 	//selecionar banco IMC
-	$banco = "banco_2.0";
+	$banco = "banco_3.0";
 	
 	$charset = "utf8";
 	try {

@@ -112,7 +112,7 @@
 
                 <?php 
 
-                if ($tipo === "admin" || $tipo == "master")
+                if ($tipo === "admin" || $tipo === "master")
 
                 {
 
@@ -129,6 +129,8 @@
 
                 }
               ?>
+
+
               <li class="nav-item">
                 <a href="cadastros/horario" class="nav-link">
                 <i class="nav-icon fas fa-clock"></i>

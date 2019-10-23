@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <input type="hidden" class="form-control" name="codigo_modalidade" value="<?=$codigo_modalidade;?>">
                         <label for="nomeModalidade">Nome Modalidade:</label>
-                        <input type="text" class="form-control" name="nome_modalidade" placeholder="Nome modalidade" value="<?=$nome_modalidade;?>" maxlength="45" autofocus required data-parsley-required-message="Preencha este campo!">         
+                        <input type="text" class="form-control" name="nome_modalidade" onkeypress="return ApenasLetras(event,this);" placeholder="Nome modalidade" value="<?=$nome_modalidade;?>" maxlength="45" autofocus required data-parsley-required-message="Preencha este campo!">         
                     </div>
                 </div>
 
@@ -84,3 +84,30 @@
 
     </form>
 </div>
+
+<script type="text/javascript">
+function ApenasLetras(e, t) {
+    try {
+        if (window.event) {
+            var charCode = window.event.keyCode;
+        } else if (e) {
+            var charCode = e.which;
+        } else {
+            return true;
+        }
+        if (
+            (charCode > 8 && charCode < 46) ||
+            (charCode > 64 && charCode < 91) || 
+            (charCode > 96 && charCode < 123) ||
+            (charCode > 191 && charCode <= 255) // letras com acentos
+        ){
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        alert(err.Description);
+    }
+}
+
+</script>

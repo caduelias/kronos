@@ -72,7 +72,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-            <button type="submit" class="btn btn-dark float-right" onclick="return validarSenha()"><i class="fas fa-lock mr-2"></i>Alterar</button>
+            <button type="submit" class="btn btn-dark float-right" onclick="return validarSenha()"><i class="fas fa-user-lock mr-2"></i>Alterar</button>
         </div>
     </form>
 </div>

@@ -67,6 +67,7 @@
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
+<script src="style/jquery.mask.js"></script>
 
 <!-- DataTables -->
 <script type="text/javascript" src="plugins/datatables/jquery.dataTables.js"></script>

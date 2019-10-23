@@ -82,7 +82,8 @@
         if ( empty ( $codigo_admin ) ) 
         {
 			// INSERT
-			$sql = "
+            $sql = "
+            
             SET AUTOCOMMIT=0;
             START TRANSACTION;
             
@@ -90,15 +91,13 @@
             (codigo_endereco, estado, cidade, bairro, rua, numero)
             VALUES 
             (NULL, :estado, :cidade, :bairro, :rua, :numero);
-
             INSERT INTO Admin 
 			(codigo_admin, nome, login, email, senha, tipo, ativo, data, Endereco_codigo_endereco)
 			VALUES 
             (NULL, :nome, :login, :email, :senha, :tipo, :ativo, :data, (select LAST_INSERT_ID()));
-
             COMMIT;
             SET AUTOCOMMIT=1;
-            
+
             ";
 
             $consulta = $pdo->prepare( $sql );

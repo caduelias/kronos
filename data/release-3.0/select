@@ -1,0 +1,2 @@
+SELECT t.codigo_treino FROM Treino t, Treino_Modalidade tm WHERE t.nome_treino = "teste" AND t.codigo_treino <> 9 AND tm.Treino_codigo_treino <> t.codigo_treino AND tm.Modalidade_codigo_modalidade = 1 LIMIT 1;
+            

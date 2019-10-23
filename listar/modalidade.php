@@ -19,7 +19,7 @@
                 </div>
                 <div class="col">
                     <a  href="cadastros/modalidade" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
-                    <a  href="listar/modalidade-inativo" class="btn btn-danger float-right m-1">Inativos <i class="ml-2 fas fa-list"></i></a>
+                    <a  href="listar/modalidade-inativo" class="btn btn-warning float-right m-1">Inativos <i class="ml-2 fas fa-list"></i></a>
                 </div>
             </div>
         </div>
@@ -64,8 +64,9 @@
                                 <td class='text-uppercase'>$nome_modalidade</td>
                                 <td class='text-uppercase'>$descricao</td>
                                 <td class='text-center'> 
-                                <a href='javascript:inativar($codigo_modalidade)' class='btn btn-warning m-1'>Inativar</a>
-                                <a href='cadastros/modalidade/$codigo' class='btn btn-info m-1'>Alterar</a></td>
+                                <a href='javascript:inativar($codigo_modalidade)' class='btn btn-danger m-1'><i class='fas fa-trash'></i></a>
+                                <a href='cadastros/modalidade/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
+                                </td>
                             </tr>
                             ";
                         } 
