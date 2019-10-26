@@ -73,7 +73,7 @@
 
             <div class="form-group">
                 <label>Descrição:</label>
-                <textarea class="form-control" rows="3" name="descricao" maxlength="75" placeholder="Sobre a modalidade..." required data-parsley-required-message="Preencha este campo!"><?=$descricao;?></textarea>
+                <textarea class="form-control" rows="3" name="descricao" maxlength="250" placeholder="Sobre a modalidade..." required data-parsley-required-message="Preencha este campo!"><?=$descricao;?></textarea>
             </div>  
             
         </div>

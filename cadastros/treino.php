@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>  
-        </div>  
+        
   <div class="card-body">
     
       <div class="row">
@@ -132,7 +132,7 @@
 
       <div class="form-group">
         <label>Descrição:</label>
-        <textarea class="form-control" rows="3" name="descricao" maxlength="98" placeholder="Sobre o treino..." ><?=$descricao;?></textarea>
+        <textarea class="form-control" rows="3" name="descricao" maxlength="250" placeholder="Sobre o treino..." ><?=$descricao;?></textarea>
       </div>    
 
     </div>
