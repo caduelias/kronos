@@ -11,15 +11,15 @@
     $codigo_admin = $_SESSION["admin"]["codigo_admin"];
 
 	if ( isset ( $p[2] ) )
-        $codigo = trim( $p[2] );
+        $codigo = (int)$p[2];
         
     //$codigo =  base64_decode($param);
 
-    if ($codigo_admin == $codigo || (empty($codigo) ) ) 
+    if (empty($codigo) ) 
     {
-        $titulo = "Erro";
+        $titulo = "";
         $mensagem = "Parâmetros inválidos!";
-        $link = "listar/inativo";
+        $link = "listar/plano-inativo";
         errorLink($titulo, $mensagem, $link);
         exit;
     }

@@ -8,7 +8,7 @@
 
     include "config/funcoes.php";
       
-    $codigo_exercicio	= $nome_treino = $duracao = $descricao = $tipo_treino = $peso_inicial = "";
+    $codigo_exercicio	= $codigo_treino = $nome_treino = $duracao = $descricao = $tipo_treino = $peso_inicial = "";
 
     if ( isset ($p[2]) ) 
     {
@@ -88,7 +88,7 @@
                       while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
                       {
 
-                        echo "<option>$dados->codigo_treino - $dados->nome_treino - $dados->nome_modalidade </option>";
+                        echo "<option value='$dados->codigo_treino'>$dados->nome_treino - $dados->nome_modalidade </option>";
 
                       }
                     

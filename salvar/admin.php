@@ -35,7 +35,7 @@
         } 
         else if (empty( $tipo ) )
         {
-            $mensagem = "Selecione o Tipo!";
+            $mensagem = "Selecione o tipo!";
             warning($titulo, $mensagem);
         }
         
@@ -65,7 +65,7 @@
         if ( isset ( $dados->codigo_admin ) ) 
         {
             // ALERTA
-            $mensagem = "Já existe um usuário cadastrado com esse Login!";
+            $mensagem = "Já existe um usuário cadastrado com esse login!";
             warning($titulo, $mensagem);
             exit;
         }
@@ -91,10 +91,12 @@
             (codigo_endereco, estado, cidade, bairro, rua, numero)
             VALUES 
             (NULL, :estado, :cidade, :bairro, :rua, :numero);
+
             INSERT INTO Admin 
 			(codigo_admin, nome, login, email, senha, tipo, ativo, data, Endereco_codigo_endereco)
 			VALUES 
             (NULL, :nome, :login, :email, :senha, :tipo, :ativo, :data, (select LAST_INSERT_ID()));
+
             COMMIT;
             SET AUTOCOMMIT=1;
 
@@ -109,7 +111,7 @@
             $consulta->bindValue(":rua",$rua);
             $consulta->bindValue(":numero",$numero);
             
-            // Tabela admin
+            // Tabela Admin
             $consulta->bindValue(":nome",$nome);
             $consulta->bindValue(":login",$login);
             $consulta->bindValue(":senha",$senha);

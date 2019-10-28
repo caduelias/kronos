@@ -234,7 +234,7 @@
     }
 
 	// FUNÇÃO FORMATA VALOR
-	function formataValor ($valor){
+	function formataFloat ($valor){
 		$valor = str_replace(".", "", $valor);
 		$valor = str_replace(",", ".", $valor);
 		return $valor;
@@ -340,4 +340,3 @@ function redimensionarImagem($pastaFotos,$imagem,$nome)	{
     //apagar a imagem antiga
     unlink ($imagem);
 }
-
