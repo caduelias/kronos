@@ -122,7 +122,7 @@
 
                                     <div class='form-group'>
                                         <label for='valor'>Valor da mensalidade:</label>
-                                        <input type='text' class='form-control' value='$mensalidade' readonly>  
+                                        <input type='text' class='form-control' value='R$$mensalidade reais' readonly>  
                                     </div>
 
                                     <div class='form-group mt-2'>

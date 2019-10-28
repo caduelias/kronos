@@ -38,7 +38,7 @@
             warning($titulo, $mensagem);
         }
         
-        var_dump($_POST);
+        //var_dump($_POST);
         //exit;
         if ( empty ( $codigo_plano ) ) 
         {

@@ -28,6 +28,16 @@
       $taxa_adesao = $dados->taxa_adesao;
       $mensalidade = $dados->mensalidade;
       $descricao = $dados->descricao;
+
+      $taxa_adesao = number_format($taxa_adesao,
+      2,
+      ',',
+      '.');
+
+      $mensalidade = number_format($mensalidade,
+      2,
+      ',',
+      '.');
   }   
 
 ?>
@@ -49,6 +59,19 @@
               </div>     
               <div class="card-body">
 
+            <div class="row">
+
+                <div class="col-6">
+
+                  <div class="form-group">
+                    <input type="hidden" class="form-control" name="codigo_plano" value="<?=$codigo_plano;?>">
+                      <label for="plano">Nome do Plano:</label>
+                      <input type="text" class="form-control" name="nome_plano" maxlength="40" value="<?=$nome_plano;?>" onkeypress="return ApenasLetras(event,this);" autofocus placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
+                  </div>
+
+                </div>
+
+                <div class="col-6">
                 <div class="form-group">
                   <label for="status">Status:</label>
                   <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
@@ -62,30 +85,42 @@
                   </script>
 
                 </div>
+              </div>
 
-                <div class="form-group">
-                  <input type="text" class="form-control" name="codigo_plano" value="<?=$codigo_plano;?>">
-                    <label for="plano">Nome do Plano:</label>
-                    <input type="text" class="form-control" name="nome_plano" value="<?=$nome_plano;?>" onkeypress="return ApenasLetras(event,this);" placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
-                </div>
+            </div>
 
-                <div class="row">
+            <div class="row">
 
                   <div class="col-6">
                     <div class="form-group">
-                        <label for="taxa">Taxa de adesão:</label>
-                        <input type="text" class="form-control" name="taxa_adesao" id="taxa" value="<?=$taxa_adesao;?>"placeholder="Taxa" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">      
+                      <label for="taxa">Taxa de adesão:</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-dollar-sign"></i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" name="taxa_adesao" id="taxa" value="<?=$taxa_adesao;?>" placeholder="Taxa" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">      
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-6">
+
                     <div class="form-group">
                       <label for="valor">Valor da mensalidade:</label>
-                      <input type="text" class="form-control" name="mensalidade" id="valor" value="<?=$mensalidade;?>" placeholder="Valor" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-dollar-sign"></i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" name="mensalidade" id="valor" value="<?=$mensalidade;?>" placeholder="Valor" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
+                      </div>
                     </div>
                   </div>
 
-                </div>
+            </div>
 
                 <div class="form-group">
                   <label>Descrição:</label>
