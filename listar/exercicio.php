@@ -135,8 +135,8 @@
     function excluir(codigo) {
         
         Swal.fire({        
-            title: 'Deseja excluir Treino?',
-            text: "O treino será excluído permanentente!",
+            title: 'Deseja excluir item?',
+            text: "O item será excluído permanentente!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -145,7 +145,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='excluir/treino/'+codigo;
+                    location.href='excluir/exercicio/'+codigo;
                 }
         })
 	
