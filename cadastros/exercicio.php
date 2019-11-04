@@ -78,7 +78,7 @@
                     $sql = "
                     
                       SELECT t.codigo_treino, t.nome_treino, m.nome_modalidade FROM Treino t, Modalidade m, Treino_Modalidade tm
-                      WHERE t.codigo_treino = tm.Treino_codigo_treino AND tm.Modalidade_codigo_modalidade = m.codigo_modalidade
+                      WHERE t.codigo_treino = tm.Treino_codigo_treino AND tm.Modalidade_codigo_modalidade = m.codigo_modalidade and t.ativo = 1
                        ORDER BY t.codigo_treino, m.nome_modalidade
                       
                       ";

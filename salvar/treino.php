@@ -85,9 +85,9 @@
             START TRANSACTION;
             
             INSERT INTO Treino
-            (codigo_treino, nome_treino, descricao, tipo_treino)
+            (codigo_treino, nome_treino, descricao, tipo_treino, ativo)
             VALUES 
-            (NULL, :nome_treino, :descricao, :tipo_treino);
+            (NULL, :nome_treino, :descricao, :tipo_treino, 1);
 
             INSERT INTO Treino_Modalidade 
 			(Modalidade_codigo_modalidade, Treino_codigo_treino)

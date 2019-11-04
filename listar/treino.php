@@ -44,7 +44,7 @@
 					$sql = "
                     
                     SELECT t.codigo_treino, t.nome_treino, t.descricao, m.nome_modalidade FROM Treino as t, Treino_Modalidade as tm, Modalidade as m
-                    WHERE t.codigo_treino = tm.Treino_codigo_treino and m.codigo_modalidade = tm.Modalidade_codigo_modalidade 
+                    WHERE t.codigo_treino = tm.Treino_codigo_treino and m.codigo_modalidade = tm.Modalidade_codigo_modalidade and t.ativo = 1
                     ORDER by m.nome_modalidade;
                     
                     ";
@@ -138,7 +138,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='excluir/treino/'+codigo;
+                    location.href='inativar/treino/'+codigo;
                 }
         })
 	
