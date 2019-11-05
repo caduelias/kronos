@@ -29,11 +29,11 @@
         $nome_exercicio = $dados->nome_exercicio;
         $descricao = $dados->descricao;
         $tipo = $dados->tipo;
+        $arquivo = $dados->arquivo;
         $duracao = $dados->duracao;
         $serie_repeticao = $dados->serie_repeticao; 
         $peso_inicial = $dados->peso_inicial; 
         
-
     }   
 
 ?>
@@ -79,7 +79,7 @@
                     
                       SELECT t.codigo_treino, t.nome_treino, m.nome_modalidade FROM Treino t, Modalidade m, Treino_Modalidade tm
                       WHERE t.codigo_treino = tm.Treino_codigo_treino AND tm.Modalidade_codigo_modalidade = m.codigo_modalidade and t.ativo = 1
-                       ORDER BY t.codigo_treino, m.nome_modalidade
+                      ORDER BY t.codigo_treino, m.nome_modalidade
                       
                       ";
                       $consulta = $pdo->prepare( $sql );
@@ -88,7 +88,7 @@
                       while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
                       {
 
-                        echo "<option value='$dados->codigo_treino'>$dados->nome_treino - $dados->nome_modalidade </option>";
+                      echo "<option value='$dados->codigo_treino'>$dados->nome_treino - $dados->nome_modalidade </option>";
 
                       }
                     
@@ -140,7 +140,7 @@
         <div class="col-4">
                 <div class="form-group">
                         <label>Tipo:</label>
-                        <select class="form-control" name="tipo" id="tipo" required data-parsley-required-message="<i class='fas fa-times'></i>Selecione!" >
+                        <select class="form-control" name="tipo" id="tipo" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!" >
                           <option value="">Selecione...</option>
                           <option value="1">Aparelho</option>
                           <option value="2">Aeróbico</option>
@@ -171,12 +171,11 @@
                         </script>
                       </div>
 
-
                     </div>
       </div>         
 
                   <div class="form-group">
-                  <input type="text" class="form-control" name="codigo_exercicio"  value="<?=$codigo_exercicio;?>">
+                  <input type="hidden" class="form-control" name="codigo_exercicio"  value="<?=$codigo_exercicio;?>">
                     <label for="nome">Nome do Exercício:</label>
                     <input type="text" class="form-control" name="nome_exercicio" value="<?=$nome_exercicio;?>" onkeypress="return ApenasLetras(event,this);" placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
                
@@ -191,7 +190,19 @@
                       </div>
                     </div>
                   </div>
-
+                   
+                  <?php
+                    //mostrar a foto se estiver editando
+                    if ( !empty ( $codigo_exercicio ) ) {
+                      // 12345 -> ../fotos/12345p.jpg
+                      //muda o nome do arquivo
+                      $imagem = "./imagens-exercicio/".$arquivo."p.jpg";
+                      //mostra o arquivo dentro do img
+                      echo "<div class='img-thumbnail text-center'>
+                      <img src='$imagem'>
+                      </div>";
+                    }
+                  ?>
                 
                   <div class="form-group">
                         <label>Descrição:</label>

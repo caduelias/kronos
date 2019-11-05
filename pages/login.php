@@ -71,7 +71,7 @@
   <div class="hold-transition">
     <div class="login-box">
       <div class="login-logo">
-        <p class="text-light">ISolrac</p>
+        <p class="text-light">KronosFit</p>
       </div>
   
       <div class="card">
