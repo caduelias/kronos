@@ -21,7 +21,7 @@
                 
                 <div class="col-6">
                     <a  href="cadastros/treino" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
-                    <a  href="listar/treino" class="btn btn-dark float-right m-1">Listar <i class="ml-2 fas fa-list"></i></a>
+                    <a  href="listar/treino" class="btn btn-dark float-right m-1"><i class="m-1 fas fa-list"></i><i class="m-1 fas fa-check"></i></a>
                 </div>
 
             </div>
@@ -69,10 +69,10 @@
                             <td class='text-uppercase'>$nome_modalidade</td>
                             <td class='text-uppercase'>$nome_treino</td>
                             <td class='text-center'> 
-                            <a href='javascript:excluir($codigo_treino)' class='btn btn-danger m-1'><i class='fas fa-trash'></i></a>
+                            <a href='javascript:ativar($codigo_treino)' class='btn btn-success m-1'><i class='fas fa-check'></i></a>
                             <a href='cadastros/treino/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
                             <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
-                            <i class='fas fa-thumbtack'></i>
+                            <i class='fas fa-folder-open'></i>
                             </a>
                             </td>
                         </tr>
@@ -125,16 +125,16 @@
 <!-- FUNÇÕES DE CONFIRMAÇÃO E CONFIGURAÇÕES DE TABELA -->
 <script type="text/javascript">
 
-    function excluir(codigo) {
+    function ativar(codigo) {
         
         Swal.fire({        
-            title: 'Deseja excluir Treino?',
-            text: "O treino será excluído permanentente!",
-            type: 'warning',
+            title: 'Deseja ativar item?',
+            text: "O item ficará disponível!",
+            type: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Excluir!',
+            confirmButtonText: 'Ativar!',
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {

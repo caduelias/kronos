@@ -36,7 +36,7 @@
             warning($titulo, $mensagem);
         } 
         
-        var_dump($_POST, $_FILES); 
+        //var_dump($_POST, $_FILES); 
         
        
         

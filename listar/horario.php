@@ -20,7 +20,7 @@
                 </div>
                 
                 <div class="col-6">
-                    <a  href="cadastros/horario" class="btn btn-dark float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
+                    <a  href="cadastros/horario" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
                 </div>
 
             </div>

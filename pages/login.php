@@ -71,7 +71,7 @@
   <div class="hold-transition">
     <div class="login-box">
       <div class="login-logo">
-        <p class="text-light">KronosFit</p>
+        <p class="text-light">Kronos</p>
       </div>
   
       <div class="card">

@@ -15,11 +15,11 @@
          
         <div class="row">
                 <div class="col">
-                    <h3 class="card-title text-uppercase">Modalidades Inativas</h3>
+                    <h3 class="card-title text-uppercase">Modalidades</h3>
                 </div>
                 <div class="col">
                     <a  href="cadastros/modalidade" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
-                    <a  href="listar/modalidade" class="btn btn-info float-right m-1">Listar <i class="ml-2 fas fa-list"></i></a>
+                    <a  href="listar/modalidade" class="btn btn-dark float-right m-1"><i class="m-1 fas fa-list"></i><i class="m-1 fas fa-check"></i></a>
                 </div>
             </div>
         </div>
@@ -30,7 +30,6 @@
                     <tr>
                         <th width="10%">Status</th> 
                         <th width="20%">Nome</th>
-                        <th width="40%">Descrição</th> 
                         <th width="20%">Ações</th>       
                     </tr>             
                 </thead>
@@ -52,22 +51,60 @@
                     $nome_modalidade 	= $linha->nome_modalidade;
                     $descricao = $linha->descricao;
                     $ativo = $linha->ativo;
-                    
-                        if ($ativo === '0')
-                        {
-                            $ativo = "<p class='text-danger'>Inativo</p>";
-                            echo "
-                            <tr>
-                                <td>$ativo</td>
-                                <td class='text-uppercase'>$nome_modalidade</td>
-                                <td class='text-uppercase'>$descricao</td>
-                                <td class='text-center'> 
-                                <a href='javascript:ativar($codigo_modalidade)' class='btn btn-success'>Ativar</a>
-                            </tr>
+
+                    $modal = caracter($nome_modalidade);
+
+                    $codigo = base64_encode($codigo_modalidade);
+
+                    $ativo = "<p class='text-danger'>Inativo</p>";
+
+                    echo "
+                        <tr>
+                            <td class='text-uppercase'>$ativo</td>
+                            <td class='text-uppercase'>$nome_modalidade</td>
+                            <td class='text-center'>
+                            <a href='javascript:ativar($codigo_modalidade)' class='btn btn-success m-1'><i class='fas fa-check'></i></a>
+                            <a href='cadastros/modalidade/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
+                            <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
+                                <i class='fas fa-folder-open'></i>
+                            </a>
+                            </td>
+                        </tr>
+
+                    <div class='modal' id='$modal' aria-hidden='true' style='display: none;'>
+                        <div class='modal-dialog modal-xm'>
+                            <div class='modal-content'>
+
+                                <div class='modal-header'>
+
+                                    <h4 class='modal-title'>$nome_modalidade</h4>
+                                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                        <span aria-hidden='true'>×</span>
+                                    </button> 
+
+                                </div>
+
+                                <div class='modal-body'>
+
+                                    <div class='form-group mt-2'>
+                                        <label>Descrição:</label>
+                                        <textarea class='form-control' rows='5' readonly>$descricao </textarea>
+                                    </div>  
+
+                                </div>
+
+                                <div class='modal-footer justify-content-between'>
+                                    <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
+                                </div>
+                            
+                            </div>
+                        <!-- /.modal-content -->
+                        </div>
+                    <!-- /.modal-dialog -->
+                    </div>
                             ";
                         } 
                         
-                    }
 
                     ?>
 
@@ -83,7 +120,7 @@
     function ativar(codigo) {
         
         Swal.fire({      
-            title: 'Ativar Item?',
+            title: 'Ativar item?',
             text: "O item ficará disponível!",
             type: 'info',
             showCancelButton: true,

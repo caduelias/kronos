@@ -117,8 +117,8 @@
     } 
     else 
     {
-		$titulo = "Não foi possível excluir";
-        $mensagem = "Existem exercicíos registrados neste treino!";
+		$titulo = "Erro";
+        $mensagem = "Existem exercícios registrados neste treino!";
         $link = "listar/treino";
         errorLink($titulo, $mensagem, $link);
     }

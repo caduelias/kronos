@@ -52,6 +52,7 @@
                     </div>
 
                     <div class="col">
+                    <a  href="cadastros/plano" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
                       <a  href="listar/plano" class="btn btn-dark float-right m-1">Listar<i class="ml-2 fas fa-list"></i></a>
                     </div>
 

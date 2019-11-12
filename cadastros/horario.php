@@ -43,6 +43,7 @@
               </div>
 
               <div class="col">
+              <a  href="cadastros/horario" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
                  <a  href="listar/horario" class="btn btn-dark float-right m-1">Listar<i class="ml-2 fas fa-list"></i></a>
               </div>
 

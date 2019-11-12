@@ -34,16 +34,25 @@
 
 <div class="content-wrapper">
     <form class="form-horizontal" name="modalidade" method="POST" action="salvar/modalidade" data-parsley-validate>        
-        <div class="card-body">
+    <div class="card">
+        <div class="card-header">
 
             <div class="row">
-                <div class="col">
-                    <h3 class="card-title text-uppercase">Cadastro modalidade</h3>
+
+                <div class="col-6">
+                    <h4 class="text-uppercase">Cadastro Modalidade</h4>
                 </div>
-                <div class="col">
-                    <a  href="listar/modalidade" class="btn btn-dark float-right">Listar <i class="ml-2 fas fa-table"></i></a>
+                
+                <div class="col-6">
+                    <a  href="cadastros/modalidade" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
+                    <a  href="listar/modalidade" class="btn btn-dark float-right m-1">Listar<i class="ml-2 fas fa-list"></i></a>
                 </div>
+
             </div>
+
+        </div>    
+    
+    <div class="card-body">
 
             <div class="row">
 
@@ -81,7 +90,7 @@
         <div class="card-footer">
             <button type="submit" class="btn btn-success float-right"><i class="fas fa-save mr-2"></i>Salvar</button>
         </div>
-
+</div>
     </form>
 </div>
 
