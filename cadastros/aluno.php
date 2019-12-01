@@ -33,33 +33,6 @@
 
           <div class="col-4">
             <div class="form-group">
-              <label>Modalidade:</label>
-              <select list="modalidades" name="codigo_modalidade" id="modalidade" placeholder="Selecione..." <?=$required;?> class="form-control" onblur="selecionaModalidade(this.value)">
-                <option value="">Selecione...</option>
-                <datalist id="modalidades">
-                  <?php
-                    $sql = "
-                    
-                      SELECT codigo_modalidade, nome_modalidade FROM Modalidade 
-                      WHERE ativo = 1 ORDER BY codigo_modalidade
-                      
-                      ";
-                      $consulta = $pdo->prepare( $sql );
-                      $consulta->execute();
-                  
-                      while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
-                      {
-                        echo "<option value='$dados->codigo_modalidade'>$dados->nome_modalidade</option>";
-
-                      } 
-                  ?>
-                </datalist> 
-              </select>
-            </div>
-          </div>
-
-          <div class="col-4">
-            <div class="form-group">
                 <label>Horário:</label>
                 <select list="horarios" name="codigo_horario" id="horario" placeholder="Selecione..." <?=$required;?> class="form-control">
                   <option value="">Selecione...</option>
@@ -118,7 +91,7 @@
           
           <div class="col-3">
               <div class="form-group">
-                <label for="sexo">Sexo:</label>
+                <label for="sexo">Gênero:</label>
                 <select class="form-control" name="sexo" required data-parsley-required-message="Selecione!">
                     <option value="">Selecione...</option>
                     <option value="M">Masculino</option>
@@ -177,7 +150,7 @@
           </div>
                       
           <div class="col-6">
-
+<!--
             <div class="form-group">
               <label for="tipo">Tipo:</label>
               <select class="form-control" name="tipo" required data-parsley-required-message="Selecione!">
@@ -188,11 +161,11 @@
             </div>
 
             <div class="form-group">
-              <label for="status">Dependente:</label>
-              <select list="dependente" id="dependente" name="codigo_tipo" placeholder="Selecione..." class="form-control">
+              <label for="dependente">Dependente:</label>
+              <select list="dependente" id="dependente" name="codi" placeholder="Selecione..." class="form-control">
                   <option value="">Selecione...</option>
                   <datalist id="dependente">
-                    <?php
+                    <?php /*
                       $sql = "
                       
                         SELECT codigo_aluno, nome_aluno FROM Aluno 
@@ -207,6 +180,7 @@
                           echo "<option value='$dados->codigo_aluno'>$dados->nome_aluno</option>";
 
                         } 
+                        */
                     ?>
                   </datalist> 
                 </select>
@@ -215,7 +189,7 @@
           </div>
 
         </div>
-
+                      -->
         <div class="row">
 
           <div class="col-6">
@@ -352,7 +326,7 @@ function verificaEmail(){
 
                 Toast.fire({
                         type: 'error',
-                        title: 'E-mail informado é diferente da confirmação!'
+                        title: 'E-mails informados são diferentes!'
                         
                     })
 

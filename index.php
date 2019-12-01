@@ -52,7 +52,9 @@
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -106,8 +108,6 @@
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
 
-
-
 </head>
 <body>
 
@@ -140,7 +140,9 @@
 
 
 
+
 <script>
+
   $(function () {
     //Initialize Select2 Elements
     $('.select2').select2({

@@ -90,9 +90,9 @@
             (NULL, :nome_treino, :descricao, :tipo_treino, 1);
 
             INSERT INTO Treino_Modalidade 
-			(Modalidade_codigo_modalidade, Treino_codigo_treino)
+			(codigo_treino_modalidade, Modalidade_codigo_modalidade, Treino_codigo_treino)
 			VALUES 
-            (:codigo_modalidade, (select LAST_INSERT_ID()));
+            (NULL, :codigo_modalidade, (select LAST_INSERT_ID()));
 
             COMMIT;
             SET AUTOCOMMIT=1;
@@ -120,7 +120,7 @@
             t.nome_treino = :nome_treino,
             t.descricao = :descricao,
             t.tipo_treino = :tipo_treino,
-               
+            
             tm.Modalidade_codigo_modalidade = :codigo_modalidade,
             tm.Treino_codigo_treino = :codigo_treino
 

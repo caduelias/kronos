@@ -1,0 +1,22 @@
+INSERT INTO `Endereco` (`codigo_endereco`, `estado`, `cidade`, `bairro`, `rua`, `numero`) VALUES
+(1, 'PR', 'Douradina', 'Jardim Molivera', 'Catanduva', '210'),
+(2, 'SP', 'Itapecerica da Serra', 'Centro', 'Rua Anchieta', '456'),
+(3, 'PR', 'Assis Chateaubriand', 'Centro', 'Avenida Maringa', '2222');
+
+
+
+INSERT INTO `Admin` (`codigo_admin`, `nome`, `login`, `senha`, `tipo`, `ativo`, `email`, `data`, `Endereco_codigo_endereco`) VALUES
+(1, 'Pessoa Admin Master', 'master', '$2y$10$e45AThVSARQ.rIBe8q9Bl.8PLK9tNuZga823rPYwoeJRcX.6rst3S', 'master', 1, 'master@master.com', '2019-11-04', 1),
+(2, 'Pessoa Admin', 'admin', '$2y$10$2XVuI2EnbE5DS83ocB8jPOu4g.54pox.cB4ne3Kg5lcctVbziYrkG', 'admin', 1, 'admin@admin.com', '2019-11-07', 2),
+(3, 'Pessoa Instrutor', 'instrutor', '$2y$10$9JRLzoMntSiGoLmOx9tFe.tlHtLNcMN399qoO0NM8EMBdO1mf7A7q', 'instrutor', 1, 'instrutor@gmail.com', '2019-11-12', 3);
+
+
+INSERT INTO `Horario` (`codigo_horario`, `periodo`, `horario_treino`, `limite`) VALUES
+(10, 1, '10:30:00', 20),
+(11, 2, '12:00:00', 10),
+(13, 2, '16:00:00', 20),
+(14, 2, '18:00:00', 20),
+(15, 3, '19:30:00', 25),
+(19, 3, '20:30:00', 20),
+(20, 1, '06:45:00', 20),
+(21, 1, '07:30:00', 20);

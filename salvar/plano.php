@@ -38,8 +38,7 @@
             warning($titulo, $mensagem);
         }
         
-        //var_dump($_POST);
-        //exit;
+       
         if ( empty ( $codigo_plano ) ) 
         {
             // SELECT BUSCANDO PLANO COM O PLANO INFORMADO
@@ -66,7 +65,7 @@
             warning($titulo, $mensagem);
             exit;
         }
-
+        
         $taxa_adesao = formataFloat($taxa_adesao);
         $mensalidade = formataFloat($mensalidade);
 
@@ -79,9 +78,9 @@
             $sql = "
              
             INSERT INTO Plano
-            (codigo_plano, ativo, nome_plano, taxa_adesao, mensalidade, descricao)
+            (codigo_plano, ativo, nome_plano, taxa_adesao, mensalidade, descricao, dependentes, qtd_dependentes)
             VALUES 
-            (NULL, :ativo, :nome_plano, :taxa_adesao, :mensalidade, :descricao);
+            (NULL, :ativo, :nome_plano, :taxa_adesao, :mensalidade, :descricao, :dependentes, :qtd_dependentes);
            
             ";
 
@@ -93,6 +92,9 @@
             $consulta->bindValue(":taxa_adesao",$taxa_adesao);
             $consulta->bindValue(":mensalidade",$mensalidade);
             $consulta->bindValue(":descricao",$descricao);
+            $consulta->bindValue(":dependentes",$dependentes);
+            $consulta->bindValue(":qtd_dependentes",$qtd_dependentes);
+
             
         } 
         else 
@@ -104,7 +106,9 @@
             ativo = :ativo, 
             taxa_adesao = :taxa_adesao, 
             mensalidade = :mensalidade, 
-            descricao = :descricao
+            descricao = :descricao,
+            dependentes = :dependentes,
+            qtd_dependentes = :qtd_dependentes
 
             WHERE codigo_plano = :codigo_plano LIMIT 1
            
@@ -119,6 +123,9 @@
             $consulta->bindValue(":mensalidade",$mensalidade);
             $consulta->bindValue(":descricao",$descricao);
             $consulta->bindValue(":codigo_plano",$codigo_plano);
+            $consulta->bindValue(":dependentes",$dependentes);
+            $consulta->bindValue(":qtd_dependentes",$qtd_dependentes);
+
 		}
 
 		
@@ -136,7 +143,8 @@
         {
             // ROLLBACK
             $pdo->rollBack();
-            //echo $consulta->errorInfo()[2];
+            echo $consulta->errorInfo()[2];
+            exit;
             // ALERTA
 			$mensagem = "Erro ao salvar registro!";
             errorBack( $titulo, $mensagem );

@@ -183,8 +183,7 @@
             errorBack( $titulo, $mensagem );
             exit;
 		}
-       
-    // !POST       
+             
     } 
     else 
     {

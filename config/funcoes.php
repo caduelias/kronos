@@ -372,5 +372,6 @@ function validaCPF($cpf) {
             errorBack($titulo, $mensagem);
         }
     }
+
     return true;
 }

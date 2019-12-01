@@ -31,8 +31,10 @@
 
         var_dump($emailVerificado, $nome);
 
-        if ( isset ($emailVerificado) ) 
-        {
+        if ($emailVerificado) {
+          $hash = md5(time().$emailVerificado);
+          echo $hash;
+        }
         
         $destinatario = $emailVerificado;
         $nomeEmail = $nome;

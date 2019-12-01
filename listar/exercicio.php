@@ -76,7 +76,7 @@
                             <a href='javascript:excluir($codigo_exercicio)' class='btn btn-danger m-1'><i class='fas fa-trash'></i></a>
                             <a href='cadastros/exercicio/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
                             <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
-                            <i class='fas fa-folder-open'></i>
+                            <i class='fas fa-eye'></i>
                             </a>
                             </td>
                         </tr>

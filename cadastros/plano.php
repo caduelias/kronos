@@ -28,6 +28,8 @@
       $taxa_adesao = $dados->taxa_adesao;
       $mensalidade = $dados->mensalidade;
       $descricao = $dados->descricao;
+      $dependentes = $dados->dependentes;
+      $qtd_dependentes = $dados->qtd_dependentes;
 
       $taxa_adesao = number_format($taxa_adesao,
       2,
@@ -123,16 +125,41 @@
 
             </div>
 
-                <div class="form-group">
-                  <label>Descrição:</label>
-                  <textarea class="form-control" rows="3" name="descricao" maxlength="240" placeholder="Sobre a plano..." ><?=$descricao;?></textarea> 
-                </div>    
-      
+            <div class="row">
+
+              <div class="col-6">
+                  <div class="form-group">
+                    <label for="dependentes">Dependentes:</label>
+                    <select id="dependentes" class="form-control" name="dependentes" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
+                        <option value="">Selecione... </option>
+                        <option value="1" selected>Sim</option>
+                        <option value="0">Não</option>  
+                    </select>
+
+                    <script type="text/javascript">
+                        $("#dependentes").val('<?=$dependentes;?>');
+                    </script>
+
+                  </div>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer">
-                <button type="submit" class="btn btn-success float-right"><i class="fas fa-save mr-1"></i>Salvar</button>
+              <div class="col-6">
+                  <div class="form-group">
+                      <label for="quantidade">Quantidade dependentes:</label>
+                      <input type="number" class="form-control" name="qtd_dependentes" value="<?=$qtd_dependentes;?>" >
+                  </div>
               </div>
+            </div>
+
+              <div class="form-group">
+                <label>Descrição:</label>
+                <textarea class="form-control" rows="3" name="descricao" maxlength="240" placeholder="Sobre a plano..." ><?=$descricao;?></textarea> 
+              </div>    
+    
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button type="submit" class="btn btn-success float-right"><i class="fas fa-save mr-1"></i>Salvar</button>
+            </div>
     </div>
   </form>
 </div>

@@ -11,10 +11,10 @@
 	*/
 	//Conexão Local
 	$servidor = "localhost";
-	$usuario = "root";
+	$usuario = "admin";
 	$senha = "123";
 	//selecionar banco IMC
-	$banco = "banco_3.0";
+	$banco = "banco_4.0";
 	
 	$charset = "utf8";
 	try {
