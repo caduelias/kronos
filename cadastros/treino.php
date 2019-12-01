@@ -107,7 +107,7 @@
             <div class="form-group">
               <label>Tipo:</label>
               <select class="form-control" id="tipo" name="tipo_treino" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!" >
-                <option value="">Selecione...  </option>
+                <option value="">Selecione...</option>
                 <option value="1">Metabólico</option>
                 <option value="2">Hipertrofia</option>
                 <option value="3">Intervalado</option>

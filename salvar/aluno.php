@@ -5,8 +5,8 @@
     else
        include "../verificaLogin.php";
 
-    include "config/funcoes.php";
-
+    include "config/funcoes.php";   
+ 
     if ( $_POST ) 
     {
         foreach ($_POST as $key => $value) 
@@ -19,7 +19,12 @@
             } 
         }
 
-        $data_nascimento = formataData($data_nascimento);
+        if(validaCPF($cpf) == false){
+            $titulo = "CPF inválido!";
+            $mensagem = "Informe um CPF válido!";
+            errorBack( $titulo, $mensagem );
+            exit;
+        }
 
         if ( empty ( $codigo_aluno ) ) {
 
@@ -78,7 +83,8 @@
 
         }
            
-
+        $data_nascimento = formataData($data_nascimento);
+        $data_cadastro = date('Y/m/d');
 
            // *****************START TRANSACTION************************
            $pdo->beginTransaction();
@@ -98,6 +104,7 @@
    
                INSERT INTO Aluno 
                (codigo_aluno,
+                data_cadastro,
                 nome_aluno, 
                 data_nasc, 
                 sexo, 
@@ -111,6 +118,7 @@
                 )
                VALUES 
                (NULL, 
+               :data_cadastro,
                :nome_aluno, 
                :data_nasc, 
                :sexo, 
@@ -149,6 +157,7 @@
                $consulta->bindValue(":numero",$numero);
 
                // Tabela Aluno
+               $consulta->bindValue(":data_cadastro",$data_cadastro);
                $consulta->bindValue(":nome_aluno",$nome_aluno);
                $consulta->bindValue(":data_nasc",$data_nascimento);
                $consulta->bindValue(":sexo",$sexo);

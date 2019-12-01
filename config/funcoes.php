@@ -343,22 +343,17 @@ function redimensionarImagem($pastaFotos,$imagem,$nome)	{
 
 
 function validaCPF($cpf) {
-	 
+ 
     // Extrai somente os números
     $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
      
     // Verifica se foi informado todos os digitos corretamente
     if (strlen($cpf) != 11) {
-        $mensagem = "O CPF precisa ter ao menos 11 números!";
-        $titulo = "";
-        errorBack($titulo, $mensagem);
+        return false;
     }
     // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
     if (preg_match('/(\d)\1{10}/', $cpf)) {
-        $mensagem = "CPF inválido!";
-        $titulo = "";
-        errorBack($titulo, $mensagem);
-        
+        return false;
     }
     // Faz o calculo para validar o CPF
     for ($t = 9; $t < 11; $t++) {
@@ -367,11 +362,8 @@ function validaCPF($cpf) {
         }
         $d = ((10 * $d) % 11) % 10;
         if ($cpf{$c} != $d) {
-            $mensagem = "CPF inválido!";
-            $titulo = "";
-            errorBack($titulo, $mensagem);
+            return false;
         }
     }
-
     return true;
 }

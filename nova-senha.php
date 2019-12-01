@@ -115,10 +115,5 @@ $arquivo = "
             exit;
         }
 
-    } 
-    else 
-    {
-        $mensagem = "Requisição Inválida!";
-        $link = "index.php";
-        errorLink($titulo, $mensagem, $link);
-    }
+   
+

@@ -25,7 +25,7 @@
           <?php
 
             $required = "";
-            if ( empty ( $codigo_modalidade ) || ($codigo_horario) ) {
+            if ( empty ($codigo_horario) ) {
               $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione!\" ";
             }
 
@@ -148,9 +148,13 @@
 
           <div class="col-1">
           </div>
-                      
+                   
           <div class="col-6">
-<!--
+              <div class="form-group">
+                <label>Objetivo:</label>
+                <textarea class="form-control" rows="3" name="objetivo" maxlength="150" placeholder="Objetivo do aluno..."><?=$objetivo;?></textarea>
+              </div>   
+  <!-- 
             <div class="form-group">
               <label for="tipo">Tipo:</label>
               <select class="form-control" name="tipo" required data-parsley-required-message="Selecione!">
@@ -185,11 +189,11 @@
                   </datalist> 
                 </select>
             </div>
-
+  -->
           </div>
 
         </div>
-                      -->
+                    
         <div class="row">
 
           <div class="col-6">
@@ -199,25 +203,20 @@
                   
                   </select>
               </div>
-
-              <div class="form-group">
-                  <label for="cidade">Cidade:</label>
-                  <select id="cidades" class="form-control" name="cidade" required data-parsley-required-message="Selecione!">
               
-                  </select>
-              </div>
-
               <div class="form-group">
-                <label>Objetivo:</label>
-                <textarea class="form-control" rows="3" name="objetivo" maxlength="150" placeholder="Objetivo do aluno..."><?=$objetivo;?></textarea>
-              </div>    
-          </div>
-
-          <div class="col-6">
-            <div class="form-group">
               <label for="rua">Rua:</label>
               <input type="text" class="form-control" name="rua" value="<?=$rua;?>" placeholder="Rua" maxlength="45" required data-parsley-required-message="Preencha este campo!">   
             </div>
+
+          </div>
+
+          <div class="col-6">
+              <div class="form-group">
+                  <label for="cidade">Cidade:</label>
+                  <select id="cidades" class="form-control" name="cidade" required data-parsley-required-message="Selecione!">
+                  </select>
+              </div>
 
             <div class="form-group">
               <label for="numero">Número:</label>

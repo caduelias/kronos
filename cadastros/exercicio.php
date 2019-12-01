@@ -140,7 +140,7 @@
         <div class="col-4">
                 <div class="form-group">
                         <label>Tipo:</label>
-                        <select class="form-control" name="tipo" id="tipo" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!" >
+                        <select class="form-control" name="tipo" id="tipo" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
                           <option value="">Selecione...</option>
                           <option value="1">Aparelho</option>
                           <option value="2">Aeróbico</option>
