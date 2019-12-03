@@ -26,12 +26,7 @@
         {
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
-        } 
-        else if ( empty( $ativo ) ) 
-        {
-            $mensagem = "Selecione um status!";
-            warning($titulo, $mensagem);
-        } 
+        }  
         
         //var_dump($_POST);
         
@@ -133,8 +128,7 @@
             errorBack( $titulo, $mensagem );
             exit;
 		}
-       
-    // !POST       
+         
     } 
     else 
     {

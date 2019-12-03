@@ -1,3 +1,13 @@
+<?php
+    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN E NÍVEL DE PERMISSÃO
+    if ( file_exists ( "verificaLogin.php" ) )
+        include "verificaLogin.php";
+    else
+        include "../verificaLogin.php";
+
+    include "config/funcoes.php";
+
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
