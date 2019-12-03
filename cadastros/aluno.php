@@ -1,5 +1,58 @@
 <?php
 
+  // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN
+    if ( file_exists ( "verificaLogin.php" ) )
+      include "verificaLogin.php";
+    else
+      include "../verificaLogin.php";
+
+    include "config/funcoes.php";
+
+    if ( isset ($p[2]) ) 
+    {
+    $codigo_aluno =  base64_decode($p[2]);
+
+    // SELECT DADOS TABELA ALUNO
+    $sql = " SELECT a.*, e.*, t.num_telefone, t.num_celular, date_format(a.data_nasc,'%d/%m/%Y') as nascimento, date_format(a.data_cadastro,'%d/%m/%Y') as data, h.codigo_horario, h.horario_treino FROM Aluno a, Horario h, Endereco e, Telefone t
+    WHERE a.codigo_aluno = :codigo_aluno and a.Horario_codigo_horario = h.codigo_horario and e.codigo_endereco = a.Endereco_codigo_endereco and a.codigo_aluno = t.Aluno_codigo_aluno
+    ORDER by codigo_aluno";
+          
+    $consulta = $pdo->prepare( $sql );
+    $consulta->bindValue(":codigo_aluno",$codigo_aluno);
+    $consulta->execute();
+      
+    $dados = $consulta->fetch(PDO::FETCH_OBJ);
+
+     // Tabela Aluno
+     $codigo_aluno = $dados->codigo_aluno;
+     $data_cadastro = $dados->data;
+     $nome_aluno = $dados->nome_aluno;
+     $data_nasc 	= $dados->nascimento;
+     $sexo = $dados->sexo;
+     $rg = $dados->rg;
+     $cpf = $dados->cpf;
+     $objetivo = $dados->objetivo;
+     $email = $dados->email;
+     $ativo = $dados->ativo;
+     
+     // Tabela Horario
+     $codigo_horario = $dados->codigo_horario;
+     $horario_treino = $dados->horario_treino;
+
+     // Tabela Endereco
+     $estado = $dados->estado;
+     $cidade = $dados->cidade;
+     $bairro = $dados->bairro;
+     $rua = $dados->rua;
+     $numero = $dados->numero;
+
+     // Tabela Telefone
+     $num_telefone = $dados->num_telefone;
+     $num_celular = $dados->num_celular;
+      
+      
+    }   
+
 
 ?>
 <div class="content-wrapper">
@@ -34,7 +87,7 @@
           <div class="col-4">
             <div class="form-group">
                 <label>Horário:</label>
-                <select list="horarios" name="codigo_horario" id="horario" placeholder="Selecione..." <?=$required;?> class="form-control">
+                <select list="horarios" name="codigo_horario" id="codigo_horario" placeholder="Selecione..." <?=$required;?> class="form-control">
                   <option value="">Selecione...</option>
                   <datalist id="horarios">
                     <?php
@@ -56,6 +109,9 @@
                     ?>
                   </datalist> 
                 </select>
+                <script type="text/javascript">
+                  $("#codigo_horario").val('<?=$codigo_horario;?>');
+              </script>
               </div>
             </div>
         
@@ -85,18 +141,21 @@
           <div class="col-3">
               <div class="form-group">
                 <label for="data">Data de Nascimento:</label>
-                <input type="text" class="form-control date" name="data_nascimento" value="<?=$data_nascimento;?>" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
+                <input type="text" class="form-control date" name="data_nascimento" value="<?=$data_nasc;?>" placeholder="00/00/0000" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
               </div>
           </div>
           
           <div class="col-3">
               <div class="form-group">
                 <label for="sexo">Gênero:</label>
-                <select class="form-control" name="sexo" required data-parsley-required-message="Selecione!">
+                <select class="form-control" name="sexo" id="sexo" required data-parsley-required-message="Selecione!">
                     <option value="">Selecione...</option>
                     <option value="M">Masculino</option>
                     <option value="F">Feminino</option>    
                 </select>
+                <script type="text/javascript">
+                  $("#sexo").val('<?=$sexo;?>');
+              </script>
               </div>
           </div>
 
@@ -120,12 +179,12 @@
             
             <div class="form-group">
               <label for="email">Email:</label>
-              <input type="email" class="form-control" id="email" name="email" value="<?=$email;?>" placeholder="Informe um email" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
+              <input type="email" class="form-control" id="email" name="email" value="<?=$email;?>" placeholder="Informe um e-mail" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
             </div>
 
             <div class="form-group">
               <label for="confirma">Confirmar Email:</label>
-              <input type="email" id="redigite" class="form-control" value="<?=$email;?>" placeholder="Redigite o email" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
+              <input type="email" id="redigite" class="form-control" value="<?=$email;?>" placeholder="Redigite o e-mail informado" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
             </div>
 
           </div>

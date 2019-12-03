@@ -45,7 +45,7 @@
          
         <div class="row">
                 <div class="col">
-                    <h3 class="card-title text-uppercase">Cadastro Treino</h3>
+                    <h3 class="card-title text-uppercase">Cadastro Exercício</h3>
                 </div>
                 <div class="col">
                     <a  href="cadastros/exercicio" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
@@ -96,13 +96,16 @@
                 </datalist> 
 
               </select>
+              <script type="text/javascript">
+                $("#treino").val('<?=$codigo_treino;?>');
+              </script>
           </div>
         </div>
 
         <div class="col-2">
           <div class="form-group">
-            <label>Código:</label>
-            <input type="number" name="codigo_treino" id="codigo_treino" required data-parsley-required-message="<i class='fas fa-times'></i>" class="form-control"
+            <label></label>
+            <input type="hidden" name="codigo_treino" id="codigo_treino" required data-parsley-required-message="<i class='fas fa-times'></i>" class="form-control"
             value="<?=$codigo_treino;?>" readonly>
           </div>
         </div>

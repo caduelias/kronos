@@ -256,13 +256,13 @@
     */
     
 	// FUNÇÃO FORMATA E VALIDA DATA
-	function formataData( $data){
+	function formataData($data){
 		//12/04/2019 -> 2019-02-10
 		$data = explode("/",$data);
 		//0 - dia/ 1 - mes/ 2 - ano
 		if ( !checkdate($data[1], $data[0], $data[2])){
             $mensagem = "Data Inválida!";
-            $titulo = "";
+            $titulo = "Informe uma data válida!";
 			errorBack($titulo, $mensagem);
 		}
 		$data = $data[2]."-".$data[1]."-".$data[0];
@@ -366,4 +366,38 @@ function validaCPF($cpf) {
         }
     }
     return true;
+}
+
+function ValidaData($data){
+    // data é menor que 8
+    if ( strlen($data) < 8){
+        return false;
+    }else{
+        // verifica se a data possui
+        // a barra (/) de separação
+        if(strpos($data, "/") !== FALSE){
+            //
+            $partes = explode("/", $data);
+            // pega o dia da data
+            $dia = $partes[0];
+            // pega o mês da data
+            $mes = $partes[1];
+            // prevenindo Notice: Undefined offset: 2
+            // caso informe data com uma única barra (/)
+            $ano = isset($partes[2]) ? $partes[2] : 0;
+ 
+            if (strlen($ano) < 4) {
+                return false;
+            } else {
+                // verifica se a data é válida
+                if (checkdate($mes, $dia, $ano)) {
+                     return true;
+                } else {
+                     return false;
+                }
+            }
+        }else{
+            return false;
+        }
+    }
 }

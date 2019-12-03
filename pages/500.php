@@ -21,11 +21,11 @@
 
           <p>
           Vamos trabalhar para consertar isso imediatamente.
-            Enquanto isso, você pode voltar para o <a href="index.php">início</a> ou clicar no botão abaixo.
+            Enquanto isso, você pode voltar para o <a href="index.php">início</a> clicando no botão abaixo.
           </p>
 
           <form class="search-form">
-                <a href="index.php" name="voltar" class="btn btn-danger"><i class="fas fa-reply"></i>
+                <a href="index.php" name="voltar" class="btn btn-danger"><i class="fas fa-reply-all"></i>
                  Voltar  
                 </a>
             </div>

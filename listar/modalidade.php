@@ -15,7 +15,7 @@
          
         <div class="row">
                 <div class="col">
-                    <h3 class="card-title text-uppercase">Modalidades</h3>
+                    <h4 class="text-uppercase">Modalidades</h4>
                 </div>
                 <div class="col">
                     <a  href="cadastros/modalidade" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>

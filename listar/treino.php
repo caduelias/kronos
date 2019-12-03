@@ -16,7 +16,7 @@
             <div class="row">
 
                 <div class="col-6">
-                    <h3 class="text-uppercase">Treinos</h3>
+                    <h4 class="text-uppercase">Treinos</h4>
                 </div>
                 
                 <div class="col-6">

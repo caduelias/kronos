@@ -22,12 +22,12 @@
         
           <p>
             Não foi possível encontrar a página que você estava procurando.
-            Enquanto isso, você pode voltar para o <a href="index.php"> início</a> ou clicar no 
+            Enquanto isso, você pode voltar para o <a href="index.php"> início</a> clicando no 
             botão abaixo.
           </p>
   
           <form class="search-form text-center">
-              <a href="index.php" class="btn btn-dark"><i class="fas fa-reply"></i>
+              <a href="index.php" class="btn btn-dark"><i class="fas fa-reply-all"></i>
                 Voltar  
               </a>
           </form>

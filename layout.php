@@ -149,8 +149,77 @@
                   <p>Avaliação Física</p>
                 </a>
               </li>
-            
+
             </ul>
+
+
+           
+          <li class="nav-item has-treeview">
+            <a class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                Listar
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="listar/modalidade" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <i class="fas fa-table nav-icon"></i>
+                  <p>Modalidade</p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <a href="listar/treino" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <i class="fas fa-dumbbell nav-icon"></i>
+                  <p>Treino</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="listar/exercicio" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>  
+                  <i class="fas fa-running nav-icon"></i>
+                  <p>Exercício</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="listar/plano" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                  <p>Planos</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="listar/horario" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <i class="fas fa-clock nav-icon"></i>
+                  <p>Horários</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="listar/aluno" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <i class="fas fa-male nav-icon"></i>
+                  <p>Alunos</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="listar/avaliacoes" class="nav-link">
+                  <i class="fas fa-list nav-icon"></i>
+                  <i class="fas fa-clipboard nav-icon"></i>
+                  <p>Avaliações</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
           </li>
           <li class="nav-header">Informações</li>
           <li class="nav-item has-treeview">
@@ -192,36 +261,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-header">Listagens</li>
-          <li class="nav-item has-treeview">
-            <a class="nav-link">
-              <i class="nav-icon fas fa-list"></i>
-              <p>
-                Listar
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="listar/modalidade" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modalidade</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <a href="listar/treino" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Treino</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="listar/exercicio" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Exercício</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+        
          
 
           <?php 
@@ -232,7 +272,7 @@
 
           ?>
 
-          <li class="nav-header">Gerenciar</li>
+          <li class="nav-header">Sistema</li>
           <li class="nav-item has-treeview">
             <a class="nav-link">
               <i class="nav-icon fas fa-users-cog"></i>
@@ -291,11 +331,11 @@
 </main>
    
 <footer class="main-footer bg-light">
-<a class="text-dark" href="index.php"><img src="dist/img/kronos.png" alt="Logo" class="brand-image img-circle elevation-3"></a><strong class="text-dark"></strong> &copy; 2019-2020 -
+<a class="text-dark" href="index.php"><strong class="text-dark">Kronos</strong></a> &copy; 2020 -
     Todos os direitos reservados.
     <div class="float-right d-none d-sm-inline-block">
       
-      <b>Version</b> 1.0.0 
+      <b><a class="text-dark" href="https://github.com/caduelias?tab=repositories">Version</a></b> 1.0.43 
       
     </div>
   </footer>

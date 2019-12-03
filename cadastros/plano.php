@@ -111,7 +111,7 @@
                   <div class="col-6">
 
                     <div class="form-group">
-                      <label for="valor">Valor da mensalidade:</label>
+                      <label for="valor">Mensalidade:</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text">

@@ -82,7 +82,7 @@
                       while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
                       {
 
-                        echo "<option>$dados->codigo_modalidade - $dados->nome_modalidade</option>";
+                        echo "<option value='$dados->codigo_modalidade'>$dados->nome_modalidade</option>";
 
                       }
                     
@@ -91,13 +91,17 @@
 
               </select>
 
+              <script type="text/javascript">
+                $("#modalidade").val('<?=$codigo_modalidade;?>');
+              </script>
+
           </div>
         </div>
 
         <div class="col-2">
           <div class="form-group">
-            <label>Código:</label>
-            <input type="number" name="codigo_modalidade" id="codigo_modalidade" required data-parsley-required-message="<i class='fas fa-times'></i>" class="form-control"
+            <label></label>
+            <input type="hidden" name="codigo_modalidade" id="codigo_modalidade" required data-parsley-required-message="<i class='fas fa-times'></i>" class="form-control"
             value="<?=$codigo_modalidade;?>" readonly>
           </div>
         </div>
