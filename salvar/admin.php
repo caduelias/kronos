@@ -22,7 +22,6 @@
             } 
         }
 
-        
         if ( empty( $login ) ) 
         {
             $mensagem = "Preencha o nome!";
@@ -70,12 +69,16 @@
             exit;
         }
 
+        $login = strtolower($login);
+
+        $senhaformatada = strtolower($senha);
+        
         $dataAtual = date('d/m/Y');
 
         $data = formataData($dataAtual);
 
-        $senha = password_hash($senha, PASSWORD_DEFAULT);
-        
+        $senha = password_hash($senhaformatada, PASSWORD_DEFAULT);
+ 
         // *****************START TRANSACTION************************
         $pdo->beginTransaction();
 
@@ -168,7 +171,7 @@
 			// COMMIT
             $pdo->commit();
             // ALERTA
-            $mensagem = "Usuário cadastrado com sucesso!";
+            $mensagem = "Usuário registrado com sucesso!";
             $link = "listar/admin";
 			sucessLink($titulo, $mensagem, $link);
 
@@ -179,7 +182,7 @@
             $pdo->rollBack();
             //echo $consulta->errorInfo()[2];
             // ALERTA
-			$mensagem = "Erro ao salvar Usuário!";
+			$mensagem = "Erro ao registrar Usuário!";
             errorBack( $titulo, $mensagem );
             exit;
 		}

@@ -82,7 +82,7 @@
                                     <td class='text-uppercase'>$tipo</td>
                                     <td>$data</td>
                                     <td class='text-center'> 
-                                    <a href='javascript:excluir($codigo_admin)' class='mr-2 btn btn-danger'>Excluir</a>
+                                   
                                     <a href='javascript:ativar($codigo_admin)' class='btn btn-dark'>Ativar</a>
                                     </td>
                                 </tr>

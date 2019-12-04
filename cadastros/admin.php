@@ -123,7 +123,7 @@
 
             <div class="form-group">
                 <label for="login">Login:</label>
-                <input type="text" class="form-control" name="login" placeholder="Login" value="<?=$login;?>" maxlength="15" required data-parsley-required-message="Preencha o Login!">      
+                <input type="text" class="form-control" name="login" placeholder="Login" value="<?=$login;?>" maxlength="15" onkeypress="return ApenasLetras(event,this);" required data-parsley-required-message="Preencha o Login!">      
             </div>
 
                 <?php
@@ -216,6 +216,31 @@
 
 <!-- FUNÇÃO PARA VERIFICAR E COMPARAR SENHAS E VALIDAR  -->
 <script type="text/javascript">
+
+    function ApenasLetras(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            } else if (e) {
+                var charCode = e.which;
+            } else {
+                return true;
+            }
+            if (
+                (charCode > 8 && charCode < 46) ||
+                (charCode > 64 && charCode < 91) || 
+                (charCode > 96 && charCode < 123) ||
+                (charCode > 191 && charCode <= 255) // letras com acentos
+            ){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            alert(err.Description);
+        }
+    }
+
     	
     function validarSenha(){
         var senha = admin.senha.value;
