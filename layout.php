@@ -144,7 +144,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="cadastros/avaliacao" class="nav-link">
+                <a href="listar/aluno" class="nav-link">
                 <i class="nav-icon fas fa-clipboard"></i>
                   <p>Avaliação Física</p>
                 </a>
@@ -165,21 +165,18 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="listar/modalidade" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>
                   <i class="fas fa-table nav-icon"></i>
                   <p>Modalidade</p>
                 </a>
               </li>
               <li class="nav-item">
               <a href="listar/treino" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>
                   <i class="fas fa-dumbbell nav-icon"></i>
                   <p>Treino</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="listar/exercicio" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>  
+                <a href="listar/exercicio" class="nav-link">  
                   <i class="fas fa-running nav-icon"></i>
                   <p>Exercício</p>
                 </a>
@@ -187,7 +184,6 @@
 
               <li class="nav-item">
                 <a href="listar/plano" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>
                   <i class="fas fa-file-invoice-dollar nav-icon"></i>
                   <p>Planos</p>
                 </a>
@@ -195,7 +191,6 @@
 
               <li class="nav-item">
                 <a href="listar/horario" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>
                   <i class="fas fa-clock nav-icon"></i>
                   <p>Horários</p>
                 </a>
@@ -203,7 +198,6 @@
 
               <li class="nav-item">
                 <a href="listar/aluno" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>
                   <i class="fas fa-male nav-icon"></i>
                   <p>Alunos</p>
                 </a>
@@ -211,7 +205,6 @@
 
               <li class="nav-item">
                 <a href="listar/avaliacoes" class="nav-link">
-                  <i class="fas fa-list nav-icon"></i>
                   <i class="fas fa-clipboard nav-icon"></i>
                   <p>Avaliações</p>
                 </a>

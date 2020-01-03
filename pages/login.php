@@ -97,7 +97,7 @@
                 </div>
               </div>
             </div>
-  <!--
+
             <div class="row">
               <div class="col-8">
                 <div class="icheck-primary">
@@ -108,7 +108,6 @@
                 </div>
               </div>
             </div>
--->
             <div class="social-auth-links text-center mb-3">
               <button type="submit" class="btn btn-block btn-info">
                 Login<i class="fas fa-sign-in-alt ml-2"></i>
@@ -116,11 +115,10 @@
             </div>
 
           </form>
-<!--
           <p class="mb-1">
             <a href="recuperar-senha.php">Esqueceu sua senha?</a>
           </p>
--->
+
         </div>
       </div>
     </div>
