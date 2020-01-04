@@ -7,40 +7,38 @@
 
     include "config/funcoes.php";
 
-    $perfil = $_SESSION["admin"]["tipo"];
+    $logado = $_SESSION["user"]["perfil"];
 
-    $admin = $_SESSION["admin"]["codigo_admin"];
+    $usuario = $_SESSION["user"]["codigo_usuario"];
 
-    $propio =  base64_encode($admin);
+    $propio =  base64_encode($usuario);
     
-    $codigo_admin = $nome = $email = $senha = $tipo = $ativo = $data = $estado = $cidade = $bairro = $rua = $numero = "";
+    $codigo_usuario = $nome = $email = $senha = $status = $data = $estado = $cidade = $bairro = $rua = $numero = "";
 
     if ( isset ($p[2]) && ($p[2]) != $propio ) 
     {
-        $codigo_admin =  base64_decode($p[2]);
+        $codigo_usuario =  base64_decode($p[2]);
 
-        //echo "<p class='text-center'>$codigo_admin</p>";
-
-		$sql = "SELECT a.*, e.* 
-			FROM Admin as a, Endereco as e 
-            WHERE a.codigo_admin = ? AND 
-            a.Endereco_codigo_endereco = e.codigo_endereco 
+		$sql = "SELECT u.*, e.* 
+			FROM Usuario as u, Endereco as e 
+            WHERE u.codigo_usuario = ? AND 
+            u.Endereco_codigo_endereco = e.codigo_endereco 
             LIMIT 1";
             
 		$consulta = $pdo->prepare( $sql );
-		$consulta->bindParam(1,$codigo_admin);
+		$consulta->bindParam(1,$codigo_usuario);
         $consulta->execute();
         
 		$dados = $consulta->fetch(PDO::FETCH_OBJ);
 
         // Tabela Admin
-        $codigo_admin = $dados->codigo_admin;
+        $codigo_usuario = $dados->codigo_usuario;
         $nome = $dados->nome;
         $login = $dados->login;
         $email = $dados->email;
         $senha = $dados->senha;
-        $tipo = $dados->tipo;
-        $ativo = $dados->ativo;
+        $perfil = $dados->Perfil_codigo_perfil;
+        $status = $dados->status;
 
         // Tabela Endereco
         $estado = $dados->estado;
@@ -53,7 +51,7 @@
 
 ?>
 <div class="content-wrapper">
-    <form class="form-horizontal" name="admin" method="POST" action="salvar/admin" data-parsley-validate>        
+    <form class="form-horizontal" name="usuario" method="POST" action="salvar/usuario" data-parsley-validate>        
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -61,7 +59,7 @@
                 </div>
                 <div class="col">
                     <div class="text-right">
-                        <a href="listar/admin" class="btn btn-dark">Listar <i class="fas fa-list ml-2"></i></a>
+                        <a href="listar/usuario" class="btn btn-dark">Listar <i class="fas fa-list ml-2"></i></a>
                     </div>
                 </div>
             </div>
@@ -70,40 +68,40 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="status">Status:</label>
-                        <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="Selecione!">
+                        <select id="status" class="form-control" name="status" required data-parsley-required-message="Selecione!">
                             <option value="">Selecione... </option>
                             <option value="0">Inativo</option>
                             <option value="1" selected>Ativo</option>  
                         </select>
 
                         <script type="text/javascript">
-                            $("#ativo").val('<?=$ativo;?>');
+                            $("#status").val('<?=$status;?>');
                         </script>
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="tipo">Perfil:</label>
-                        <select class="form-control" id="tipo" name="tipo" required data-parsley-required-message="Selecione!">
-                            <option value="">Selecione...  </option>
+                        <label for="perfil">Perfil:</label>
+                        <select class="form-control" id="perfil" name="perfil" required data-parsley-required-message="Selecione!">
+                            <option value="">Selecione...</option>
                             
                         <?php 
 
-                            if ($perfil == "master") 
+                            if ($logado == "1") 
                             {
                         ?>
-                            <option value="admin">Administrador</option>
+                            <option value="2">Administrador</option>
 
                         <?php 
                             }
                         ?>
-                            <option value="instrutor" selected>Instrutor</option>  
+                            <option value="3">Instrutor</option>  
 
                         </select>
 
                         <script type="text/javascript">
-                            $("#tipo").val('<?=$tipo;?>');
+                            $("#perfil").val('<?=$perfil;?>');
                         </script>
                     </div>
                 </div>
@@ -111,9 +109,9 @@
             </div>
         
             <div class="form-group">
-                <input type="hidden" class="form-control" name="codigo_admin" value="<?=$codigo_admin;?>">
+                <input type="hidden" class="form-control" name="codigo_usuario" value="<?=$codigo_usuario;?>">
                 <label for="nome">Nome:</label>
-                <input type="text" class="form-control" name="nome" placeholder="Digite um nome" value="<?=$nome;?>" maxlength="45" autofocus required data-parsley-required-message="Preencha este campo!">       
+                <input type="text" class="form-control" name="nome" placeholder="Digite um nome" value="<?=$nome;?>" maxlength="45" onkeypress="return ApenasLetras(event,this);" autofocus required data-parsley-required-message="Preencha este campo!">       
             </div>
 
             <div class="form-group">
@@ -128,7 +126,7 @@
 
                 <?php
 
-                    if ( empty ($codigo_admin) )
+                    if ( empty ($codigo_usuario) )
                     {
 
                 ?>
@@ -243,8 +241,8 @@
 
     	
     function validarSenha(){
-        var senha = admin.senha.value;
-        var redigite = admin.redigite.value;
+        var senha = usuario.senha.value;
+        var redigite = usuario.redigite.value;
     
         const Toast = Swal.mixin({
                         toast: true,
@@ -260,7 +258,7 @@
                         title: 'Preencha o campo da senha com no mínimo 8 caracteres!'
                         
                     })
-                admin.senha.focus();
+                usuario.senha.focus();
                 return false;
             }
 
@@ -271,7 +269,7 @@
                         
                     })
                // alert ('Preencha o campo da senha com no minimo 4 caracteres');
-                admin.redigite.focus();
+                usuario.redigite.focus();
                 return false;
             }
             
@@ -283,7 +281,7 @@
                         
                     })
                // alert (' Senhas digitadas não conferem, são diferentes!'); 
-                admin.redigite.focus();
+                usuario.redigite.focus();
             
                 return false;
             }

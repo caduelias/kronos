@@ -5,7 +5,7 @@
         header("location: index.php");
     }
 
-    $tipo = $_SESSION["admin"]["tipo"];
+    $perfil = $_SESSION["user"]["perfil"];
 
 ?>
 
@@ -71,7 +71,7 @@
           <a class="nav-link ml-1" href="pages/minha-conta"><i class="fas fa-user-shield"> </i> </a>
     
         <div class="info">
-          <a href="pages/minha-conta" class="d-block text-uppercase mt-1"> <?=$_SESSION["admin"]["nome"];  ?></a>
+          <a href="pages/minha-conta" class="d-block text-uppercase mt-1"> <?=$_SESSION["user"]["nome"];  ?></a>
         </div>
       </div>
 
@@ -112,7 +112,7 @@
 
                 <?php 
 
-                if ($tipo === "admin" || $tipo === "master")
+                if ($perfil === "1" || $perfil === "2")
 
                 {
 
@@ -259,7 +259,7 @@
 
           <?php 
 
-          if ($tipo === "admin" || $tipo === "master")
+          if ($perfil === "1" || $perfil === "2")
 
           {
 
@@ -276,14 +276,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="cadastros/admin" class="nav-link">
+                <a href="cadastros/usuario" class="nav-link">
                 <i class="nav-icon fas fa-user-plus"></i>
                   <p>Novo</p>
                 </a>
               </li>
 
               <li class="nav-item">
-              <a href="listar/admin" class="nav-link">
+              <a href="listar/usuario" class="nav-link">
                   <i class="fas fa-user-friends nav-icon"></i>
                   <p>Usuários</p>
                 </a>
@@ -328,7 +328,7 @@
     Todos os direitos reservados.
     <div class="float-right d-none d-sm-inline-block">
       
-      <b><a class="text-dark" href="https://github.com/caduelias?tab=repositories">Version</a></b> 1.0.43 
+      <b><a class="text-dark" href="https://github.com/caduelias?tab=repositories">Version</a></b> 1.0.0 
       
     </div>
   </footer>

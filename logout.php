@@ -2,6 +2,6 @@
 
 session_start();
 // Encerrar sessão
-unset($_SESSION["admin"]);
+unset($_SESSION["user"]);
 // Redirecionar 
 header("location: index.php");

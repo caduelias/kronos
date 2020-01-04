@@ -13,19 +13,15 @@
       if ( isset ( $_POST["senha"] ) )
         $senha = trim ( $_POST["senha"]);
       
-        if ( empty( $login ) ) 
-        {
+        if ( empty( $login ) ) {
           $titulo = "Preencha o Login!";
           toastLogin($titulo);    
-        } 
-        else if (empty( $senha)) 
+        } else if (empty( $senha)) 
         { 
           $titulo = "Preencha a Senha!";
           toastLogin($titulo);   
-        } 
-        else 
-        {
-          $sql = "SELECT codigo_admin, nome, login, senha, tipo, ativo FROM Admin WHERE login = ? LIMIT 1";
+        } else {
+          $sql = "SELECT codigo_usuario, nome, login, senha, Perfil_codigo_perfil, status FROM Usuario WHERE login = ? LIMIT 1";
   
           $consulta = $pdo->prepare($sql);
           
@@ -35,29 +31,22 @@
           
           $dados = $consulta->fetch(PDO::FETCH_OBJ); 
 
-            if ( isset( $dados->codigo_admin ) && ($dados->ativo == 1) )
-            {
+            if ( isset( $dados->codigo_usuario ) && ($dados->status == 1) ){
               
-              if ( !password_verify($senha, $dados->senha) ) 
-              {
+              if ( !password_verify($senha, $dados->senha) ) {
                 $mensagem = "Senha Inválida!";
                 error($titulo, $mensagem);
-              } 
-              else 
-              {
-                $_SESSION["admin"] = array(
-                  "codigo_admin"=>$dados->codigo_admin,
+              } else {
+                $_SESSION["user"] = array(
+                  "codigo_usuario"=>$dados->codigo_usuario,
                   "nome"=>$dados->nome,
-                  "tipo"=>$dados->tipo,
+                  "perfil"=>$dados->Perfil_codigo_perfil
                 );
 
                 echo "<script>location.href='pages/home'</script>";
-                exit;
               }
 
-            } 
-            else 
-            {
+            } else {
               // ERRO
               $mensagem = "Usuário Inexistente ou Desativado";
               error($titulo, $mensagem);

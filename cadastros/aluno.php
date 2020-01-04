@@ -166,7 +166,7 @@
           <div class="col-6">
             <div class="form-group">
               <label for="rg">RG:</label>
-              <input type="text" class="form-control" name="rg" value="<?=$rg;?>" placeholder="Informe um RG"  required data-parsley-required-message="<i class='fas fa-times'></i> Campo RG é obrigatório!!">
+              <input type="text" class="form-control12" name="rg" value="<?=$rg;?>" placeholder="Informe um RG"  required data-parsley-required-message="<i class='fas fa-times'></i> Campo RG é obrigatório!!">
             </div>
                       
             <div class="form-group">

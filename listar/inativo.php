@@ -8,10 +8,10 @@
 
     include "config/funcoes.php";
 
-    $perfil = $_SESSION["admin"]["tipo"];
+    $perfil = $_SESSION["user"]["perfil"];
   
     // TIPO = USUARIO MASTER
-    if ($perfil == "master")
+    if ($perfil == "1")
     {
 
 ?>
@@ -20,7 +20,7 @@
         <div class="card-header">
             <h3 class="card-title">Usuários Inativos</h3>
             <div class="text-right">
-                <a href="cadastros/admin" class="btn btn-success">Novo<i class="fas fa-user-plus ml-2"></i></a>
+                <a href="cadastros/usuario" class="btn btn-success">Novo<i class="ml-1 fas fa-user-plus ml-2"></i></a>
             </div>
         </div>
         <!-- /.card-header -->
@@ -40,8 +40,9 @@
                 <?php
                 	// SELECT USUARIOS INATIVOS DIFERENTE DE MASTER
 					$sql = "SELECT *, date_format(data,'%d/%m/%Y') data 
-                    FROM Admin WHERE tipo <> 'master'
-                    AND ativo = 0
+                    FROM Usuario WHERE Perfil_codigo_perfil <> 1 
+                    AND Perfil_codigo_perfil <> 4 
+                    AND status = 0
                     ORDER BY nome";
 
                     $consulta = $pdo->prepare($sql);
@@ -49,45 +50,31 @@
 
                     while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
                     {
-
-                        $codigo_admin 	= $linha->codigo_admin;
-                        $nome 	= $linha->nome;
-                        $tipo = $linha->tipo;
-                        $ativo = $linha->ativo;
+                        $codigo_usuario = $linha->codigo_usuario;
+                        $nome = $linha->nome;
+                        $perfil = $linha->Perfil_codigo_perfil;
+                        $status = $linha->status;
                         $data 	= $linha->data;
 
-                        if ($ativo === '1')
-                        {
-                            $ativo = "<p class='text-success'>Ativo</p>";
-                            echo "
-                                <tr role='row' class='even'>
-                                    <td>$ativo</td>
-                                    <td class='sorting_1 text-uppercase'>$nome</td>
-                                    <td class='text-uppercase'>$tipo</td>
-                                    <td>$data</td>
-                                    <td class='text-center'> 
-                                    <a href='javascript:inativar/$codigo' class='btn btn-outline-danger'>Inativar</a>
-                                    </td>
-                                </tr>
-                            ";
+                        $status = "<p class='text-danger'>Inativo</p>";
 
-                        } 
-                        else if ($ativo === '0')
-                        {
-                            $ativo = "<p class='text-danger'>Inativo</p>";
+                        if ($perfil === "2") {
+                            $perfil = "admin";
+                        } else if ($perfil === "3") {
+                            $perfil = "instrutor";
+                        }
+                        
                             echo "
                                 <tr role='row' class='even'>
-                                    <td>$ativo</td>
+                                    <td>$status</td>
                                     <td class='sorting_1 text-uppercase'>$nome</td>
-                                    <td class='text-uppercase'>$tipo</td>
+                                    <td class='text-uppercase'>$perfil</td>
                                     <td>$data</td>
                                     <td class='text-center'> 
-                                   
-                                    <a href='javascript:ativar($codigo_admin)' class='btn btn-dark'>Ativar</a>
+                                    <a href='javascript:inativar/$codigo_usuario' class='btn btn-outline-danger'>Inativar</a>
                                     </td>
                                 </tr>
                             ";
-                        } 
                     }
 
                 ?>
@@ -115,7 +102,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='inativar/admin/'+codigo;
+                    location.href='inativar/usuario/'+codigo;
                 }
         })
 	
@@ -134,7 +121,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='inativar/admin/'+codigo;
+                    location.href='inativar/usuario/'+codigo;
                 }
         })
 	
@@ -153,7 +140,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='excluir/admin/'+codigo;
+                    location.href='excluir/usuario/'+codigo;
                 }
         })
 	
@@ -185,7 +172,7 @@
         <?php
 
             } 
-            else if ($perfil == "admin")
+            else if ($perfil == "2")
             {
 
         ?>
@@ -195,7 +182,7 @@
         <div class="card-header">
             <h3 class="card-title">Usuários Inativos</h3>
             <div class="text-right">
-                <a href="cadastros/admin" class="btn btn-success">Novo<i class="fas fa-user-plus ml-2"></i></a>
+                <a href="cadastros/usuario" class="btn btn-success">Novo<i class="ml-1 fas fa-user-plus ml-2"></i></a>
             </div>
         </div>
         <!-- /.card-header -->
@@ -215,52 +202,42 @@
                     <?php
                         // SELECT USUARIOS INATIVOS DIFERENTE DE MASTER E ADMIN
                         $sql = "SELECT *, date_format(data,'%d/%m/%Y') data 
-                        FROM Admin WHERE tipo <> 'master' 
-                        AND tipo <> 'admin' 
-                        AND ativo = 0
+                        FROM Usuario WHERE Perfil_codigo_perfil <> 1 
+                        AND Perfil_codigo_perfil <> 2 
+                        AND Perfil_codigo_perfil <> 4 
+                        AND status = 0
                         ORDER BY nome";
-
+    
                         $consulta = $pdo->prepare($sql);
                         $consulta->execute();
-
+    
                         while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
                         {
-
-                            $codigo_admin 	= $linha->codigo_admin;
-                            $nome 	= $linha->nome;
-                            $tipo = $linha->tipo;
-                            $ativo = $linha->ativo;
+                            $codigo_usuario = $linha->codigo_usuario;
+                            $nome = $linha->nome;
+                            $perfil = $linha->Perfil_codigo_perfil;
+                            $status = $linha->status;
                             $data 	= $linha->data;
-                        
-                            if ($ativo === '1')
-                            {
-                                $ativo = "<p class='text-success'>Ativo</p>";
+    
+                            $status = "<p class='text-danger'>Inativo</p>";
+    
+                            if ($perfil === "3") {
+                                $perfil = "instrutor";
+                            } else if ($perfil === "4") {
+                                $perfil = "aluno";
+                            }
+                            
                                 echo "
                                     <tr role='row' class='even'>
-                                        <td>$ativo</td>
+                                        <td>$status</td>
                                         <td class='sorting_1 text-uppercase'>$nome</td>
-                                        <td class='text-uppercase'>$tipo</td>
+                                        <td class='text-uppercase'>$perfil</td>
                                         <td>$data</td>
-                                        <td class='text-center'> <a href='javascript:inativar($codigo_admin)' class='btn btn-danger'>Inativar</a>
+                                        <td class='text-center'> 
+                                        <a href='javascript:inativar/$codigo_usuario' class='btn btn-outline-danger'>Inativar</a>
                                         </td>
                                     </tr>
                                 ";
-                            } 
-                            else if ($ativo === '0')
-                            {
-                                $ativo = "<p class='text-danger'>Inativo</p>";
-                                echo "
-                                    <tr role='row' class='even'>
-                                        <td>$ativo</td>
-                                        <td class='sorting_1 text-uppercase'>$nome</td>
-                                        <td class='text-uppercase'>$tipo</td>
-                                        <td>$data</td>
-                                        <td class='text-center'> 
-                                        <a href='javascript:ativar($codigo_admin)' class='btn btn-dark'>Ativar</a></td>
-                                    </tr>
-                                ";
-                            } 
-
                         }
                     
                     ?>
@@ -288,7 +265,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='inativar/admin/'+codigo;
+                    location.href='inativar/usuario/'+codigo;
                 }
         })
 	
@@ -307,7 +284,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='inativar/admin/'+codigo;
+                    location.href='inativar/usuario/'+codigo;
                 }
         })
 	
@@ -326,7 +303,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='excluir/admin/'+codigo;
+                    location.href='excluir/usuario/'+codigo;
                 }
         })
 	
@@ -360,7 +337,7 @@
     else 
     {   
         // ALERTA
-        $titulo = "Erro de Acesso";
+        $titulo = "Acesso negado!";
         $mensagem = "O Usuário não tem permissão!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

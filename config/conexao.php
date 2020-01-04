@@ -1,20 +1,12 @@
  
 <?php
 	//conexão com banco PDO
-	//Conexão Remota
-	/*
-	$servidor = "";
-	$usuario = "";
-	$senha = "";
-	//selecionar banco IMC
-	$banco = "";
-	*/
 	//Conexão Local
 	$servidor = "localhost";
 	$usuario = "admin";
 	$senha = "123";
 	//selecionar banco IMC
-	$banco = "banco_4.0";
+	$banco = "kronos_v1.0";
 	
 	$charset = "utf8";
 	try {

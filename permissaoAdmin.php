@@ -1,6 +1,6 @@
 <?php
 
-    if ( ( session_status() != PHP_SESSION_ACTIVE ) or (( $_SESSION["admin"]["tipo"] ) != "admin") && (( $_SESSION["admin"]["tipo"] ) != "master") ) {
+    if ( ( session_status() != PHP_SESSION_ACTIVE ) or (( $_SESSION["user"]["perfil"] ) != "1") && (( $_SESSION["user"]["perfil"] ) != "2") ) {
        
         include "pages/404.php";
         
