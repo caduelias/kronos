@@ -3,8 +3,7 @@
     include "config/conexao.php";
     include "config/funcoes.php";
 	
-  if ( $_POST ) 
-  {
+  if ( $_POST ) {
       $login = $senha = "";
 
       if ( isset ( $_POST["login"] ) )
@@ -16,8 +15,7 @@
         if ( empty( $login ) ) {
           $titulo = "Preencha o Login!";
           toastLogin($titulo);    
-        } else if (empty( $senha)) 
-        { 
+        } else if (empty( $senha)) { 
           $titulo = "Preencha a Senha!";
           toastLogin($titulo);   
         } else {
@@ -34,7 +32,7 @@
             if ( isset( $dados->codigo_usuario ) && ($dados->status == 1) ){
               
               if ( !password_verify($senha, $dados->senha) ) {
-                $mensagem = "Senha Inválida!";
+                $mensagem = "Usuário ou senha incorretos!";
                 error($titulo, $mensagem);
               } else {
                 $_SESSION["user"] = array(

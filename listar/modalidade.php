@@ -15,7 +15,7 @@
          
         <div class="row">
                 <div class="col">
-                    <h4 class="text-uppercase">Modalidades</h4>
+                    <h3 class="text-uppercase">Modalidades</h3>
                 </div>
                 <div class="col">
                     <a  href="cadastros/modalidade" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
@@ -30,6 +30,7 @@
                     <tr>
                         <th width="10%">Status</th> 
                         <th width="20%">Nome</th>
+                        <th width="10%">Horário</th>
                         <th width="20%">Ações</th>       
                     </tr>             
                 </thead>
@@ -37,8 +38,10 @@
                 
                 <?php
                 	// SELECT DADOS TABELA MODALIDADE
-					$sql = "SELECT * FROM Modalidade
-                    WHERE ativo = 1
+					$sql = "SELECT m.*, h.* 
+                    FROM Modalidade m
+                    INNER JOIN Horario h on m.Horario_codigo_horario = h.codigo_horario
+                    WHERE status = 1
                     ORDER BY nome_modalidade";
 
                     $consulta = $pdo->prepare($sql);
@@ -50,18 +53,31 @@
                     $codigo_modalidade 	= $linha->codigo_modalidade;
                     $nome_modalidade 	= $linha->nome_modalidade;
                     $descricao = $linha->descricao;
-                    $ativo = $linha->ativo;
+                    $status = $linha->status;
+                    $horario = $linha->horario_treino;
+                    $periodo = $linha->periodo;
 
                     $modal = caracter($nome_modalidade);
 
                     $codigo = base64_encode($codigo_modalidade);
 
-                    $ativo = "<p class='text-success'>Ativo</p>";
+                    $status = "<p class='text-success'>Ativo</p>";
+
+                    if($periodo == "1") {
+                        $periodo = "Matutino";
+                    } else if ($periodo == "2") {
+                        $periodo = "Diurno";
+                    } else if ($periodo == "3") {
+                        $periodo = "Vespertino";
+                    } else if ($periodo == "4") {
+                        $periodo = "Noturno";
+                    }
 
                     echo "
                         <tr>
-                            <td class='text-uppercase'>$ativo</td>
+                            <td class='text-uppercase'>$status</td>
                             <td class='text-uppercase'>$nome_modalidade</td>
+                            <td>$horario</td>
                             <td class='text-center'>
                             <a href='javascript:inativar($codigo_modalidade)' class='btn btn-danger m-1'><i class='fas fa-times'></i></a>
                             <a href='cadastros/modalidade/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
@@ -85,6 +101,11 @@
                                 </div>
 
                                 <div class='modal-body'>
+
+                                    <div class='form-group mt-2'>
+                                        <label>Período:</label>
+                                        <div class='form-control'>$periodo</div>
+                                    </div> 
 
                                     <div class='form-group mt-2'>
                                         <label>Descrição:</label>
@@ -130,7 +151,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
             preConfirm: () => {
-                location.href='inativar/modalidade/'+codigo;
+                location.href='status/modalidade/'+codigo;
             }
         })
 	

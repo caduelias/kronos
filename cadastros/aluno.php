@@ -73,49 +73,9 @@
           
       <div class="card-body">
      
-        <div class="row">
-
-          <?php
-
-            $required = "";
-            if ( empty ($codigo_horario) ) {
-              $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione!\" ";
-            }
-
-          ?>
-
-          <div class="col-4">
-            <div class="form-group">
-                <label>Horário:</label>
-                <select list="horarios" name="codigo_horario" id="codigo_horario" placeholder="Selecione..." <?=$required;?> class="form-control">
-                  <option value="">Selecione...</option>
-                  <datalist id="horarios">
-                    <?php
-                      $sql = "
-                      
-                        SELECT codigo_horario, periodo, horario_treino FROM Horario 
-                        ORDER BY horario_treino
-                        
-                        ";
-                        $consulta = $pdo->prepare( $sql );
-                        $consulta->execute();
-                    
-                        while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
-                        {
-
-                        echo "<option value='$dados->codigo_horario'>$dados->horario_treino</option>";
-
-                        }   
-                    ?>
-                  </datalist> 
-                </select>
-                <script type="text/javascript">
-                  $("#codigo_horario").val('<?=$codigo_horario;?>');
-              </script>
-              </div>
-            </div>
+     
         
-            <div class="col-4">
+          
               <div class="form-group">
                 <label for="status">Status:</label>
                   <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="Selecione!">
@@ -124,7 +84,7 @@
                       <option value="1" selected>Ativo</option>    
                   </select>
               </div>
-            </div>
+            
 
         </div>
                       

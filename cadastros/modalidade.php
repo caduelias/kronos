@@ -24,9 +24,10 @@
 		$dados = $consulta->fetch(PDO::FETCH_OBJ);
 
         $codigo_modalidade = $dados->codigo_modalidade;
+        $codigo_horario = $dados->Horario_codigo_horario;
         $nome_modalidade = $dados->nome_modalidade;
         $descricao = $dados->descricao;
-        $ativo = $dados->ativo;
+        $status = $dados->status;
 
     }   
 
@@ -56,10 +57,50 @@
 
             <div class="row">
 
-                <div class="col-8">
+                <?php
+
+                $required = "";
+                if ( empty ($codigo_horario) ) {
+                    $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione!\" ";
+                }
+
+                ?>
+
+                <div class="col-4">
+                <div class="form-group">
+                    <label>Horário:</label>
+                    <select list="horarios" name="codigo_horario" id="codigo_horario" placeholder="Selecione..." <?=$required;?> class="form-control">
+                        <option value="">Selecione...</option>
+                        <datalist id="horarios">
+                        <?php
+                            $sql = "
+                            
+                            SELECT codigo_horario, periodo, horario_treino FROM Horario 
+                            ORDER BY horario_treino
+                            
+                            ";
+                            $consulta = $pdo->prepare( $sql );
+                            $consulta->execute();
+                        
+                            while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
+                            {
+
+                            echo "<option value='$dados->codigo_horario'>$dados->horario_treino</option>";
+
+                            }   
+                        ?>
+                        </datalist> 
+                    </select>
+                    <script type="text/javascript">
+                        $("#codigo_horario").val('<?=$codigo_horario;?>');
+                    </script>
+                    </div>
+                </div>
+
+                <div class="col-4">
                     <div class="form-group">
                         <input type="hidden" class="form-control" name="codigo_modalidade" value="<?=$codigo_modalidade;?>">
-                        <label for="nomeModalidade">Nome Modalidade:</label>
+                        <label for="nomeModalidade">Nome:</label>
                         <input type="text" class="form-control" name="nome_modalidade" onkeypress="return ApenasLetras(event,this);" placeholder="Nome modalidade" value="<?=$nome_modalidade;?>" maxlength="45" autofocus required data-parsley-required-message="Preencha este campo!">         
                     </div>
                 </div>
@@ -67,14 +108,14 @@
                  <div class="col-4">
                     <div class="form-group">
                         <label for="status">Status:</label>
-                        <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="Selecione!">
+                        <select id="status" class="form-control" name="status" required data-parsley-required-message="Selecione!">
                             <option value="">Selecione...</option>
                             <option value="0">Inativo</option>
                             <option value="1" selected>Ativo</option>    
                         </select>
                     </div>
                     <script type="text/javascript">
-						$("#ativo").val('<?=$ativo;?>');
+						$("#status").val('<?=$status;?>');
 					</script>
                 </div>
 

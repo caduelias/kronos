@@ -8,17 +8,19 @@
 
     include "config/funcoes.php";
 
-    $perfil = $_SESSION["admin"]["tipo"];
+    $perfil = $_SESSION["user"]["perfil"];
 
-    $codigoUsuario = $_SESSION["admin"]["codigo_admin"];
+    $codigoUsuario = $_SESSION["user"]["codigo_usuario"];
 
-    $senha = $codigo_admin = "";
+    $senha = $codigo_usuario = "";
 
-    if ( isset ($codigoUsuario) ) 
+    if ( isset($codigoUsuario) ) 
     {
-		$sql = "SELECT codigo_admin
-			FROM Admin 
-            WHERE codigo_admin = ? LIMIT 1";
+		$sql = "SELECT codigo_usuario
+                FROM Usuario 
+                WHERE codigo_usuario = ? 
+                LIMIT 1
+                ";
             
 		$consulta = $pdo->prepare( $sql );
 		$consulta->bindParam(1,$codigoUsuario);
@@ -26,14 +28,12 @@
 	
 		$dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        $codigo_admin = $dados->codigo_admin;
+        $codigo_usuario = $dados->codigo_usuario;
 
-        $codigo_admin = base64_encode($codigo_admin);
+        $codigo_usuario = base64_encode($codigo_usuario);
 
-    } 
-    else 
-    {
-        $mensagem = "Erro na Requisição!";
+    } else {
+        $mensagem = "Requisição inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);
     }
@@ -41,17 +41,22 @@
 ?>
 
 <div class="content-wrapper">
-    <form class="form-horizontal" name="admin" method="POST" action="salvar/senha" data-parsley-validate>        
-        <div class="card-body">
-           
+    <form class="form-horizontal" name="usuario" method="POST" action="salvar/senha" data-parsley-validate>        
+    <div class="card">
+        <div class="card-header">
             <div class="row">
                 <div class="col">
-                <h3 class="card-title text-uppercase">Alterar Senha</h3>
+                    <h3 class="text-uppercase">Alterar Senha</h3>
+                </div>
+                <div class="col">
+                    <a  href="pages/minha-conta" class="btn btn-dark float-right">Minha Conta<i class="ml-2 fas fa-id-card-alt"></i></a>
                 </div>
             </div>
-
+        </div>
+        <div class="card-body">
+           
             <div class="form-group">
-                <input type="hidden" class="form-control" name="codigo_admin" value="<?=$codigo_admin;?>">
+                <input type="hidden" class="form-control" name="codigo_usuario" value="<?=$codigo_usuario;?>">
             </div>
 
             <div class="form-group">
@@ -74,6 +79,7 @@
         <div class="card-footer">
             <button type="submit" class="btn btn-dark float-right" onclick="return validarSenha()"><i class="fas fa-user-lock mr-2"></i>Alterar</button>
         </div>
+    </div>
     </form>
 </div>
 
@@ -81,8 +87,8 @@
 <script type="text/javascript">
     	
     function validarSenha(){
-        var senha = admin.senha.value;
-        var redigite = admin.redigite.value;
+        var senha = usuario.senha.value;
+        var redigite = usuario.redigite.value;
     
         const Toast = Swal.mixin({
                         toast: true,
@@ -98,18 +104,18 @@
                         title: 'Preencha o campo da senha com no mínimo 8 caracteres!'
                         
                     })
-                admin.senha.focus();
+                usuario.senha.focus();
                 return false;
             }
 
             if(redigite== "" || redigite.length <= 7){
                     Toast.fire({
                         type: 'warning',
-                        title: 'Preencha o campo da senha com no mínimo 8 caracteres!'
+                        title: 'Reedigite a senha com no mínimo 8 caracteres!'
                         
                     })
                // alert ('Preencha o campo da senha com no minimo 4 caracteres');
-                admin.redigite.focus();
+                usuario.redigite.focus();
                 return false;
             }
             
@@ -117,11 +123,11 @@
 
                 Toast.fire({
                         type: 'error',
-                        title: 'Senhas digitadas não conferem, são diferentes!'
+                        title: 'Senhas informadas são diferentes!'
                         
                     })
                // alert (' Senhas digitadas não conferem, são diferentes!'); 
-                admin.redigite.focus();
+                usuario.redigite.focus();
             
                 return false;
             }

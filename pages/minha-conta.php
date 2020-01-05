@@ -7,19 +7,18 @@
 
     include "config/funcoes.php";
 
-    $perfil = $_SESSION["admin"]["tipo"];
+    $perfil = $_SESSION["user"]["perfil"];
 
-    $codigoUsuario = $_SESSION["admin"]["codigo_admin"];
+    $codigoUsuario = $_SESSION["user"]["codigo_usuario"];
       
-    $codigo_admin = $nome = $senha = $tipo = $ativo = $data = "";
+    $codigo_usuario = $nome = $senha = $tipo = $ativo = $data = "";
 
-    if ( isset ( $codigoUsuario) ) 
-    {
-        // SELECT DADOS DO USUARIO TABELA ADMIN
-		$sql = "SELECT a.*, date_format(data,'%d/%m/%Y') data, e.* 
-            FROM Admin a, Endereco e 
-            WHERE a.codigo_admin = ? AND 
-            a.Endereco_codigo_endereco = e.codigo_endereco 
+    if ( isset ( $codigoUsuario) ) {
+        // SELECT DADOS DO USUARIO TABELA usuario
+		$sql = "SELECT u.*, date_format(data,'%d/%m/%Y') data, e.* 
+            FROM Usuario u, Endereco e 
+            WHERE u.codigo_usuario = ? 
+            AND u.Endereco_codigo_endereco = e.codigo_endereco 
             LIMIT 1";
             
 		$consulta = $pdo->prepare( $sql );
@@ -28,13 +27,13 @@
         
 		$dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        $codigo_admin = $dados->codigo_admin;
+        $codigo_usuario = $dados->codigo_usuario;
         $nome = $dados->nome;
         $login = $dados->login;
         $email = $dados->email;
         $senha = $dados->senha;
-        $tipo = $dados->tipo;
-        $ativo = $dados->ativo;
+        $perfil = $dados->Perfil_codigo_perfil;
+        $status = $dados->status;
         $data = $dados->data;
 
         // Tabela Endereco
@@ -44,10 +43,8 @@
         $rua = $dados->rua;
         $numero = $dados->numero;
 
-    } 
-    else 
-    {
-        $mensagem = "Erro!";
+    } else {
+        $mensagem = "Usuário não encontrado!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);
     }
@@ -55,23 +52,26 @@
 ?>
 
 <div class="content-wrapper">
-    <form class="form-horizontal" name="conta" method="POST" action="salvar/perfil" data-parsley-validate>        
-        <div class="card-body">
+    <form class="form-horizontal" name="conta" method="POST" action="salvar/usuario" data-parsley-validate>        
+    <div class="card">    
+        <div class="card-header">
 
             <div class="row">
-                <div class="col">
-                    <h3 class="card-title text-uppercase">Minha Conta</h3>
-                </div>
-                <div class="col">
-                    <a  href="pages/alterar-senha" class="btn btn-dark float-right">Alterar Senha <i class="ml-2 fas fa-lock"></i></a>
+                    <div class="col">
+                        <h3 class="text-uppercase">Minha Conta</h3>
+                    </div>
+                    <div class="col">
+                        <a  href="pages/alterar-senha" class="btn btn-dark float-right">Alterar Senha <i class="ml-2 fas fa-lock"></i></a>
+                    </div>
                 </div>
             </div>
+        <div class="card-body">
 
             <div class="row">
 
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="data">Ult. Atua.</label>
+                        <label for="data">Data:</label>
                         <input type="text" class="form-control" value="<?=$data;?>" readonly>      
                     </div>
                 </div>
@@ -79,64 +79,40 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label for="status">Status:</label>
-                        <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="Selecione!" readonly>
+                        <select id="status" class="form-control" name="status" value="<?=$status;?>" required data-parsley-required-message="Selecione!" readonly>
                             <option value="1" selected>Ativo</option>  
                         </select>
                     </div>
                     <script type="text/javascript">
-						$("#ativo").val('<?=$ativo;?>');
+						$("#status").val('<?=$status;?>');
 					</script>
                 </div>
 
                 <div class="col-4">
                     <div class="form-group">
                         <label for="tipo">Perfil:</label>
-                            <select class="form-control" id="tipo" name="tipo" required data-parsley-required-message="Selecione!" readonly>
+                            <select class="form-control" id="perfil" name="perfil" value="<?=$perfil;?>" required data-parsley-required-message="Selecione!" readonly>
                                 
                                 <?php 
 
-                                if ($perfil == "master") 
+                                if ($perfil == "1") 
                                 {
-
-                                ?>
-
-                                <option value="master">Master</option>
-
-                                <?php 
-
+                                    echo "<option value='1'>Master</option>";
                                 }
 
-                                else if ($perfil == "admin") 
+                                if ($perfil == "2") 
                                 {
-
-                                ?>
-
-                                <option value="admin">Administrador</option>
-
-                                <?php 
-
+                                    echo "<option value='2'>Admin</option>";
                                 }
 
-                                else if ($perfil == "instrutor") 
-
+                                if ($perfil == "3") 
                                 {
-
-                                ?>
-
-                                <option value="instrutor" selected>Instrutor</option> 
-
-                                <?php 
-                                
+                                    echo "<option value='3'>Instrutor</option>";
                                 }
 
-                                else {
-                                
-                                ?>
-
-                                <option value="" selected>Perfil ()</option>
-
-                                <?php
-
+                                if ($perfil == "4") 
+                                {
+                                    echo "<option value='4'>Aluno</option>";
                                 }
                                 
                                 ?>
@@ -144,7 +120,7 @@
                             </select>
 
 					        <script type="text/javascript">
-                            $("#tipo").val('<?=$tipo;?>');
+                            $("#perfil").val('<?=$perfil;?>');
 					        </script>
                     </div>    
                 </div>
@@ -155,14 +131,19 @@
             <hr>
 
             <div class="form-group">
-                <input type="hidden" class="form-control" name="codigo_admin" value="<?=$codigo_admin;?>">
+                <input type="hidden" class="form-control" name="codigo_usuario" value="<?=$codigo_usuario;?>">
                 <label for="nome">Nome:</label>
-                <input type="text" class="form-control" name="nome" placeholder="Digite um nome" value="<?=$nome;?>" maxlength="45" autofocus required data-parsley-required-message="Preencha este campo!">         
+                <input type="text" class="form-control" name="nome" placeholder="Digite um nome" value="<?=$nome;?>" maxlength="45" onkeypress="return ApenasLetras(event,this);" autofocus required data-parsley-required-message="Preencha este campo!">         
             </div>
 
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" name="email" placeholder="email@exemplo.com" value="<?=$email;?>" required data-parsley-required-message="Preencha o email!">     
+              <label for="email">E-mail:</label>
+              <input type="email" class="form-control" id="email" name="email" value="<?=$email;?>" placeholder="Informe um e-mail" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
+            </div>
+
+            <div class="form-group">
+              <label for="confirma">Confirmar E-mail:</label>
+              <input type="email" id="redigite" class="form-control" name="redigite_email" value="<?=$email;?>" placeholder="Redigite o e-mail informado" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
             </div>
 
             <div class="form-group">
@@ -178,7 +159,7 @@
                 <div class="col-2">
                     <div class="form-group">
                         <label for="estado">Estado:</label>           
-                        <input class="form-control" name="cidade" value="<?=$estado;?>" readonly>
+                        <input class="form-control" name="estado" value="<?=$estado;?>" readonly>
                     </div>
                 </div>
 
@@ -214,8 +195,83 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-            <button type="submit" class="btn btn-success float-right"><i class="fas fa-redo-alt mr-2"></i>Atualizar</button>
+            <button type="submit" class="btn btn-success float-right" onclick="return verificaEmail()"><i class="fas fa-redo-alt mr-2"></i>Atualizar</button>
         </div>
-
+        </div>
     </form>
 </div>
+
+<script type="text/javascript">
+
+    function ApenasLetras(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            } else if (e) {
+                var charCode = e.which;
+            } else {
+                return true;
+            }
+            if (
+                (charCode > 8 && charCode < 46) ||
+                (charCode > 64 && charCode < 91) || 
+                (charCode > 96 && charCode < 123) ||
+                (charCode > 191 && charCode <= 255) // letras com acentos
+            ){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            alert(err.Description);
+        }
+    }
+
+    function verificaEmail(){
+        var email = conta.email.value;
+        var redigite = conta.redigite.value;
+    
+        const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                    
+        })
+    
+            if(email == ""){
+                Toast.fire({
+                        type: 'error',
+                        title: 'Preencha o e-mail!'
+                        
+                    })
+                conta.email.focus();
+                return false;
+            }
+
+            if(redigite == ""){
+                    Toast.fire({
+                        type: 'error',
+                        title: 'Confirme o e-mail!'
+                        
+                    })
+              
+                conta.redigite.focus();
+
+                return false;
+            }
+            
+            if(email != redigite){
+
+                Toast.fire({
+                        type: 'error',
+                        title: 'E-mails informados são diferentes!'
+                        
+                    })
+
+                conta.redigite.focus();
+            
+                return false;
+            }
+    } 
+</script>

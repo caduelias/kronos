@@ -9,45 +9,39 @@
     include "config/funcoes.php";
 
 
-    if ( $_POST ) 
-    {
+    if ( $_POST ) {
         
-        foreach ($_POST as $key => $value) 
-        {
+        foreach ($_POST as $key => $value) {
             //$key - nome do campo
             //$value - valor do campo (digitado)
-            if ( isset ( $_POST[$key] ) )
-            {
+            if ( isset ( $_POST[$key] ) ) {
                 $$key = trim( $value );
             } 
         }
 
-        if ( empty( $login ) ) 
-        {
+        if ( empty( $login ) ) {
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
-        } 
-        else if ( empty( $senha ) ) 
-        {
+        } else if ( empty( $senha ) ) {
             $mensagem = "Preencha a senha!";
             warning($titulo, $mensagem);
-        } 
-        else if (empty( $perfil ) )
-        {
+        } else if (empty( $perfil ) ) {
             $mensagem = "Selecione o perfil!";
             warning($titulo, $mensagem);
         }
-         
-        if ( empty ( $codigo_usuario ) ) 
-        {
+
+        if ($email != $redigite_email) {
+            $mensagem = "E-mails são diferentes!";
+            warning($titulo, $mensagem);
+        }
+        
+        if ( empty ( $codigo_usuario ) ) {
             // SELECT BUSCANDO LOGIN COM O LOGIN INFORMADO
             $sql = "SELECT codigo_usuario, login FROM Usuario WHERE login = ? LIMIT 1";
             $consulta = $pdo->prepare( $sql );
             $consulta->bindParam(1,$login);
 
-        } 
-        else 
-        {
+        } else {
             // SELECT BUSCANDO LOGIN ONDE FOR DIFERENTE DO PRÓPIO LOGIN
             $sql = "SELECT codigo_usuario, login FROM Usuario WHERE login = ? AND codigo_usuario <> ? LIMIT 1";
             $consulta = $pdo->prepare( $sql );
@@ -59,10 +53,30 @@
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        if ( isset ( $dados->codigo_usuario ) ) 
-        {
+        if ( isset($dados->codigo_usuario ) ) {
             // ALERTA
-            $mensagem = "Já existe um usuário cadastrado com esse login!";
+            $mensagem = "Este login já está sendo utilizado!";
+            warning($titulo, $mensagem);
+            exit;
+        }
+
+        if ( empty ( $codigo_usuario ) ) {
+            $sql = "SELECT email FROM Usuario WHERE email = ? LIMIT 1";
+            $consulta = $pdo->prepare( $sql );
+            $consulta->bindParam(1,$email);
+        } else {
+            $sql = "SELECT email FROM Usuario WHERE email = ? AND codigo_usuario <> ? LIMIT 1";
+            $consulta = $pdo->prepare( $sql );
+            $consulta->bindParam(1,$email);
+            $consulta->bindParam(2,$codigo_usuario);
+        }
+
+        $consulta->execute();
+        $dados = $consulta->fetch(PDO::FETCH_OBJ);
+
+        if ( isset($dados->email) ) {
+            // ALERTA
+            $mensagem = "Este e-mail já está sendo utilizado!";
             warning($titulo, $mensagem);
             exit;
         }
@@ -80,8 +94,7 @@
         // *****************START TRANSACTION************************
         $pdo->beginTransaction();
 
-        if ( empty ( $codigo_usuario ) ) 
-        {
+        if ( empty ( $codigo_usuario ) ) {
 			// INSERT
             $sql = "
             
@@ -121,9 +134,7 @@
 			$consulta->bindValue(":status",$status);
 			$consulta->bindValue(":data",$data);
 
-        } 
-        else 
-        { 
+        } else { 
 			// UPDATE
 			$sql = "
             UPDATE Usuario as u JOIN Endereco as e SET nome = :nome,
@@ -162,20 +173,16 @@
 			$consulta->bindValue(":status",$status);
 			$consulta->bindValue(":data",$data);
 		}
-
-		
-        if ( $consulta->execute() ) 
-        {
+	
+        if ( $consulta->execute() ) {
 			// COMMIT
             $pdo->commit();
             // ALERTA
             $mensagem = "Usuário registrado com sucesso!";
-            $link = "listar/usuario";
+            $link = "index.php";
 			sucessLink($titulo, $mensagem, $link);
 
-        } 
-        else 
-        {
+        } else {
             // ROLLBACK
             $pdo->rollBack();
             //echo $consulta->errorInfo()[2];
@@ -185,9 +192,7 @@
             exit;
 		}
              
-    } 
-    else 
-    {
+    } else {
         // ALERTA
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
