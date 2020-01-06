@@ -71,10 +71,8 @@
                   <?php
 
                     $sql = "
-                    
                       SELECT codigo_modalidade, nome_modalidade FROM Modalidade 
-                      WHERE ativo = 1 ORDER BY codigo_modalidade
-                      
+                      WHERE status = 1 ORDER BY codigo_modalidade
                       ";
                       $consulta = $pdo->prepare( $sql );
                       $consulta->execute();
@@ -98,29 +96,45 @@
           </div>
         </div>
 
-        <div class="col-2">
+        
           <div class="form-group">
             <label></label>
             <input type="hidden" name="codigo_modalidade" id="codigo_modalidade" required data-parsley-required-message="<i class='fas fa-times'></i>" class="form-control"
             value="<?=$codigo_modalidade;?>" readonly>
           </div>
-        </div>
+       
 
         <div class="col-6">
 
             <div class="form-group">
-              <label>Tipo:</label>
-              <select class="form-control" id="tipo" name="tipo_treino" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!" >
-                <option value="">Selecione...</option>
-                <option value="1">Metabólico</option>
-                <option value="2">Hipertrofia</option>
-                <option value="3">Intervalado</option>
-                <option value="4">Funcional</option>
-              </select>
+            <div class="form-group">
+                    <label>Categoria:</label>
+                    <select list="tipo" name="tipo_treino" id="tipo_treino" placeholder="Selecione..." <?=$required;?> class="form-control">
+                        <option value="">Selecione...</option>
+                        <datalist id="tipo">
+                        <?php
+                            $sql = "
+                            
+                            SELECT codigo_tipo_treino, descricao FROM Tipo_Treino 
+                            ORDER BY codigo_tipo_treino
+                            
+                            ";
+                            $consulta = $pdo->prepare( $sql );
+                            $consulta->execute();
+                        
+                            while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
+                            {
 
-              <script type="text/javascript">
-                $("#tipo").val('<?=$tipo_treino;?>');
-              </script>
+                            echo "<option value='$dados->codigo_tipo_treino'>$dados->descricao</option>";
+
+                            }   
+                        ?>
+                        </datalist> 
+                    </select>
+                    <script type="text/javascript">
+                        $("#tipo_treino").val('<?=$tipo_treino;?>');
+                    </script>
+                    </div>
 
             </div>
           

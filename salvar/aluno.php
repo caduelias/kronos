@@ -7,19 +7,18 @@
 
     include "config/funcoes.php";   
  
-    if ( $_POST ) 
-    {
-        foreach ($_POST as $key => $value) 
-        {
+    if ( $_POST ) {
+        foreach ($_POST as $key => $value) {
             //$key - nome do campo
             //$value - valor do campo (digitado)
-            if ( isset ( $_POST[$key] ) )
-            {
+            if ( isset ( $_POST[$key] ) ){
                 $$key = trim( $value );
             } 
         }
 
-        if(validaCPF($cpf) == false){
+     
+
+        if (validaCPF($cpf) == false){
             $titulo = "CPF inválido!";
             $mensagem = "Informe um CPF válido!";
             errorBack( $titulo, $mensagem );
@@ -27,7 +26,6 @@
         }
         
         if (!empty($codigo_aluno)) {
-
 			//se existe alguem, menos ele mesmo, com o mesmo cpf
 			$sql = "select codigo_aluno, nome_aluno from Aluno where cpf = ? and codigo_aluno <> ? limit 1";
 			$consulta = $pdo->prepare( $sql );
@@ -46,51 +44,11 @@
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        if ( isset ( $dados->codigo_aluno ) ) 
-        {
+        if ( isset($dados->codigo_aluno) ) {
             // ALERTA
-            $mensagem = "Este CPF já foi registrado!";
+            $mensagem = "Este aluno já foi registrado!";
             warning($titulo, $mensagem);
             exit;
-        }
-
-        if($codigo_horario){
-            $sql = "select limite from Horario where codigo_horario = :codigo_horario limit 1;";
-			$consulta = $pdo->prepare( $sql );
-            $consulta->bindValue(":codigo_horario",$codigo_horario);
-
-            $consulta->execute();
-            $dados = $consulta->fetch(PDO::FETCH_OBJ);
-
-            $limite = $dados->limite;
-        
-            if (empty ($codigo_aluno)){
-
-                $sql = "select count(codigo_aluno) as atual from Aluno where Horario_codigo_horario = :codigo_horario";
-                $consulta = $pdo->prepare( $sql );
-                $consulta->bindValue(":codigo_horario",$codigo_horario);
-                $consulta->bindValue(":codigo_aluno",$codigo_aluno);
-
-            } else  {
-               
-                $sql = "select count(codigo_aluno) as atual from Aluno where codigo_aluno <> :codigo_aluno and Horario_codigo_horario = :codigo_horario";
-                $consulta = $pdo->prepare( $sql );
-                $consulta->bindValue(":codigo_horario",$codigo_horario);
-                $consulta->bindValue(":codigo_aluno",$codigo_aluno);
-            }
-
-            $consulta->execute();
-            $dados = $consulta->fetch(PDO::FETCH_OBJ);
-
-            $atual = $dados->atual;
-
-            if($atual >= $limite) {
-                $titulo = "Horário indisponível";
-                $mensagem = "O horário selecionado já atingiu o nº máximo de alunos!";
-                errorBack( $titulo, $mensagem );
-                exit;
-            }
-
         }
 
         if(ValidaData($data_nascimento) == true){
@@ -129,8 +87,7 @@
            // *****************START TRANSACTION************************
            $pdo->beginTransaction();
 
-         
-           if ( !empty ($codigo_aluno)){
+           if (!empty($codigo_aluno)){
 
             //echo "<p class='text-center'>$codigo_aluno</p>";
             //exit;
@@ -144,9 +101,9 @@
             a.cpf  = :cpf, 
             a.objetivo  = :objetivo, 
             a.email  = :email, 
-            a.ativo  = :ativo,
-            a.Horario_codigo_horario = :codigo_horario, 
-               
+            a.status  = :status,
+            a.dependente = :dependente,
+            
             e.estado = :estado,
             e.cidade = :cidade,
             e.bairro = :bairro,
@@ -180,15 +137,16 @@
             $consulta->bindValue(":cpf",$cpf);
             $consulta->bindValue(":objetivo",$objetivo);
             $consulta->bindValue(":email",$email);
-            $consulta->bindValue(":ativo",$ativo);
-            $consulta->bindValue(":codigo_horario",$codigo_horario);
+            $consulta->bindValue(":status",$status);
+            $consulta->bindValue(":dependente",$dependente);
 
             // Tabela Telefone
             $consulta->bindValue(":telefone",$num_telefone);
             $consulta->bindValue(":celular",$num_celular);
 
-
-           } else if (empty ($codigo_aluno) ) {
+           } 
+           
+           if ( empty($codigo_aluno) ) {
 
             //echo "<p class='text-center'>esta setado? -> $codigo_aluno</p>";
             //exit;
@@ -212,8 +170,8 @@
                 cpf, 
                 objetivo, 
                 email, 
-                ativo, 
-                Horario_codigo_horario,
+                status, 
+                dependente,
                 Endereco_codigo_endereco
                 )
                VALUES 
@@ -226,8 +184,8 @@
                :cpf, 
                :objetivo, 
                :email, 
-               :ativo,
-               :codigo_horario, 
+               :status,
+                0, 
                (select LAST_INSERT_ID()));
 
                INSERT INTO Telefone 
@@ -264,8 +222,7 @@
                $consulta->bindValue(":cpf",$cpf);
                $consulta->bindValue(":objetivo",$objetivo);
                $consulta->bindValue(":email",$email);
-               $consulta->bindValue(":ativo",$ativo);
-               $consulta->bindValue(":codigo_horario",$codigo_horario);
+               $consulta->bindValue(":status",$status);
 
                // Tabela Telefone
                $consulta->bindValue(":telefone",$num_telefone);
@@ -281,16 +238,16 @@
                // COMMIT
                $pdo->commit();
                // ALERTA
-               $mensagem = "Aluno registrado com sucesso!";
+               $mensagem = "Registro salvo com sucesso!";
                $link = "listar/aluno";
                sucessLink($titulo, $mensagem, $link);
    
            } else {
                // ROLLBACK
                $pdo->rollBack();
-               //echo $consulta->errorInfo()[2];
+              echo $consulta->errorInfo()[2];
                // ALERTA
-               $mensagem = "Erro ao registrar aluno!";
+               $mensagem = "Erro ao salvar registro!";
                errorBack( $titulo, $mensagem );
                exit;
            }

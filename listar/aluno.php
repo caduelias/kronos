@@ -43,22 +43,27 @@
                 
                 <?php
                 	// SELECT DADOS TABELA TREINO
-					$sql = "
-                    
-                    SELECT a.*, e.*, t.num_telefone, t.num_celular, date_format(a.data_nasc,'%d/%m/%Y') as nascimento, date_format(a.data_cadastro,'%d/%m/%Y') as data, h.horario_treino FROM Aluno a, Horario h, Endereco e, Telefone t
-                    WHERE a.codigo_aluno = a.codigo_aluno and a.Horario_codigo_horario = h.codigo_horario and e.codigo_endereco = a.Endereco_codigo_endereco and a.codigo_aluno = t.Aluno_codigo_aluno
-                    ORDER by codigo_aluno;
-                    
+					$sql = "              
+                        SELECT 
+                        a.*,
+                        date_format(a.data_nasc,'%d/%m/%Y') as nascimento, 
+                        date_format(a.data_cadastro,'%d/%m/%Y') as cadastro,
+                        e.*,
+                        t.*
+                        FROM Aluno a 
+                        INNER JOIN Endereco e ON e.codigo_endereco = a.Endereco_codigo_endereco
+                        INNER JOIN Telefone t ON t.Aluno_codigo_aluno = a.codigo_aluno
+                        WHERE a.codigo_aluno = a.codigo_aluno
+                        ORDER BY codigo_telefone;
                     ";
 
                     $consulta = $pdo->prepare($sql);
                     $consulta->execute();
 
-                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
-                    {
+                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) {
                     // Tabela Aluno
                     $codigo_aluno = $linha->codigo_aluno;
-                    $data_cadastro = $linha->data;
+                    $data_cadastro = $linha->cadastro;
                     $nome_aluno = $linha->nome_aluno;
                     $data_nasc 	= $linha->nascimento;
                     $sexo = $linha->sexo;
@@ -66,11 +71,8 @@
                     $cpf = $linha->cpf;
                     $objetivo = $linha->objetivo;
                     $email = $linha->email;
-                    $ativo = $linha->ativo;
+                    $status = $linha->status;
                     
-                    // Tabela Horario
-                    $horario_treino = $linha->horario_treino;
-
                     // Tabela Endereco
                     $estado = $linha->estado;
                     $cidade = $linha->cidade;
@@ -86,17 +88,21 @@
 
                     $codigo = base64_encode($codigo_aluno);
 
-                    if ($ativo === '1')
-                    {
-                        $ativo = "<p class='text-success'>Ativo</p>";
-                    } else if ($ativo === '0')
-                    {
-                        $ativo = "<p class='text-danger'>Inativo</p>";
+                    if ($status == '1') {
+                        $status = "<p class='text-success'>Ativo</p>";
+                    } else if ($status == '0') {
+                        $status = "<p class='text-danger'>Inativo</p>";
                     }
-                    
+
+                    if ($sexo == 'F') {
+                        $sexo = "Feminino";
+                    } else if ($sexo == 'M') {
+                        $sexo = "Masculino";
+                    }
+
                     echo "
                         <tr class='text-center'>
-                            <td class='text-uppercase'>$ativo</td>
+                            <td class='text-uppercase'>$status</td>
                             <td class='text-uppercase'>$nome_aluno</td>
                             <td class='text-uppercase'>$cpf</td>
                             <td class='text-uppercase'>$data_cadastro</td>
@@ -127,68 +133,61 @@
                                     <div class='row'>
                                     
                                     <div class='col-4'>
-
                                         <div class='form-group mt-2'>
                                             <label>Status:</label>
-                                            <div class='form-control'>$ativo</div>
+                                            <div class='form-control'>$status</div>
                                         </div> 
                                         
-
                                         <div class='form-group mt-2'>
                                             <label>E-mail:</label>
-                                            <input type='text' class='form-control' value='$email' readonly>
+                                            <div class='form-control'>$email</div>
                                         </div> 
                                     </div>
+
                                     <div class='col-4'>
                                         <div class='form-group mt-2'>
                                             <label>CPF:</label>
-                                            <input type='text' class='form-control' value='$cpf' readonly>
-                                            
+                                            <div class='form-control'>$cpf</div>     
                                         </div>  
 
                                         <div class='form-group mt-2'>
                                             <label>RG:</label>
-                                            <input type='text' class='form-control' value='$rg' readonly>
+                                            <div class='form-control'>$rg</div>   
                                         </div>  
                                     </div>
 
                                     <div class='col-4'>
                                         <div class='form-group mt-2'>
                                             <label>Nascimento:</label>
-                                            <input type='text' class='form-control' value='$data_nasc' readonly>
+                                            <div class='form-control'>$data_nasc</div>    
                                         </div>  
 
                                         <div class='form-group mt-2'>
                                             <label>Gênero:</label>
-                                            <input type='text' class='form-control' value='$sexo' readonly>
+                                            <div class='form-control'>$sexo</div> 
                                         </div>  
                                     </div>
+
                                     </div>
                                     
                                     <div class='form-group mt-2'>
                                         <label>Objetivo:</label>
-                                        <textarea class='form-control' rows='3' readonly>$objetivo </textarea>
+                                        <div class='form-control'>$objetivo</div>
                                     </div> 
 
                                     <hr>
                                     <div class='row'>
-                                        <div class='col-4'>
-                                            <div class='form-group mt-2'>
-                                                <label>Horário Treino:</label>
-                                                <input type='text' class='form-control' value='$horario_treino' readonly>
-                                            </div>  
-                                        </div>
-
+                                  
                                         <div class='col-4'>
                                             <div class='form-group mt-2'>
                                                 <label>Telefone:</label>
-                                                <input type='text' class='form-control' value='$num_telefone' readonly>
+                                                <div class='form-control'>$num_celular</div>
                                             </div>  
                                         </div>
                                         <div class='col-4'>
                                             <div class='form-group mt-2'>
                                                 <label>Celular:</label>
-                                                <input type='text' class='form-control' value='$num_celular' readonly>
+                                                <div class='form-control'>$num_celular</div>
                                             </div>  
                                         </div>
                                     </div>
@@ -200,35 +199,35 @@
                                         <div class='col-3'>
                                             <div class='form-group mt-2'>
                                                 <label>Cidade:</label>
-                                                <input type='text' class='form-control' value='$cidade' readonly>
+                                                <div class='form-control'>$cidade</div>
                                             </div>  
                                         </div>
 
                                         <div class='col-3'>
                                             <div class='form-group mt-2'>
                                                 <label>Estado:</label>
-                                                <input type='text' class='form-control' value='$estado' readonly>
+                                                <div class='form-control'>$estado</div>
                                             </div>  
                                         </div>
 
                                         <div class='col-3'>
-                                        <div class='form-group mt-2'>
-                                            <label>Número:</label>
-                                            <input type='text' class='form-control' value='$numero' readonly>
-                                        </div>  
+                                            <div class='form-group mt-2'>
+                                                <label>Número:</label>
+                                                <div class='form-control'>$numero</div>
+                                            </div>  
                                         </div>
 
                                         <div class='col-6'>
                                             <div class='form-group mt-2'>
                                                 <label>Rua:</label>
-                                                <input type='text' class='form-control' value='$rua' readonly>
+                                                <div class='form-control'>$rua</div>
                                             </div>  
                                         </div>
 
                                         <div class='col-6'>
                                         <div class='form-group mt-2'>
                                             <label>Bairro:</label>
-                                            <input type='text' class='form-control' value='$bairro' readonly>
+                                            <div class='form-control'>$bairro</div>
                                         </div>  
                                     </div>
                                    
@@ -241,7 +240,7 @@
                                 <div class='modal-footer justify-content-between'>
                                     <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
                                     
-                                    <a href='cadastros/aluno/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
+                                    <a target='_blank' href='pdf/kronos-pdf/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
                                 </div>
                             
                             </div>

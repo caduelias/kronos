@@ -7,7 +7,7 @@
 
   include "config/funcoes.php";
 
-  $codigo_plano	= $ativo = $nome_plano = $taxa_adesao = $mensalidade = $descricao = "";
+  $codigo_plano	= $status = $nome_plano = $taxa_adesao = $mensalidade = $descricao = "";
 
   if ( isset ($p[2]) ) 
   {
@@ -23,7 +23,7 @@
   $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
       $codigo_plano = $dados->codigo_plano;
-      $ativo = $dados->ativo;
+      $status = $dados->status;
       $nome_plano = $dados->nome_plano;
       $taxa_adesao = $dados->taxa_adesao;
       $mensalidade = $dados->mensalidade;
@@ -77,14 +77,14 @@
                 <div class="col-6">
                 <div class="form-group">
                   <label for="status">Status:</label>
-                  <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
+                  <select id="ativo" class="form-control" name="status" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
                       <option value="">Selecione... </option>
                       <option value="1" selected>Ativo</option>
                       <option value="0">Inativo</option>  
                   </select>
 
                   <script type="text/javascript">
-                      $("#ativo").val('<?=$ativo;?>');
+                      $("#status").val('<?=$status;?>');
                   </script>
 
                 </div>
@@ -110,24 +110,6 @@
 
                   <div class="col-6">
 
-                    <div class="form-group">
-                      <label for="valor">Mensalidade:</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-dollar-sign"></i>
-                          </span>
-                        </div>
-                        <input type="text" class="form-control" name="mensalidade" id="valor" value="<?=$mensalidade;?>" placeholder="Valor" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
-                      </div>
-                    </div>
-                  </div>
-
-            </div>
-
-            <div class="row">
-
-              <div class="col-6">
                   <div class="form-group">
                     <label for="dependentes">Dependentes:</label>
                     <select id="dependentes" class="form-control" name="dependentes" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
@@ -141,11 +123,31 @@
                     </script>
 
                   </div>
+
+                  </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-6">
+                <div class="form-group">
+                      <label for="valor">Mensalidade:</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-dollar-sign"></i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" name="mensalidade" id="valor" value="<?=$mensalidade;?>" placeholder="Valor" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
+                      </div>
+                    </div>
               </div>
+
               <div class="col-6">
                   <div class="form-group">
                       <label for="quantidade">Quantidade dependentes:</label>
-                      <input type="number" class="form-control" name="qtd_dependentes" value="<?=$qtd_dependentes;?>" >
+                      <input type="number" class="form-control" name="qtd_dependentes" value="<?=$qtd_dependentes;?>" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha!" >
                   </div>
               </div>
             </div>
@@ -175,7 +177,6 @@
 			thousands: ".",
 			decimal: ","
 		});
-
 
     function ApenasLetras(e, t) {
         try {

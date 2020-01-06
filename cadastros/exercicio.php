@@ -8,7 +8,7 @@
 
     include "config/funcoes.php";
       
-    $codigo_exercicio	= $codigo_treino = $nome_treino = $duracao = $descricao = $tipo_treino = $peso_inicial = "";
+    $codigo_exercicio	= $codigo_treino = $nome_treino = $duracao = $descricao = $tipo_exercicio = $peso_inicial = "";
 
     if ( isset ($p[2]) ) 
     {
@@ -28,7 +28,7 @@
         $codigo_treino = $dados->Treino_codigo_treino;
         $nome_exercicio = $dados->nome_exercicio;
         $descricao = $dados->descricao;
-        $tipo = $dados->tipo;
+        $tipo_exercicio = $dados->tipo_exercicio;
         $arquivo = $dados->arquivo;
         $duracao = $dados->duracao;
         $serie_repeticao = $dados->serie_repeticao; 
@@ -61,16 +61,16 @@
       <?php
 
       $required = "";
-      if ( empty ( $codigo_exercicio ) ) {
-        $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione uma modalidade\" ";
-      }
+        if ( empty ( $codigo_exercicio ) ) {
+          $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione uma modalidade\" ";
+        }
 
       ?>
 
         <div class="col-4">
           <div class="form-group">
               <label>Treino:</label>
-              <select list="treinos" id="treino" placeholder="Selecione..." <?=$required;?> class="form-control" onblur="selecionaTreino(this.value)">
+              <select list="treinos" id="treino" name="codigo_treino" placeholder="Selecione..." <?=$required;?> class="form-control" onblur="selecionaTreino(this.value)">
                 <option value="">Selecione...</option>
                 <datalist id="treinos">
                   <?php
@@ -78,7 +78,7 @@
                     $sql = "
                     
                       SELECT t.codigo_treino, t.nome_treino, m.nome_modalidade FROM Treino t, Modalidade m, Treino_Modalidade tm
-                      WHERE t.codigo_treino = tm.Treino_codigo_treino AND tm.Modalidade_codigo_modalidade = m.codigo_modalidade and t.ativo = 1
+                      WHERE t.codigo_treino = tm.Treino_codigo_treino AND tm.Modalidade_codigo_modalidade = m.codigo_modalidade and t.status = 1
                       ORDER BY t.codigo_treino, m.nome_modalidade
                       
                       ";
@@ -102,80 +102,70 @@
           </div>
         </div>
 
-        <div class="col-2">
-          <div class="form-group">
-            <label></label>
-            <input type="hidden" name="codigo_treino" id="codigo_treino" required data-parsley-required-message="<i class='fas fa-times'></i>" class="form-control"
-            value="<?=$codigo_treino;?>" readonly>
-          </div>
-        </div>
+       
+        
+      
 
-        <div class="col-6">
+        <div class="col-4">
           <div class="form-group">
             <label>Peso Inicial:</label>
-              <select class="form-control" id="peso" name="peso_inicial">
-                <option value="">Selecione...</option>
-                <option value="5">5 KG</option>
-                <option value="10">10 KG</option>
-                <option value="15">15 KG</option>
-                <option value="20">20 KG</option>
-                <option value="25">25 KG</option>
-              </select>
-
-              <script type="text/javascript">
-                $("#peso").val('<?=$peso_inicial;?>');
-              </script>
+            <input type="text" id="peso" class="form-control" name="peso_inicial" value="<?=$peso_inicial;?>" placeholder="Peso">
           </div>
         </div>
 
-      
-      </div>
-
-      <div class="row">
-
-      <div class="col-4">
+        <div class="col-4">
           <div class="form-group">
             <label>Duração:</label>  
               <input type="text" id="time" class="form-control" name="duracao" value="<?=$duracao;?>" placeholder="Horas:Minutos" maxlength="5" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha!" />
           </div>
         </div>
 
-        <div class="col-4">
+      </div>
+
+      <div class="row">
+
+        <div class="col-6">
                 <div class="form-group">
                         <label>Tipo:</label>
-                        <select class="form-control" name="tipo" id="tipo" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
-                          <option value="">Selecione...</option>
-                          <option value="1">Aparelho</option>
-                          <option value="2">Aeróbico</option>
-                          <option value="3">Anaeróbico</option>
-                        </select>
+                        <select list="tipo" id="tipo" name="tipo_exercicio" placeholder="Selecione..." <?=$required;?> class="form-control">
+                        <option value="">Selecione...</option>
+                        <datalist id="tipo">
+                        <?php
+                            $sql = "
+                            
+                            SELECT codigo_tipo_exercicio, descricao FROM Tipo_Exercicio
+                            ORDER BY codigo_tipo_exercicio
+                            
+                            ";
+                            $consulta = $pdo->prepare( $sql );
+                            $consulta->execute();
+                        
+                            while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
+                            {
+
+                            echo "<option value='$dados->codigo_tipo_exercicio'>$dados->descricao</option>";
+
+                            }   
+                        ?>
+                        </datalist> 
+                    </select>
                         <script type="text/javascript">
-                          $("#tipo").val('<?=$tipo;?>');
+                          $("#tipo").val('<?=$tipo_exercicio;?>');
                         </script>
                       </div>
 
                     </div>
 
-                    <div class="col-4">
-
-
+                  <div class="col-6">
 
                     <div class="form-group">
-                        <label>Serie/Repet. :</label>
-                        <select class="form-control" name="serie_repeticao" id="serie_repeticao">
-                          <option value="">Selecione...</option>
-                          <option value="10">10x</option>
-                          <option value="20">20x</option>
-                          <option value="30">30x</option>
-                          <option value="40">40x</option>
-                        </select>
-                        <script type="text/javascript">
-                        $("#serie_repeticao").val('<?=$serie_repeticao;?>');
-                        </script>
+                        <label>Serie/Repetições:</label>
+                        <input type="text" id="serie" class="form-control" name="serie_repeticao" value="<?=$serie_repeticao;?>" placeholder="Serie/Repetições">
                       </div>
 
-                    </div>
-      </div>         
+                  </div>
+
+              </div>         
 
                   <div class="form-group">
                   <input type="hidden" class="form-control" name="codigo_exercicio"  value="<?=$codigo_exercicio;?>">
@@ -238,9 +228,16 @@
   }
   
   $(document).ready(function(){
-  $('#time').mask('00:00');
+    $('#time').mask('00:00');
+  });
 
-});
+  $(document).ready(function(){
+    $('#serie').mask('00/00');
+  });
+
+  $(document).ready(function(){
+    $('#peso').mask('00(kg)');
+  });
 
 function ApenasLetras(e, t) {
     try {

@@ -8,7 +8,7 @@
 
     include "config/funcoes.php";
 
-    $perfil = $_SESSION["admin"]["tipo"];
+    $perfil = $_SESSION["user"]["perfil"];
 
 ?>
 <div class="content-wrapper"> 
@@ -18,7 +18,7 @@
             <div class="row">
 
                 <div class="col-6">
-                    <h4 class="text-uppercase">Planos Inativos</h4>
+                    <h4 class="text-uppercase">Planos</h4>
                 </div>
                 
                 <div class="col-6">
@@ -36,7 +36,7 @@
                     <tr>
                         <th width="20%">Status</th> 
                         <th width="20%">Plano</th>
-                        <th width="10%">Taxa Adesão</th>
+                        <th width="10%">Mensalidade</th>
                         <th width="20%">Ações</th>       
                     </tr>             
                 </thead>
@@ -47,7 +47,7 @@
 					$sql = "
                     
                     SELECT * FROM Plano
-                    WHERE codigo_plano = codigo_plano AND ativo = 0
+                    WHERE codigo_plano = codigo_plano AND status = 0
                     ORDER by nome_plano;
                     
                     ";
@@ -55,11 +55,10 @@
                     $consulta = $pdo->prepare($sql);
                     $consulta->execute();
 
-                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
-                    {
+                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) {
                     
                     $codigo_plano = $linha->codigo_plano;
-                    $ativo = $linha->ativo;
+                    $status = $linha->status;
                     $nome_plano 	= $linha->nome_plano;
                     $taxa_adesao = $linha->taxa_adesao;
                     $mensalidade = $linha->mensalidade;
@@ -79,28 +78,28 @@
                     ',',
                     '.');
                     
-                    if ($ativo === '1')
+                    if ($status === '1'){
+                        $status = "<p class='text-success'>Ativo</p>";
+                    } else if ($status === '0')
                     {
-                        $ativo = "<p class='text-success'>Ativo</p>";
-                    } 
-                    else if ($ativo === '0')
-                    {
-                        $ativo = "<p class='text-danger'>Inativo</p>";
+                        $status = "<p class='text-danger'>Inativo</p>";
                     } 
                     
-                    if ($perfil === "master")
-                    {
+                    if ($perfil == "1") {
+                        $opcaoDelete = "<a href='javascript:excluir($codigo_plano)' class='btn btn-danger m-1'><i class='fas fa-trash'></i></a>"; 
+                    } else {
+                        $opcaoDelete = "";
+                    }
                         echo "
                         <tr>
-                            <td class='text-uppercase'>$ativo</td>
+                            <td class='text-uppercase'>$status</td>
                             <td class='text-uppercase'>$nome_plano</td>
-                            <td class='text-uppercase'>R$$taxa_adesao</td>
+                            <td class='text-uppercase'>R$$mensalidade</td>
                             <td class='text-center'>
                             <a href='javascript:inativar($codigo_plano)' class='btn btn-success m-1'><i class='fas fa-check'></i></a>
-                            <a href='javascript:excluir($codigo_plano)' class='btn btn-danger m-1'><i class='fas fa-trash'></i></a>
-                            <a href='cadastros/plano/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
+                            $opcaoDelete
                             <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
-                                <i class='fas fa-th'></i>
+                                <i class='fas fa-eye'></i>
                             </a>
                             </td>
                         </tr>
@@ -120,6 +119,10 @@
 
                                 <div class='modal-body'>
 
+                                    <div class='form-group'>
+                                        <label for='taxa'>Taxa de adesão:</label>
+                                        <input type='text' class='form-control' value='R$$taxa_adesao reais' readonly>  
+                                    </div>
                                     <div class='form-group'>
                                         <label for='valor'>Valor da mensalidade:</label>
                                         <input type='text' class='form-control' value='R$$mensalidade reais' readonly>  
@@ -143,62 +146,6 @@
                     </div>
                             
                     ";
-                    } else {
-                        
-                    echo "
-                        <tr>
-                            <td class='text-uppercase'>$ativo</td>
-                            <td class='text-uppercase'>$nome_plano</td>
-                            <td class='text-uppercase'>R$$taxa_adesao</td>
-                            <td class='text-center'>
-                            <a href='javascript:inativar($codigo_plano)' class='btn btn-success m-1'><i class='fas fa-check'></i></a>
-                            <a href='cadastros/plano/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
-                            <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
-                            <i class='fas fa-th'></i>
-                            </a>
-                            </td>
-                        </tr>
-
-                    <div class='modal' id='$modal' aria-hidden='true' style='display: none;'>
-                        <div class='modal-dialog modal-xm'>
-                            <div class='modal-content'>
-
-                                <div class='modal-header'>
-
-                                    <h4 class='modal-title'>Plano $nome_plano</h4>
-                                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                        <span aria-hidden='true'>×</span>
-                                    </button> 
-
-                                </div>
-
-                                <div class='modal-body'>
-
-                                    <div class='form-group'>
-                                        <label for='valor'>Valor da mensalidade:</label>
-                                        <input type='text' class='form-control' value='$mensalidade' readonly>  
-                                    </div>
-
-                                    <div class='form-group mt-2'>
-                                        <label>Descrição:</label>
-                                        <textarea class='form-control' rows='5' readonly>$descricao </textarea>
-                                    </div>  
-
-                                </div>
-
-                                <div class='modal-footer justify-content-between'>
-                                    <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
-                                </div>
-                            
-                            </div>
-                        <!-- /.modal-content -->
-                        </div>
-                    <!-- /.modal-dialog -->
-                    </div>
-                            
-                    ";
-                       
-                    }
 
                     } 
               
@@ -227,7 +174,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
             preConfirm: () => {
-                location.href='inativar/plano/'+codigo;
+                location.href='status/plano/'+codigo;
             }
         })
 	

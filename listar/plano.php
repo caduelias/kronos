@@ -34,7 +34,7 @@
                     <tr>
                         <th width="15%">Status</th> 
                         <th width="20%">Plano</th>
-                        <th width="10%">Taxa Adesão</th>
+                        <th width="10%">Mensalidade</th>
                         <th width="20%">Ações</th>       
                     </tr>             
                 </thead>
@@ -45,7 +45,7 @@
 					$sql = "
                     
                     SELECT * FROM Plano
-                    WHERE codigo_plano = codigo_plano AND ativo = 1
+                    WHERE codigo_plano = codigo_plano AND status = 1
                     ORDER by nome_plano;
                     
                     ";
@@ -53,11 +53,10 @@
                     $consulta = $pdo->prepare($sql);
                     $consulta->execute();
 
-                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
-                    {
+                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) {
                     
                     $codigo_plano = $linha->codigo_plano;
-                    $ativo = $linha->ativo;
+                    $status = $linha->status;
                     $nome_plano 	= $linha->nome_plano;
                     $taxa_adesao = $linha->taxa_adesao;
                     $mensalidade = $linha->mensalidade;
@@ -77,20 +76,17 @@
                     ',',
                     '.');
                     
-                    if ($ativo === '1')
-                    {
-                        $ativo = "<p class='text-success'>Ativo</p>";
-                    } 
-                    else if ($ativo === '0')
-                    {
-                        $ativo = "<p class='text-danger'>Inativo</p>";
+                    if ($status === '1'){
+                        $status = "<p class='text-success'>Ativo</p>";
+                    } else if ($status === '0'){
+                        $status = "<p class='text-danger'>Inativo</p>";
                     } 
 
                     echo "
                         <tr>
-                            <td class='text-uppercase'>$ativo</td>
+                            <td class='text-uppercase'>$status</td>
                             <td class='text-uppercase'>$nome_plano</td>
-                            <td class='text-uppercase'>R$$taxa_adesao</td>
+                            <td class='text-uppercase'>R$$mensalidade</td>
                             <td class='text-center'>
                             <a href='javascript:inativar($codigo_plano)' class='btn btn-danger m-1'><i class='fas fa-times'></i></a>
                             <a href='cadastros/plano/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
@@ -115,6 +111,10 @@
 
                                 <div class='modal-body'>
 
+                                    <div class='form-group'>
+                                        <label for='taxa'>Taxa de adesão:</label>
+                                        <input type='text' class='form-control' value='R$$taxa_adesao reais' readonly>  
+                                    </div>
                                     <div class='form-group'>
                                         <label for='valor'>Valor da mensalidade:</label>
                                         <input type='text' class='form-control' value='R$$mensalidade reais' readonly>  
@@ -157,7 +157,7 @@
         
         Swal.fire({      
             title: 'Inativar Item?',
-            text: "O item ficará inacessível!",
+            text: "O item ficará indisponível!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -166,7 +166,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
             preConfirm: () => {
-                location.href='inativar/plano/'+codigo;
+                location.href='status/plano/'+codigo;
             }
         })
 	

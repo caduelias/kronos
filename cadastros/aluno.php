@@ -8,51 +8,56 @@
 
     include "config/funcoes.php";
 
-    if ( isset ($p[2]) ) 
-    {
+    if ( isset ($p[2]) ) {
     $codigo_aluno =  base64_decode($p[2]);
 
-    // SELECT DADOS TABELA ALUNO
-    $sql = " SELECT a.*, e.*, t.num_telefone, t.num_celular, date_format(a.data_nasc,'%d/%m/%Y') as nascimento, date_format(a.data_cadastro,'%d/%m/%Y') as data, h.codigo_horario, h.horario_treino FROM Aluno a, Horario h, Endereco e, Telefone t
-    WHERE a.codigo_aluno = :codigo_aluno and a.Horario_codigo_horario = h.codigo_horario and e.codigo_endereco = a.Endereco_codigo_endereco and a.codigo_aluno = t.Aluno_codigo_aluno
-    ORDER by codigo_aluno";
-          
+    // SELECT DADOS TABELA ALUNO, ENDERECO, TELEFONE
+    $sql = "  SELECT a.*,
+                    e.*, 
+                    t.* 
+                    date_format(a.data_nasc,'%d/%m/%Y') as nascimento, 
+                    date_format(a.data_cadastro,'%d/%m/%Y') as data 
+                FROM Aluno a
+                INNER JOIN Endereco e ON e.codigo_endereco = a.Endereco_codigo_endereco
+                INNER JOIN Telefone t ON t.Aluno_codigo_aluno = a.codigo_aluno
+                WHERE a.codigo_aluno = :codigo_aluno 
+                LIMIT 1; 
+    ";
+
     $consulta = $pdo->prepare( $sql );
     $consulta->bindValue(":codigo_aluno",$codigo_aluno);
     $consulta->execute();
       
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-     // Tabela Aluno
-     $codigo_aluno = $dados->codigo_aluno;
-     $data_cadastro = $dados->data;
-     $nome_aluno = $dados->nome_aluno;
-     $data_nasc 	= $dados->nascimento;
-     $sexo = $dados->sexo;
-     $rg = $dados->rg;
-     $cpf = $dados->cpf;
-     $objetivo = $dados->objetivo;
-     $email = $dados->email;
-     $ativo = $dados->ativo;
-     
-     // Tabela Horario
-     $codigo_horario = $dados->codigo_horario;
-     $horario_treino = $dados->horario_treino;
+    // Tabela Aluno
+    $codigo_aluno = $dados->codigo_aluno;
+    $codigo_usuario = $dados->Usuario_codigo_usuario;
+    $codigo_endereco = $dados->Endereco_codigo_endereco;
+    $nome_aluno = $dados->nome_aluno;
+    $data_nasc 	= $dados->data_nasc;
+    $sexo = $dados->sexo;
+    $rg = $dados->rg;
+    $cpf = $dados->cpf;
+    $objetivo = $dados->objetivo;
+    $email = $dados->email;
+    $status = $dados->status;
+    $dependente = $dados->dependente;
+    $codigo_dependente = $dados->codigo_aluno_dependente;
+    $data_cadastro = $dados->data_cadastro;
 
-     // Tabela Endereco
-     $estado = $dados->estado;
-     $cidade = $dados->cidade;
-     $bairro = $dados->bairro;
-     $rua = $dados->rua;
-     $numero = $dados->numero;
+    // Tabela Endereco
+    $estado = $dados->estado;
+    $cidade = $dados->cidade;
+    $bairro = $dados->bairro;
+    $rua = $dados->rua;
+    $numero = $dados->numero;
 
-     // Tabela Telefone
-     $num_telefone = $dados->num_telefone;
-     $num_celular = $dados->num_celular;
-      
-      
+    // Tabela Telefone
+    $num_telefone = $dados->num_telefone;
+    $num_celular = $dados->num_celular;
+       
     }   
-
 
 ?>
 <div class="content-wrapper">
@@ -73,60 +78,60 @@
           
       <div class="card-body">
      
-     
-        
-          
-              <div class="form-group">
-                <label for="status">Status:</label>
-                  <select id="ativo" class="form-control" name="ativo" required data-parsley-required-message="Selecione!">
-                      <option value="">Selecione...</option>
-                      <option value="0">Inativo</option>
-                      <option value="1" selected>Ativo</option>    
-                  </select>
-              </div>
+        <div class="row">
+
+          <div class="col-4">
+            <div class="form-group">
+              <label for="status">Status:</label>
+                <select id="status" class="form-control" name="status" required data-parsley-required-message="Selecione!">
+                    <option value="">Selecione...</option>
+                    <option value="0">Inativo</option>
+                    <option value="1">Ativo</option>    
+                </select>
+                <script type="text/javascript">
+                $("#status").val('<?=$status;?>');
+            </script>
+            </div> 
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <label for="data">Data de Nascimento:</label>
+              <input type="text" class="form-control date" name="data_nascimento" value="<?=$data_nasc;?>" placeholder="00/00/0000" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
+            </div>
+          </div>
             
+          <div class="col-4">
+            <div class="form-group">
+              <label for="sexo">Gênero:</label>
+              <select class="form-control" name="sexo" id="sexo" required data-parsley-required-message="Selecione!">
+                  <option value="">Selecione...</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>    
+              </select>
+              <script type="text/javascript">
+                $("#sexo").val('<?=$sexo;?>');
+            </script>
+            </div>
+          </div>
 
         </div>
                       
-        <div class="row">
-            
-          <div class="col-6">
-              <div class="form-group">
-                <input type="hidden" class="form-control" name="codigo_aluno"  value="<?=$codigo_aluno;?>">
-                  <label for="nome">Nome do Aluno:</label>
-                  <input type="text" class="form-control" name="nome_aluno" value="<?=$nome_aluno;?>" autofocus maxlength="80" onkeypress="return ApenasLetras(event,this);" placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
-              </div>
-          </div>
+        <div class="form-group">
 
-          <div class="col-3">
-              <div class="form-group">
-                <label for="data">Data de Nascimento:</label>
-                <input type="text" class="form-control date" name="data_nascimento" value="<?=$data_nasc;?>" placeholder="00/00/0000" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
-              </div>
-          </div>
-          
-          <div class="col-3">
-              <div class="form-group">
-                <label for="sexo">Gênero:</label>
-                <select class="form-control" name="sexo" id="sexo" required data-parsley-required-message="Selecione!">
-                    <option value="">Selecione...</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Feminino</option>    
-                </select>
-                <script type="text/javascript">
-                  $("#sexo").val('<?=$sexo;?>');
-              </script>
-              </div>
-          </div>
+          <input type="hidden" class="form-control" name="codigo_aluno"  value="<?=$codigo_aluno;?>">
+          <input type="hidden" class="form-control" name="dependente"  value="<?=$dependente;?>">
 
-        </div>             
+          <label for="nome">Nome do Aluno:</label>
+            <input type="text" class="form-control" name="nome_aluno" value="<?=$nome_aluno;?>" autofocus maxlength="80" onkeypress="return ApenasLetras(event,this);" placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">        
+        </div>
 
         <div class="row">
 
           <div class="col-6">
             <div class="form-group">
               <label for="rg">RG:</label>
-              <input type="text" class="form-control12" name="rg" value="<?=$rg;?>" placeholder="Informe um RG"  required data-parsley-required-message="<i class='fas fa-times'></i> Campo RG é obrigatório!!">
+              <input type="text" class="form-control" name="rg" value="<?=$rg;?>" placeholder="Informe um RG"  required data-parsley-required-message="<i class='fas fa-times'></i> Campo RG é obrigatório!!">
             </div>
                       
             <div class="form-group">
@@ -153,7 +158,7 @@
         
         <div class="row">
 
-          <div class="col-5">
+          <div class="col-6">
             <div class="form-group">
               <label for="telefone">Telefone:</label>
               <input type="text" class="form-control telefone" name="num_telefone" value="<?=$num_telefone;?>" placeholder="(00)00000-0000" required data-parsley-required-message="<i class='fas fa-times'></i> Informe um número!">
@@ -164,52 +169,13 @@
               <input type="text" class="form-control telefone" name="num_celular" value="<?=$num_celular;?>" placeholder="(00)00000-0000">
             </div>
           </div>
-
-          <div class="col-1">
-          </div>
-                   
+          
           <div class="col-6">
               <div class="form-group">
                 <label>Objetivo:</label>
                 <textarea class="form-control" rows="3" name="objetivo" maxlength="150" placeholder="Objetivo do aluno..."><?=$objetivo;?></textarea>
-              </div>   
-  <!-- 
-            <div class="form-group">
-              <label for="tipo">Tipo:</label>
-              <select class="form-control" name="tipo" required data-parsley-required-message="Selecione!">
-                  <option value="">Selecione...</option>
-                  <option value="0">Dependente</option>
-                  <option value="1" selected>Individual</option>    
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="dependente">Dependente:</label>
-              <select list="dependente" id="dependente" name="codi" placeholder="Selecione..." class="form-control">
-                  <option value="">Selecione...</option>
-                  <datalist id="dependente">
-                    <?php /*
-                      $sql = "
-                      
-                        SELECT codigo_aluno, nome_aluno FROM Aluno 
-                        WHERE ativo = 1 ORDER BY codigo_aluno
-                        
-                        ";
-                        $consulta = $pdo->prepare( $sql );
-                        $consulta->execute();
-                    
-                        while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
-                        {
-                          echo "<option value='$dados->codigo_aluno'>$dados->nome_aluno</option>";
-
-                        } 
-                        */
-                    ?>
-                  </datalist> 
-                </select>
-            </div>
-  -->
-          </div>
+              </div> 
+          </div>   
 
         </div>
                     

@@ -1,4 +1,3 @@
-
 <?php 
     
     if ( !isset ($pagina ) ) {
@@ -90,6 +89,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+                <a href="cadastros/horario" class="nav-link">
+                <i class="nav-icon fas fa-clock"></i>
+                  <p>Horário</p>
+                </a>
+              </li>
+
               <li class="nav-item">
                 <a href="cadastros/modalidade" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
@@ -130,13 +137,6 @@
                 }
               ?>
 
-
-              <li class="nav-item">
-                <a href="cadastros/horario" class="nav-link">
-                <i class="nav-icon fas fa-clock"></i>
-                  <p>Horário</p>
-                </a>
-              </li>
               <li class="nav-item">
                 <a href="cadastros/aluno" class="nav-link">
                 <i class="nav-icon fas fa-male"></i>
@@ -152,8 +152,6 @@
 
             </ul>
 
-
-           
           <li class="nav-item has-treeview">
             <a class="nav-link">
               <i class="nav-icon fas fa-list"></i>

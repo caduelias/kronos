@@ -387,3 +387,18 @@ INSERT INTO `Perfil` (`codigo_perfil`, `descricao`) VALUES
 (3, 'Instrutor'),
 (4, 'Aluno');
 
+INSERT INTO `Tipo_Treino` (`codigo_tipo_treino`, `descricao`) VALUES
+(1, 'Metabólico'),
+(2, 'Hipertrofia'),
+(3, 'Intervalado'),
+(4, 'Funcional');
+
+INSERT INTO `Endereco` (`codigo_endereco`, `estado`, `cidade`, `bairro`, `rua`, `numero`) VALUES
+(1, 'PR', 'Douradina', 'Jardim Molivera', 'Catanduva', '210'),
+(2, 'MS', 'Campo Grande', 'Campo Belo', 'Rua Anchieta', '5667'),
+(3, 'RN', 'Augusto Severo', 'Vila Olimpia', 'São Paulo', '5667');
+
+INSERT INTO `Usuario` (`codigo_usuario`, `Endereco_codigo_endereco`, `Perfil_codigo_perfil`, `nome`, `login`, `senha`, `status`, `email`, `data`) VALUES
+(1, 1, 1, 'Master', 'master', '$2y$10$il3cPp0FHZ65w7WWbMF9PuyufpJawMXp6dbE7JVHzmF6Ogbwn/VvC', 1, 'master@master.com', '2020-01-04'),
+(2, 2, 2, 'Admin', 'admin', '$2y$10$6vwRPSvkrB6OZ9VMeBhilufdwG/Cb6ntPwXpth4zAvH8XWXp.ghr.', 1, 'admin@admin.comf', '2020-01-04'),
+(3, 3, 3, 'Instrutor', 'instrutor', '$2y$10$/g28m/RJ/up4BTDOX9Ntt.E1xObixppt75R/ljbhvOiR5mHIy5r4G', 1, 'instrutor@instrutor.com', '2020-01-04');

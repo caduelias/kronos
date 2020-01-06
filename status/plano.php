@@ -11,17 +11,14 @@
 	if ( isset ( $p[2] ) ) {
         $codigo = (int)$p[2];
 
-    if (empty($codigo) ) 
-    {
-        $titulo = "";
-        $mensagem = "Parâmetros inválidos!";
+    if (empty($codigo) ) {
+        $titulo = "Plano não encontrado!";
+        $mensagem = "Parâmetros inválidos";
         $link = "listar/plano";
         errorLink($titulo, $mensagem, $link);
         exit;
-    } 
-    else 
-    {
-        $sql = "SELECT codigo_plano, ativo FROM Plano WHERE codigo_plano = ?";
+    } else {
+        $sql = "SELECT codigo_plano, status FROM Plano WHERE codigo_plano = ?";
         $consulta = $pdo->prepare( $sql );
         $consulta->bindParam(1,$codigo);
     }
@@ -30,69 +27,56 @@
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
     $codigo_plano = $dados->codigo_plano;
-    $ativo = $dados->ativo;
+    $status = $dados->status;
     
-    if ($ativo == 1) 
-    {
-        $sql = "
+    if ($codigo_plano && $status == "1") {
         
+        $sql = "
         UPDATE Plano
-		SET ativo = 0 
+		SET status = 0 
 		WHERE codigo_plano = :codigo_plano
         LIMIT 1
-        
         ";
         
 		$consulta = $pdo->prepare($sql);
 		$consulta->bindValue(":codigo_plano",$codigo_plano);
 
-        if ( $consulta->execute() )
-        {
+        if ( $consulta->execute() ){
             $mensagem = "Status alterado!";
             $link = "listar/plano-inativo";
             sucessLink($titulo, $mensagem, $link);
-        } 
-        else 
-        {
+        } else {
             $mensagem = "Não foi possível alterar o Status!";
             $link = "listar/plano";
             errorLink($titulo, $mensagem, $link);
 		}
     
-     } 
-     else if ($ativo == 0) 
-     {
+    } 
+     
+    if ($codigo_plano && $status == "0") {
 
 		$sql = "
-        
         UPDATE Plano
-		SET ativo = 1 
+		SET status = 1 
 		WHERE codigo_plano = :codigo_plano
         LIMIT 1
-        
         ";
         
 		$consulta = $pdo->prepare($sql);
 		$consulta->bindValue(":codigo_plano",$codigo_plano);
 
-        if ( $consulta->execute() ) 
-        {
+        if ( $consulta->execute() ) {
             $mensagem = "Status alterado!";
             $link = "listar/plano";
             sucessLink($titulo, $mensagem, $link);
-        } 
-        else 
-        {
+        } else {
             $mensagem = "Não foi possível alterar o Status!";
-            $link = "listar/plano";
+            $link = "listar/plano-inativo";
             errorLink($titulo, $mensagem, $link);
 		}
     }
     
-
-    } 
-    else 
-    {
+    } else {
         $mensagem = "Parâmetros inválidos!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

@@ -13,6 +13,16 @@
     "web",
     "admin"
   ],
+  "autoload": {
+    "psr-4": {
+        "Kronos\\": "kronos/"
+    }
+  },
+  "require": {
+    "mpdf/mpdf": "^v8.0.3",
+    "phpoffice/phpword": "v0.16.*",
+    "dompdf/dompdf": "v0.8.3"
+  },
   "authors": [
     {
       "name": "Colorlib"
@@ -22,4 +32,6 @@
   "support": {
     "issues": "https://github.com/ColorlibHQ/AdminLTE/issues"
   }
+
+  
 }

@@ -10,19 +10,14 @@
 
 	if ( isset ( $p[2] ) )
         $parametro = (int)$p[2];
-        
-    //$codigo =  base64_decode($param);
 
-    if ( empty($parametro) ) 
-    {
-        $titulo = "Erro";
-        $mensagem = "Parâmetros inválidos!";
+    if ( empty($parametro) ) {
+        $titulo = "Treino não encontrado!";
+        $mensagem = "Parâmetros inválidos";
         $link = "listar/treino";
         errorLink($titulo, $mensagem, $link);
         exit;
-    }
-    else 
-    {
+    } else {
         $sql = "SELECT t.codigo_treino from Treino as t, Exercicio as e, Treino_Modalidade as tm WHERE t.codigo_treino = :codigo_treino and tm.Treino_codigo_treino = t.codigo_treino and t.codigo_treino = e.Treino_codigo_treino limit 1";
         $consulta = $pdo->prepare( $sql );
         $consulta->bindValue(":codigo_treino",$parametro);
@@ -33,23 +28,21 @@
 
     $codigo_treino = $dados->codigo_treino;
 
-    if ( !isset ($codigo_treino) )
-    {
-        $sql = "SELECT codigo_treino, ativo from Treino where codigo_treino = :codigo_treino limit 1";
+    if ( !isset($codigo_treino) ) {
+        $sql = "SELECT codigo_treino, status from Treino where codigo_treino = :codigo_treino limit 1";
         $consulta = $pdo->prepare( $sql );
         $consulta->bindValue(":codigo_treino",$parametro);
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
         
         $codigo_treino = $dados->codigo_treino;
-        $ativo = $dados->ativo;
+        $status = $dados->status;
 
-        if ($ativo === '0')
-        {
+        if ($codigo_treino && $status == '0') {
             $sql = "
         
             UPDATE Treino
-            SET ativo = 1 
+            SET status = 1 
             WHERE codigo_treino = :codigo_treino
             LIMIT 1
             
@@ -58,34 +51,21 @@
             $consulta = $pdo->prepare($sql);
             $consulta->bindValue(":codigo_treino",$codigo_treino);
     
-            if ( $consulta->execute() )
-            {
+            if ( $consulta->execute() ) {
                 $mensagem = "Status alterado!";
                 $link = "listar/treino";
                 sucessLink($titulo, $mensagem, $link);
-            } 
-            else 
-            {
+            } else {
                 $mensagem = "Não foi possível alterar o Status!";
                 $link = "listar/treino-inativo";
                 errorLink($titulo, $mensagem, $link);
             }
-        }
-        else if ($ativo === '1')
-        {
-            $sql = "SELECT codigo_treino, ativo from Treino where codigo_treino = :codigo_treino limit 1";
-            $consulta = $pdo->prepare( $sql );
-            $consulta->bindValue(":codigo_treino",$parametro);
-            $consulta->execute();
-            $dados = $consulta->fetch(PDO::FETCH_OBJ);
-            
-            $codigo_treino = $dados->codigo_treino;
-            $ativo = $dados->ativo;
 
+        } else if ($codigo_treino && $status == '1') {
             $sql = "
         
             UPDATE Treino
-            SET ativo = 0 
+            SET status = 0 
             WHERE codigo_treino = :codigo_treino
             LIMIT 1
             
@@ -94,29 +74,22 @@
             $consulta = $pdo->prepare($sql);
             $consulta->bindValue(":codigo_treino",$codigo_treino);
     
-            if ( $consulta->execute() )
-            {
+            if ( $consulta->execute() ) {
                 $mensagem = "Status alterado!";
                 $link = "listar/treino-inativo";
                 sucessLink($titulo, $mensagem, $link);
-            } 
-            else 
-            {
+            } else {
                 $mensagem = "Não foi possível alterar o Status!";
                 $link = "listar/treino";
                 errorLink($titulo, $mensagem, $link);
             }
-        }
-        else 
-        {   
+        } else {   
             $titulo = "Erro!";
             $mensagem = "Não foi possível alterar o Status!";
             errorBack($titulo, $mensagem);
         }
 
-    } 
-    else 
-    {
+    } else {
 		$titulo = "Erro";
         $mensagem = "Existem exercícios registrados neste treino!";
         $link = "listar/treino";

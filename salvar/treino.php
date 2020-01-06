@@ -8,9 +8,7 @@
 
     include "config/funcoes.php";
 
-
-    if ( $_POST ) 
-    {
+    if ( $_POST ) {
         
         foreach ($_POST as $key => $value) 
         {
@@ -22,62 +20,49 @@
             } 
         }
   
-        if ( empty( $nome_treino ) ) 
-        {
+        if ( empty( $nome_treino ) ) {
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
-        } 
-        else if ( empty( $codigo_modalidade ) ) 
-        {
+        } else if ( empty( $codigo_modalidade ) ) {
             $mensagem = "Selecione uma modalidade!";
             warning($titulo, $mensagem);
         } 
         
-        //var_dump($_POST);
-     
-
-        if ( empty ( $codigo_treino ) ) 
-        {
+        if ( empty ( $codigo_treino ) ) {
             // SELECT BUSCANDO TREINO COM O TREINO INFORMADO
             $sql = "SELECT t.codigo_treino FROM Treino as t, Treino_Modalidade as tm WHERE nome_treino = ? AND t.codigo_treino = tm.Treino_codigo_treino AND tm.Modalidade_codigo_modalidade = ? LIMIT 1 ";
             $consulta = $pdo->prepare( $sql );
             $consulta->bindParam(1,$nome_treino);
             $consulta->bindParam(2,$codigo_modalidade);
 
-        } 
-        else 
-        {
+        } else {
             // SELECT BUSCANDO TREINO ONDE FOR DIFERENTE DO PRÓPIO TREINO
             $sql = "
 
             SELECT t.codigo_treino FROM Treino t, Treino_Modalidade tm WHERE t.nome_treino = :nome AND t.codigo_treino <> :treino AND tm.Treino_codigo_treino <> t.codigo_treino AND tm.Modalidade_codigo_modalidade = :modalidade LIMIT 1
         
-           " ;
+            ";
             
             $consulta = $pdo->prepare( $sql );
             $consulta->bindValue(":nome",$nome_treino);
             $consulta->bindParam(":treino",$codigo_treino);
             $consulta->bindParam(":modalidade",$codigo_modalidade);
-
         }
 
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        if ( isset ( $dados->codigo_treino ) ) 
-        {
+        if ( isset ( $dados->codigo_treino ) ) {
             // ALERTA
             $mensagem = "Este treino já foi cadastrado nesta modalidade!";
             warning($titulo, $mensagem);
             exit;
         }
            
-        
         // *****************START TRANSACTION************************
         $pdo->beginTransaction();
 
-        if ( empty ( $codigo_treino ) ) 
-        {
+        if ( empty ( $codigo_treino ) ) {
 			// INSERT
 			$sql = "
             
@@ -85,7 +70,7 @@
             START TRANSACTION;
             
             INSERT INTO Treino
-            (codigo_treino, nome_treino, descricao, tipo_treino, ativo)
+            (codigo_treino, nome_treino, descricao, tipo_treino, status)
             VALUES 
             (NULL, :nome_treino, :descricao, :tipo_treino, 1);
 
@@ -109,9 +94,7 @@
              // Tabela Treino_Modalidade
             $consulta->bindValue(":codigo_modalidade",$codigo_modalidade);
 
-        } 
-        else 
-        { 
+        } else { 
 			// UPDATE
             $sql = "
 
@@ -141,10 +124,8 @@
             $consulta->bindValue(":codigo_modalidade",$codigo_modalidade);
 
 		}
-
 		
-        if ( $consulta->execute() ) 
-        {
+        if ( $consulta->execute() ) {
 			// COMMIT
             $pdo->commit();
             // ALERTA
@@ -152,9 +133,7 @@
             $link = "listar/treino";
 			sucessLink($titulo, $mensagem, $link);
 
-        } 
-        else 
-        {
+        } else {
             // ROLLBACK
             $pdo->rollBack();
             //echo $consulta->errorInfo()[2];
@@ -163,11 +142,8 @@
             errorBack( $titulo, $mensagem );
             exit;
 		}
-       
-    // !POST       
-    } 
-    else 
-    {
+            
+    } else {
         // ALERTA
         $mensagem = "Requisição Inválida!";
         $link = "index.php";

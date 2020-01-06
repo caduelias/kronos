@@ -6,7 +6,7 @@
 	$usuario = "admin";
 	$senha = "123";
 	//selecionar banco IMC
-	$banco = "kronos_v1.0";
+	$banco = "kronos_v1.1";
 	
 	$charset = "utf8";
 	try {

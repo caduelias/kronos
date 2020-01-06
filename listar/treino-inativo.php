@@ -16,7 +16,7 @@
             <div class="row">
 
                 <div class="col-6">
-                    <h3 class="text-uppercase">Treinos</h3>
+                    <h4 class="text-uppercase">Treinos</h4>
                 </div>
                 
                 <div class="col-6">
@@ -44,7 +44,7 @@
 					$sql = "
                     
                     SELECT t.codigo_treino, t.nome_treino, t.descricao, m.nome_modalidade FROM Treino as t, Treino_Modalidade as tm, Modalidade as m
-                    WHERE t.codigo_treino = tm.Treino_codigo_treino and m.codigo_modalidade = tm.Modalidade_codigo_modalidade and t.ativo = 0
+                    WHERE t.codigo_treino = tm.Treino_codigo_treino and m.codigo_modalidade = tm.Modalidade_codigo_modalidade and t.status = 0
                     ORDER by m.nome_modalidade;
                     
                     ";
@@ -52,8 +52,7 @@
                     $consulta = $pdo->prepare($sql);
                     $consulta->execute();
 
-                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
-                    {
+                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) {
 
                     $codigo_treino 	= $linha->codigo_treino;
                     $nome_treino 	= $linha->nome_treino;
@@ -70,7 +69,6 @@
                             <td class='text-uppercase'>$nome_treino</td>
                             <td class='text-center'> 
                             <a href='javascript:ativar($codigo_treino)' class='btn btn-success m-1'><i class='fas fa-check'></i></a>
-                            <a href='cadastros/treino/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
                             <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
                             <i class='fas fa-folder-open'></i>
                             </a>
@@ -138,7 +136,7 @@
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    location.href='inativar/treino/'+codigo;
+                    location.href='status/treino/'+codigo;
                 }
         })
 	

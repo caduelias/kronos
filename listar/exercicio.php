@@ -33,7 +33,8 @@
                 <thead>
                     <tr>
                         <th width="10%">Treino</th> 
-                        <th width="50%">Exercício</th>
+                        <th width="20%">Exercício</th>
+                        <th width="20%">Tipo</th>
                         <th width="20%">Ações</th>       
                     </tr>             
                 </thead>
@@ -52,12 +53,12 @@
                     $consulta = $pdo->prepare($sql);
                     $consulta->execute();
 
-                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) 
-                    {
+                    while ( $linha = $consulta->fetch(PDO::FETCH_OBJ)) {
                     
                     $codigo_exercicio = $linha->codigo_exercicio;
+                    $tipo_exercicio = $linha->tipo_exercicio;
                     $nome_exercicio = $linha->nome_exercicio;
-                    $nome_treino 	= $linha->nome_treino;
+                    $nome_treino = $linha->nome_treino;
                     $arquivo = $linha->arquivo;
                 
                     $descricao = $linha->descricao;
@@ -68,10 +69,19 @@
 
                     $codigo = base64_encode($codigo_exercicio);
                     
+                    if ($tipo_exercicio == "1") {
+                        $tipo_exercicio = "Aparelho";
+                    } else if ($tipo_exercicio == "2") {
+                        $tipo_exercicio = "Aeróbico";
+                    } else if ($tipo_exercicio == "3") {
+                        $tipo_exercicio = "Anaeróbico";
+                    }
+
                     echo "
                         <tr>
                             <td class='text-uppercase'>$nome_treino</td>
                             <td class='text-uppercase'>$nome_exercicio</td>
+                            <td class='text-uppercase'>$tipo_exercicio</td>
                             <td class='text-center'> 
                             <a href='javascript:excluir($codigo_exercicio)' class='btn btn-danger m-1'><i class='fas fa-trash'></i></a>
                             <a href='cadastros/exercicio/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
