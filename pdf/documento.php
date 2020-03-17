@@ -2,12 +2,10 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$html = trim ($_GET["html"] );
-
-$pagina = base64_decode($html);
+$html = file_getk_contents('exemplo.html');
 $nome = time();
-
+h
 $mpdf = new \Mpdf\Mpdf(['tempDir' => '/tmp']);
-$mpdf->WriteHTML($pagina);
+$mpdf->WriteHTML($html);
 $mpdf->Output($nome, "I");
 

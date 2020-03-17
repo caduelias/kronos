@@ -21,7 +21,7 @@
   "require": {
     "mpdf/mpdf": "^v8.0.3",
     "phpoffice/phpword": "v0.16.*",
-    "dompdf/dompdf": "v0.8.3"
+    "dompdf/dompdf": "^0.8.3"
   },
   "authors": [
     {
