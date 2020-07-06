@@ -62,9 +62,9 @@
             $sql = "
              
             INSERT INTO Plano
-            (codigo_plano, status, nome_plano, taxa_adesao, mensalidade, descricao, dependentes, qtd_dependentes)
+            (codigo_plano, status, nome_plano, taxa_adesao, mensalidade, descricao)
             VALUES 
-            (NULL, :status, :nome_plano, :taxa_adesao, :mensalidade, :descricao, :dependentes, :qtd_dependentes);
+            (NULL, :status, :nome_plano, :taxa_adesao, :mensalidade, :descricao);
            
             ";
 
@@ -76,8 +76,6 @@
             $consulta->bindValue(":taxa_adesao",$taxa_adesao);
             $consulta->bindValue(":mensalidade",$mensalidade);
             $consulta->bindValue(":descricao",$descricao);
-            $consulta->bindValue(":dependentes",$dependentes);
-            $consulta->bindValue(":qtd_dependentes",$qtd_dependentes);
 
             
         } else { 
@@ -88,10 +86,8 @@
             status = :status, 
             taxa_adesao = :taxa_adesao, 
             mensalidade = :mensalidade, 
-            descricao = :descricao,
-            dependentes = :dependentes,
-            qtd_dependentes = :qtd_dependentes
-
+            descricao = :descricao
+        
             WHERE codigo_plano = :codigo_plano LIMIT 1
            
             ";
@@ -105,8 +101,6 @@
             $consulta->bindValue(":mensalidade",$mensalidade);
             $consulta->bindValue(":descricao",$descricao);
             $consulta->bindValue(":codigo_plano",$codigo_plano);
-            $consulta->bindValue(":dependentes",$dependentes);
-            $consulta->bindValue(":qtd_dependentes",$qtd_dependentes);
 
 		}
 

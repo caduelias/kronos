@@ -8,7 +8,7 @@
 
     include "config/funcoes.php";
       
-    $codigo_exercicio	= $codigo_treino = $nome_treino = $duracao = $descricao = $tipo_exercicio = $peso_inicial = "";
+    $codigo_exercicio	= $codigo_treino = $nome_treino = $duracao = $descricao = $tipo_exercicio = $peso_inicial = $nome_exercicio = "";
 
     if ( isset ($p[2]) ) 
     {

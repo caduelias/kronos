@@ -110,7 +110,7 @@
 
                   <div class="col-6">
 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="dependentes">Dependentes:</label>
                     <select id="dependentes" class="form-control" name="dependentes" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
                         <option value="">Selecione... </option>
@@ -122,9 +122,9 @@
                         $("#dependentes").val('<?=$dependentes;?>');
                     </script>
 
-                  </div>
+                  </div> -->
 
-                  </div>
+                  </div> 
 
             </div>
 
@@ -145,10 +145,10 @@
               </div>
 
               <div class="col-6">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                       <label for="quantidade">Quantidade dependentes:</label>
                       <input type="number" class="form-control" name="qtd_dependentes" value="<?=$qtd_dependentes;?>" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha!" >
-                  </div>
+                  </div> -->
               </div>
             </div>
 

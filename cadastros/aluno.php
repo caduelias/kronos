@@ -8,18 +8,23 @@
 
     include "config/funcoes.php";
 
+    $codigo_aluno = $nome_exercicio = $codigo_usuario = $codigo_endereco = $nome_aluno = $data_nasc = $sexo = $rg = $cpf = $objetivo = $email = $status = $dependente = $codigo_dependente = $data_cadastro = $rua = $bairro = $numero = "";
+
     if ( isset ($p[2]) ) {
     $codigo_aluno =  base64_decode($p[2]);
 
     // SELECT DADOS TABELA ALUNO, ENDERECO, TELEFONE
+    // $sql = "select * from aluno";
     $sql = "  SELECT a.*,
                     e.*, 
-                    t.* 
+                    t.*, 
+                    m.*,
                     date_format(a.data_nasc,'%d/%m/%Y') as nascimento, 
                     date_format(a.data_cadastro,'%d/%m/%Y') as data 
-                FROM Aluno a
-                INNER JOIN Endereco e ON e.codigo_endereco = a.Endereco_codigo_endereco
-                INNER JOIN Telefone t ON t.Aluno_codigo_aluno = a.codigo_aluno
+                FROM aluno a
+                INNER JOIN endereco e ON e.codigo_endereco = a.Endereco_codigo_endereco
+                INNER JOIN telefone t ON t.Aluno_codigo_aluno = a.codigo_aluno
+                LEFT JOIN mensalidade m ON m.Aluno_codigo_aluno = a.codigo_aluno
                 WHERE a.codigo_aluno = :codigo_aluno 
                 LIMIT 1; 
     ";
@@ -56,7 +61,9 @@
     // Tabela Telefone
     $num_telefone = $dados->num_telefone;
     $num_celular = $dados->num_celular;
-       
+
+    // Tabela Mensalidade
+    $codigo_plano= $dados->Plano_codigo_plano;
     }   
 
 ?>
@@ -119,11 +126,92 @@
                       
         <div class="form-group">
 
-          <input type="hidden" class="form-control" name="codigo_aluno"  value="<?=$codigo_aluno;?>">
-          <input type="hidden" class="form-control" name="dependente"  value="<?=$dependente;?>">
+          <input type="hidden" class="form-control" name="codigo_aluno" value="<?=$codigo_aluno;?>">
+          <input type="hidden" class="form-control" name="dependente" value="<?=$dependente;?>">
 
           <label for="nome">Nome do Aluno:</label>
             <input type="text" class="form-control" name="nome_aluno" value="<?=$nome_aluno;?>" autofocus maxlength="80" onkeypress="return ApenasLetras(event,this);" placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">        
+        </div>
+
+        <?php
+
+        $required = "";
+        if ( empty ( $modalidade ) ) {
+          $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione\" ";
+        }
+
+        if ( empty ( $codigo_plano ) ) {
+          $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione\" ";
+        }
+
+        ?>
+
+        <div class="row">
+          <div class="col-6">
+              <div class="form-group">
+                <label>Modalidade:</label>
+                <select class="form-control select2" style="width: 100%;" name="modalidade[]" list="modalidades" id="modalidade" multiple="multiple" placeholder="Selecione..." <?=$required;?>>
+                  <datalist id="modalidades">
+                    <?php
+
+                      $sql = "
+                        SELECT codigo_modalidade, nome_modalidade FROM modalidade 
+                        WHERE status = 1 ORDER BY codigo_modalidade
+                        ";
+                        $consulta = $pdo->prepare( $sql );
+                        $consulta->execute();
+                    
+                        while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
+                        {
+
+                          echo "<option value='$dados->codigo_modalidade'>$dados->nome_modalidade</option>";
+
+                        }
+                      
+                    ?>
+                  </datalist> 
+
+                </select>
+
+                <!-- <script type="text/javascript">
+                  $("#modalidade").val('<?=$modalidade;?>');
+                </script> -->
+
+              </div>
+          </div>
+          <div class="col-6">
+          <div class="form-group">
+                <label>Plano:</label>
+                <select class="form-control" name="codigo_plano" list="planos" id="codigo_plano" placeholder="Selecione..." <?=$required;?>>
+                  <option value="">Selecione...</option>
+                  <datalist id="planos">
+                    <?php
+
+                      $sql = "
+                        SELECT codigo_plano, nome_plano FROM plano 
+                        WHERE status = 1 ORDER BY codigo_plano
+                        ";
+                        $consulta = $pdo->prepare( $sql );
+                        $consulta->execute();
+                    
+                        while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
+                        {
+
+                          echo "<option value='$dados->codigo_plano'>$dados->nome_plano</option>";
+
+                        }
+                      
+                    ?>
+                  </datalist> 
+
+                </select>
+
+                <script type="text/javascript">
+                  $("#codigo_plano").val('<?=$codigo_plano;?>');
+                </script>
+
+              </div>
+          </div>
         </div>
 
         <div class="row">

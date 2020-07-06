@@ -1,260 +1,210 @@
 <?php
-    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN
-    if ( file_exists ( "verificaLogin.php" ) )
+
+declare(strict_types=1);
+
+include "config/funcoes.php";   
+   
+    if (file_exists("verificaLogin.php") )
        include "verificaLogin.php";
     else
        include "../verificaLogin.php";
 
-    include "config/funcoes.php";   
- 
-    if ( $_POST ) {
-        foreach ($_POST as $key => $value) {
-            //$key - nome do campo
-            //$value - valor do campo (digitado)
-            if ( isset ( $_POST[$key] ) ){
-                $$key = trim( $value );
-            } 
+    try {
+
+        if (!$_POST) {
+            throw new Exception("Requisição inválida", 400);
         }
 
-     
+        $aluno = $_POST;
 
-        if (validaCPF($cpf) == false){
-            $titulo = "CPF inválido!";
-            $mensagem = "Informe um CPF válido!";
-            errorBack( $titulo, $mensagem );
-            exit;
+        if (!validaCPF($aluno['cpf']) ) {
+            throw new Exception("CPF inválido", 400);
         }
         
-        if (!empty($codigo_aluno)) {
-			//se existe alguem, menos ele mesmo, com o mesmo cpf
-			$sql = "select codigo_aluno, nome_aluno from Aluno where cpf = ? and codigo_aluno <> ? limit 1";
-			$consulta = $pdo->prepare( $sql );
-			$consulta->bindParam(1,$cpf);
-            $consulta->bindParam(2,$codigo_aluno);
-            
-        } else if ( empty($codigo_aluno) ) {
-
-			//se existe alguem, qualquer um, com o mesmo cpf
-			$sql = "select codigo_aluno, nome_aluno from Aluno where cpf = ? limit 1";
-			$consulta = $pdo->prepare( $sql );
-			$consulta->bindParam(1,$cpf);
-
-		}
-
+        if (isset($aluno['codigo_aluno']) ) {
+            //se existe alguem, menos ele mesmo, com o mesmo cpf
+            $sql = "select codigo_aluno, nome_aluno from aluno where cpf = ? and codigo_aluno <> ? limit 1";
+            $consulta = $pdo->prepare($sql);
+            $consulta->bindParam(1,$aluno['cpf']);
+            $consulta->bindParam(2,$aluno['codigo_aluno']);
+        } else {
+            //se existe alguem, qualquer um, com o mesmo cpf
+            $sql = "select codigo_aluno, nome_aluno from aluno where cpf = ? limit 1";
+            $consulta = $pdo->prepare($sql);
+            $consulta->bindParam(1,$aluno['cpf']);
+        }
+        
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        if ( isset($dados->codigo_aluno) ) {
-            // ALERTA
-            $mensagem = "Este aluno já foi registrado!";
-            warning($titulo, $mensagem);
-            exit;
+        if (isset($dados->codigo_aluno) ) {
+            throw new Exception("Este aluno já foi registrado", 400);
+        }
+      
+        if (!validaData($aluno['data_nascimento']) ){
+            throw new Exception("Data de nascimento inválida", 400);
         }
 
-        if(ValidaData($data_nascimento) == true){
-          
-            $data = $data_nascimento;
-        
-            // Separa em dia, mês e ano
-            list($dia, $mes, $ano) = explode('/', $data);
-        
-            // Descobre que dia é hoje e retorna a unix timestamp
-            $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-            // Descobre a unix timestamp da data de nascimento do fulano
-            $nascimento = mktime( 0, 0, 0, $mes, $dia, $ano);
-        
-            // Depois apenas fazemos o cálculo já citado :)
-            $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
+        if (!validaIdade($aluno['data_nascimento'])) {
+            throw new Exception("A idade do aluno está fora dos padrões aceitaveis", 403);
+        }
 
-            if ($idade > 100 || $idade < 8){
-                $titulo = "";
-                $mensagem = "Informe uma Data válida";
-                errorBack( $titulo, $mensagem );
-                exit;
+        if ($aluno['codigo_aluno']) {
+            //UPDATE
+            try {
+                $pdo->beginTransaction();
+                $sql = "
+                UPDATE aluno as a JOIN endereco as e JOIN telefone as t SET
+                a.nome_aluno =  :nome_aluno, 
+                a.data_nasc  = :data_nasc, 
+                a.sexo       =   :sexo, 
+                a.rg         =  :rg, 
+                a.cpf  = :cpf, 
+                a.objetivo  = :objetivo, 
+                a.email  = :email, 
+                a.status  = :status,
+                
+                e.estado = :estado,
+                e.cidade = :cidade,
+                e.bairro = :bairro,
+                e.rua = :rua,
+                e.numero = :numero,
+
+                t.num_telefone = :telefone,
+                t.num_celular  = :celular
+
+                WHERE a.codigo_aluno = :codigo_aluno 
+                AND a.Endereco_codigo_endereco = e.codigo_endereco
+                AND a.codigo_aluno = t.Aluno_codigo_aluno;
+                ";
+                
+                $consulta = $pdo->prepare($sql);
+        
+                // Tabela Endereco
+                $consulta->bindValue(":estado", $aluno['estado']);
+                $consulta->bindValue(":cidade", $aluno['cidade']);
+                $consulta->bindValue(":bairro", $aluno['bairro']);
+                $consulta->bindValue(":rua", $aluno['rua']);
+                $consulta->bindValue(":numero", $aluno['numero']);
+
+                // Tabela Aluno
+                $consulta->bindValue(":codigo_aluno",$aluno['codigo_aluno']);
+                $consulta->bindValue(":nome_aluno", $aluno['nome_aluno']);
+                $consulta->bindValue(":data_nasc", formataData($aluno['data_nascimento']));
+                $consulta->bindValue(":sexo", $aluno['sexo']);
+                $consulta->bindValue(":rg", $aluno['rg']);
+                $consulta->bindValue(":cpf", $aluno['cpf']);
+                $consulta->bindValue(":objetivo", $aluno['objetivo']);
+                $consulta->bindValue(":email", $aluno['email']);
+                $consulta->bindValue(":status", $aluno['status']);
+
+                // Tabela Telefone
+                $consulta->bindValue(":telefone", $aluno['num_telefone']);
+                $consulta->bindValue(":celular", $aluno['num_celular']);
+
+                $consulta->execute();
+
+                $pdo->commit();
+                sucessLink(null, "Registro salvo!", "listar/aluno");
+            } catch (PDOException $erro) {
+                $pdo->rollBack();
+                // echo $consulta->errorInfo()[2];
+                // exit;
+                throw new Exception("Erro ao salvar registro", 500);
             }
 
         } else {
-            $titulo = "Data inválida";
-            $mensagem = "";
-            errorBack( $titulo, $mensagem );
-            exit;
+            //INSERT
+            try {
+                $pdo->beginTransaction();
+                $sql = "
+                SET AUTOCOMMIT=0;
+                START TRANSACTION;
+                
+                INSERT INTO endereco
+                (codigo_endereco, estado, cidade, bairro, rua, numero)
+                VALUES 
+                (NULL, :estado, :cidade, :bairro, :rua, :numero);
+    
+                INSERT INTO aluno 
+                (codigo_aluno,
+                    data_cadastro,
+                    nome_aluno, 
+                    data_nasc, 
+                    sexo, 
+                    rg, 
+                    cpf, 
+                    objetivo, 
+                    email, 
+                    status, 
+                    Endereco_codigo_endereco
+                    )
+                VALUES 
+                (NULL, 
+                :data_cadastro,
+                :nome_aluno, 
+                :data_nasc, 
+                :sexo, 
+                :rg, 
+                :cpf, 
+                :objetivo, 
+                :email, 
+                :status,
+                (select LAST_INSERT_ID()));
+
+                INSERT INTO telefone 
+                (codigo_telefone,
+                    num_telefone, 
+                    num_celular, 
+                    Aluno_codigo_aluno
+                    )
+                VALUES 
+                (NULL,
+                :telefone,
+                :celular,
+                (select LAST_INSERT_ID()));
+
+                COMMIT;
+                SET AUTOCOMMIT=1;
+                ";
+    
+                $consulta = $pdo->prepare($sql);
+        
+                // Tabela Endereco
+                $consulta->bindValue(":estado", $aluno['estado']);
+                $consulta->bindValue(":cidade", $aluno['cidade']);
+                $consulta->bindValue(":bairro", $aluno['bairro']);
+                $consulta->bindValue(":rua", $aluno['rua']);
+                $consulta->bindValue(":numero", $aluno['numero']);
+
+                // Tabela Aluno
+                $consulta->bindValue(":data_cadastro", date('Y/m/d'));
+                $consulta->bindValue(":nome_aluno", $aluno['nome_aluno']);
+                $consulta->bindValue(":data_nasc", formataData($aluno['data_nascimento']));
+                $consulta->bindValue(":sexo", $aluno['sexo']);
+                $consulta->bindValue(":rg", $aluno['rg']);
+                $consulta->bindValue(":cpf", $aluno['cpf']);
+                $consulta->bindValue(":objetivo", $aluno['objetivo']);
+                $consulta->bindValue(":email", $aluno['email']);
+                $consulta->bindValue(":status", $aluno['status']);
+
+                // Tabela Telefone
+                $consulta->bindValue(":telefone", $aluno['num_telefone']);
+                $consulta->bindValue(":celular", $aluno['num_celular']);
+
+                $consulta->execute();
+
+                $pdo->commit();
+                sucessLink(null, "Registro salvo!", "listar/aluno");
+            } catch (PDOException $erro) {
+                $pdo->rollBack();
+                // echo $consulta->errorInfo()[2];
+                // exit;
+                throw new Exception("Erro ao salvar registro", 500);
+            }
         }
-
-        $data_nascimento = formataData($data_nascimento);
-
-        $data_cadastro = date('Y/m/d');
-
-           // *****************START TRANSACTION************************
-           $pdo->beginTransaction();
-
-           if (!empty($codigo_aluno)){
-
-            //echo "<p class='text-center'>$codigo_aluno</p>";
-            //exit;
-            $sql = "
-
-            UPDATE Aluno as a JOIN Endereco as e JOIN Telefone as t SET
-            a.nome_aluno =  :nome_aluno, 
-            a.data_nasc  = :data_nasc, 
-            a.sexo       =   :sexo, 
-            a.rg         =  :rg, 
-            a.cpf  = :cpf, 
-            a.objetivo  = :objetivo, 
-            a.email  = :email, 
-            a.status  = :status,
-            a.dependente = :dependente,
-            
-            e.estado = :estado,
-            e.cidade = :cidade,
-            e.bairro = :bairro,
-            e.rua = :rua,
-            e.numero = :numero,
-
-            t.num_telefone = :telefone,
-            t.num_celular  = :celular
-
-            WHERE a.codigo_aluno = :codigo_aluno 
-            AND a.Endereco_codigo_endereco = e.codigo_endereco
-            AND a.codigo_aluno = t.Aluno_codigo_aluno;
-            
-            ";
-            
-            $consulta = $pdo->prepare($sql);
-    
-            // Tabela Endereco
-            $consulta->bindValue(":estado",$estado);
-            $consulta->bindValue(":cidade",$cidade);
-            $consulta->bindValue(":bairro",$bairro);
-            $consulta->bindValue(":rua",$rua);
-            $consulta->bindValue(":numero",$numero);
-
-            // Tabela Aluno
-            $consulta->bindValue(":codigo_aluno",$codigo_aluno);
-            $consulta->bindValue(":nome_aluno",$nome_aluno);
-            $consulta->bindValue(":data_nasc",$data_nascimento);
-            $consulta->bindValue(":sexo",$sexo);
-            $consulta->bindValue(":rg",$rg);
-            $consulta->bindValue(":cpf",$cpf);
-            $consulta->bindValue(":objetivo",$objetivo);
-            $consulta->bindValue(":email",$email);
-            $consulta->bindValue(":status",$status);
-            $consulta->bindValue(":dependente",$dependente);
-
-            // Tabela Telefone
-            $consulta->bindValue(":telefone",$num_telefone);
-            $consulta->bindValue(":celular",$num_celular);
-
-           } 
-           
-           if ( empty($codigo_aluno) ) {
-
-            //echo "<p class='text-center'>esta setado? -> $codigo_aluno</p>";
-            //exit;
-               // INSERT
-               $sql = "
-               SET AUTOCOMMIT=0;
-               START TRANSACTION;
-               
-               INSERT INTO Endereco
-               (codigo_endereco, estado, cidade, bairro, rua, numero)
-               VALUES 
-               (NULL, :estado, :cidade, :bairro, :rua, :numero);
-   
-               INSERT INTO Aluno 
-               (codigo_aluno,
-                data_cadastro,
-                nome_aluno, 
-                data_nasc, 
-                sexo, 
-                rg, 
-                cpf, 
-                objetivo, 
-                email, 
-                status, 
-                dependente,
-                Endereco_codigo_endereco
-                )
-               VALUES 
-               (NULL, 
-               :data_cadastro,
-               :nome_aluno, 
-               :data_nasc, 
-               :sexo, 
-               :rg, 
-               :cpf, 
-               :objetivo, 
-               :email, 
-               :status,
-                0, 
-               (select LAST_INSERT_ID()));
-
-               INSERT INTO Telefone 
-               (codigo_telefone,
-                num_telefone, 
-                num_celular, 
-                Aluno_codigo_aluno
-                )
-               VALUES 
-               (NULL,
-               :telefone,
-               :celular,
-               (select LAST_INSERT_ID()));
-
-               COMMIT;
-               SET AUTOCOMMIT=1;
-               ";
-   
-               $consulta = $pdo->prepare($sql);
-    
-               // Tabela Endereco
-               $consulta->bindValue(":estado",$estado);
-               $consulta->bindValue(":cidade",$cidade);
-               $consulta->bindValue(":bairro",$bairro);
-               $consulta->bindValue(":rua",$rua);
-               $consulta->bindValue(":numero",$numero);
-
-               // Tabela Aluno
-               $consulta->bindValue(":data_cadastro",$data_cadastro);
-               $consulta->bindValue(":nome_aluno",$nome_aluno);
-               $consulta->bindValue(":data_nasc",$data_nascimento);
-               $consulta->bindValue(":sexo",$sexo);
-               $consulta->bindValue(":rg",$rg);
-               $consulta->bindValue(":cpf",$cpf);
-               $consulta->bindValue(":objetivo",$objetivo);
-               $consulta->bindValue(":email",$email);
-               $consulta->bindValue(":status",$status);
-
-               // Tabela Telefone
-               $consulta->bindValue(":telefone",$num_telefone);
-               $consulta->bindValue(":celular",$num_celular);
-   
-           } else {
-                $mensagem = "Parâmetros inválidos!";
-                errorBack( $titulo, $mensagem );
-                exit;
-           }
-           
-           if ( $consulta->execute() ) {
-               // COMMIT
-               $pdo->commit();
-               // ALERTA
-               $mensagem = "Registro salvo com sucesso!";
-               $link = "listar/aluno";
-               sucessLink($titulo, $mensagem, $link);
-   
-           } else {
-               // ROLLBACK
-               $pdo->rollBack();
-              echo $consulta->errorInfo()[2];
-               // ALERTA
-               $mensagem = "Erro ao salvar registro!";
-               errorBack( $titulo, $mensagem );
-               exit;
-           }
-
-    } else {
-        // ALERTA
-        $mensagem = "Requisição Inválida!";
-        $link = "index.php";
-        errorLink($titulo, $mensagem, $link);
+       
+    } catch (Exception $e) {
+        $mensagem = $e->getMessage() . " - " . strval($e->getCode());
+        errorBack(null, $mensagem);
     }

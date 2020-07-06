@@ -1,61 +1,75 @@
 <?php
-    // ARQUIVO DE FUNÇÕES PHP
+ 
     // FUNÇÃO ALERTA DE MENSAGEM
     function error($titulo, $mensagem) {
-        
         ?>
-
-            <script>
-                Swal.fire({
+        <script>
+            Swal.fire({
                 type: 'error',  
                 title: '<?= $titulo;?>',
                 text: '<?= $mensagem;?>',
-                })
-            </script> 
+            })
+        </script> 
         <?php
-        
     }
 
-
-
-    function errorBack($titulo, $mensagem) {
-        
+    // FUNÇÃO ALERTA DE MENSAGEM COM IMAGEM
+    function messageImage(string $titulo = null, string $mensagem = null, string $urlImage) {
         ?>
-
-            <script>
-                Swal.fire({
+        <script>
+            titulo = '<?=$titulo;?>';
+            mensagem = '<?=$mensagem;?>';
+            imagem = '<?=$urlImage;?>';
+            Swal.fire({
+                title: titulo,
+                text: mensagem,
+                imageUrl: imagem,
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+            })
+        </script>
+        <?php
+    }
+    
+    // FUNÇÃO ALERTA ERROR DE MENSAGEM RETORNANDO PÁGINA ANTERIOR
+    function errorBack(string $titulo = null, string $mensagem) {
+        ?>
+        <script>
+            titulo = '<?=$titulo;?>';
+            mensagem = '<?=$mensagem;?>';
+            Swal.fire({
                 type: 'error',  
-                title: '<?= $titulo;?>',
-                text: '<?= $mensagem;?>',
+                title: titulo,
+                text: mensagem,
                 confirmButtonText: 'Ok',
                 showLoaderOnConfirm: true,
-                    preConfirm: () => {
-                            history.back();
-                        }
-                })
-            </script> 
-        <?php
-        
+                closeOnConfirm: true,
+                onClose: () => {
+                    window.history.back();
+                }
+            })
+        </script> 
+        <?php 
     }
 
+    // FUNÇÃO ALERTA SUCESSO DE MENSAGEM RETORNANDO PÁGINA ANTERIOR
     function sucessBack($titulo, $mensagem) {
-        
         ?>
-
-            <script>
-                Swal.fire({
+        <script>
+            Swal.fire({
                 type: 'success',  
                 title: '<?= $titulo;?>',
                 text: '<?= $mensagem;?>',
                 confirmButtonText: 'Ok',
                 showLoaderOnConfirm: true,
-                    preConfirm: () => {
-                            history.back();
-                        }
-                })
-            </script> 
-        <?php
-        
+                closeOnConfirm: true,
+                onClose: () => {
+                    window.history.back();
+                }
+            })
+        </script> 
+        <?php 
     }
 
     function warning($titulo, $mensagem) {
@@ -75,29 +89,31 @@
                 })
             </script> 
         <?php
-        
     }
+
     // FUNÇÃO MENSAGEM DE CADASTRO
-    function sucessLink($titulo, $mensagem, $link) {
-        
+    function sucessLink(string $titulo = null, string $mensagem, string $link) 
+    {
         ?> 
-        <!-- Modal -->
-                <script>
-                 Swal.fire({
+        <script>
+            titulo = '<?=$titulo;?>';
+            mensagem = '<?=$mensagem;?>';
+            link = '<?=$link;?>';
+            Swal.fire({
                 type: 'success',  
-                title: '<?= $titulo;?>',
-                text: '<?= $mensagem;?>',
+                title: titulo,
+                text: mensagem,
                 confirmButtonText: 'Ok',
-                showLoaderOnConfirm: true,
-                     
-                    preConfirm: ()  => {
-                        window.location='<?=$link;?>';
-                        }
- 
-                    
-                })
-                </script>
-    <?php
+                showLoaderOnConfirm: true,    
+                preConfirm: () => {
+                    window.location= link;
+                },
+                onClose: () => {
+                    window.location= link;
+                }
+            })
+        </script>
+        <?php
     }
     
 
@@ -255,21 +271,6 @@
     $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
     */
     
-	// FUNÇÃO FORMATA E VALIDA DATA
-	function formataData($data){
-		//12/04/2019 -> 2019-02-10
-		$data = explode("/",$data);
-		//0 - dia/ 1 - mes/ 2 - ano
-		if ( !checkdate($data[1], $data[0], $data[2])){
-            $mensagem = "Data Inválida!";
-            $titulo = "Informe uma data válida!";
-			errorBack($titulo, $mensagem);
-		}
-		$data = $data[2]."-".$data[1]."-".$data[0];
-		return $data;
-    }
-    
-
  
 function caracter($str) {
     $str = preg_replace('/[áàãâä]/ui', 'a', $str);
@@ -341,63 +342,99 @@ function redimensionarImagem($pastaFotos,$imagem,$nome)	{
     unlink ($imagem);
 }
 
-
-function validaCPF($cpf) {
- 
-    // Extrai somente os números
-    $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-     
-    // Verifica se foi informado todos os digitos corretamente
-    if (strlen($cpf) != 11) {
-        return false;
-    }
-    // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-    if (preg_match('/(\d)\1{10}/', $cpf)) {
-        return false;
-    }
-    // Faz o calculo para validar o CPF
-    for ($t = 9; $t < 11; $t++) {
-        for ($d = 0, $c = 0; $c < $t; $c++) {
-            $d += $cpf{$c} * (($t + 1) - $c);
-        }
-        $d = ((10 * $d) % 11) % 10;
-        if ($cpf{$c} != $d) {
+    //FUNCÃO PARA VALIDAR CPF
+    function validaCPF(string $cpf): bool 
+    {
+        // Extrai somente os números
+        $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+        
+        // Verifica se foi informado todos os digitos corretamente
+        if (strlen($cpf) != 11) {
             return false;
         }
-    }
-    return true;
-}
-
-function ValidaData($data){
-    // data é menor que 8
-    if ( strlen($data) < 8){
-        return false;
-    }else{
-        // verifica se a data possui
-        // a barra (/) de separação
-        if(strpos($data, "/") !== FALSE){
-            //
-            $partes = explode("/", $data);
-            // pega o dia da data
-            $dia = $partes[0];
-            // pega o mês da data
-            $mes = $partes[1];
-            // prevenindo Notice: Undefined offset: 2
-            // caso informe data com uma única barra (/)
-            $ano = isset($partes[2]) ? $partes[2] : 0;
- 
-            if (strlen($ano) < 4) {
-                return false;
-            } else {
-                // verifica se a data é válida
-                if (checkdate($mes, $dia, $ano)) {
-                     return true;
-                } else {
-                     return false;
-                }
+        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+        // Faz o calculo para validar o CPF
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
             }
-        }else{
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function validaData(string $data): bool
+    {
+        // data é menor que 8
+        if ( strlen($data) < 8){
             return false;
+        } else {
+            // verifica se a data possui
+            // a barra (/) de separação
+            if(strpos($data, "/") !== FALSE){
+                //
+                $partes = explode("/", $data);
+                // pega o dia da data
+                $dia = $partes[0];
+                // pega o mês da data
+                $mes = $partes[1];
+                // prevenindo Notice: Undefined offset: 2
+                // caso informe data com uma única barra (/)
+                $ano = isset($partes[2]) ? $partes[2] : 0;
+    
+                if (strlen($ano) < 4) {
+                    return false;
+                } else {
+                    // verifica se a data é válida
+                    if (checkdate($mes, $dia, $ano)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }else{
+                return false;
+            }
         }
     }
-}
+
+    function validaIdade(string $dataNascimento): bool
+    {
+        $data = $dataNascimento;
+        
+        // Separa em dia, mês e ano
+        list($dia, $mes, $ano) = explode('/', $data);
+    
+        // Descobre que dia é hoje e retorna a unix timestamp
+        $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        // Descobre a unix timestamp da data de nascimento do fulano
+        $nascimento = mktime( 0, 0, 0, $mes, $dia, $ano);
+    
+        // Depois apenas fazemos o cálculo já citado :)
+        $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
+
+        if ($idade > 100 || $idade < 8){
+            return false;
+        }
+        return true;
+    }
+
+    // FUNÇÃO FORMATA DATA 12/04/2019 -> 2019-02-10
+    function formataData(string $data): string
+    {
+        $data = explode("/",$data);
+        //0 - dia/ 1 - mes/ 2 - ano
+        if ( !checkdate($data[1], $data[0], $data[2])){
+            $mensagem = "Data Inválida!";
+            $titulo = "Informe uma data válida!";
+            errorBack($titulo, $mensagem);
+        }
+        $data = $data[2]."-".$data[1]."-".$data[0];
+        return $data;
+    }
