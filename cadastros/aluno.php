@@ -47,8 +47,7 @@
     $objetivo = $dados->objetivo;
     $email = $dados->email;
     $status = $dados->status;
-    $dependente = $dados->dependente;
-    $codigo_dependente = $dados->codigo_aluno_dependente;
+
     $data_cadastro = $dados->data_cadastro;
 
     // Tabela Endereco
@@ -127,91 +126,9 @@
         <div class="form-group">
 
           <input type="hidden" class="form-control" name="codigo_aluno" value="<?=$codigo_aluno;?>">
-          <input type="hidden" class="form-control" name="dependente" value="<?=$dependente;?>">
-
+    
           <label for="nome">Nome do Aluno:</label>
             <input type="text" class="form-control" name="nome_aluno" value="<?=$nome_aluno;?>" autofocus maxlength="80" onkeypress="return ApenasLetras(event,this);" placeholder="Digite um nome" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">        
-        </div>
-
-        <?php
-
-        $required = "";
-        if ( empty ( $modalidade ) ) {
-          $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione\" ";
-        }
-
-        if ( empty ( $codigo_plano ) ) {
-          $required = "required data-parsley-required-message=\"<i class='fas fa-times'></i> Selecione\" ";
-        }
-
-        ?>
-
-        <div class="row">
-          <div class="col-6">
-              <div class="form-group">
-                <label>Modalidade:</label>
-                <select class="form-control select2" style="width: 100%;" name="modalidade[]" list="modalidades" id="modalidade" multiple="multiple" placeholder="Selecione..." <?=$required;?>>
-                  <datalist id="modalidades">
-                    <?php
-
-                      $sql = "
-                        SELECT codigo_modalidade, nome_modalidade FROM modalidade 
-                        WHERE status = 1 ORDER BY codigo_modalidade
-                        ";
-                        $consulta = $pdo->prepare( $sql );
-                        $consulta->execute();
-                    
-                        while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
-                        {
-
-                          echo "<option value='$dados->codigo_modalidade'>$dados->nome_modalidade</option>";
-
-                        }
-                      
-                    ?>
-                  </datalist> 
-
-                </select>
-
-                <!-- <script type="text/javascript">
-                  $("#modalidade").val('<?=$modalidade;?>');
-                </script> -->
-
-              </div>
-          </div>
-          <div class="col-6">
-          <div class="form-group">
-                <label>Plano:</label>
-                <select class="form-control" name="codigo_plano" list="planos" id="codigo_plano" placeholder="Selecione..." <?=$required;?>>
-                  <option value="">Selecione...</option>
-                  <datalist id="planos">
-                    <?php
-
-                      $sql = "
-                        SELECT codigo_plano, nome_plano FROM plano 
-                        WHERE status = 1 ORDER BY codigo_plano
-                        ";
-                        $consulta = $pdo->prepare( $sql );
-                        $consulta->execute();
-                    
-                        while ( $dados = $consulta->fetch(PDO::FETCH_OBJ) ) 
-                        {
-
-                          echo "<option value='$dados->codigo_plano'>$dados->nome_plano</option>";
-
-                        }
-                      
-                    ?>
-                  </datalist> 
-
-                </select>
-
-                <script type="text/javascript">
-                  $("#codigo_plano").val('<?=$codigo_plano;?>');
-                </script>
-
-              </div>
-          </div>
         </div>
 
         <div class="row">
@@ -249,7 +166,7 @@
           <div class="col-6">
             <div class="form-group">
               <label for="telefone">Telefone:</label>
-              <input type="text" class="form-control telefone" name="num_telefone" value="<?=$num_telefone;?>" placeholder="(00)00000-0000" required data-parsley-required-message="<i class='fas fa-times'></i> Informe um número!">
+              <input type="text" class="form-control telefone" name="num_telefone" value="<?=$num_telefone;?>" placeholder="(00)00000-0000">
             </div>
 
             <div class="form-group">
@@ -261,7 +178,7 @@
           <div class="col-6">
               <div class="form-group">
                 <label>Objetivo:</label>
-                <textarea class="form-control" rows="3" name="objetivo" maxlength="150" placeholder="Objetivo do aluno..."><?=$objetivo;?></textarea>
+                <textarea class="form-control" rows="3" name="objetivo" maxlength="70" placeholder="Objetivo do aluno..."><?=$objetivo;?></textarea>
               </div> 
           </div>   
 
@@ -315,11 +232,6 @@
 </div>
 
 <script type="text/javascript">
-
-function selecionaTreino(treino) {
-  treino = treino.split(" - ");
-  $("#codigo_treino").val(treino[0])
-}
 
 $(document).ready(function(){
   $('.date').mask('00/00/0000');
@@ -407,6 +319,7 @@ function verificaEmail(){
                 return false;
             }
     } 
+
 </script>
 
 <!-- FUNÇÃO PARA SELECIONAR ESTADOS E CIDADES NO SELECT ATRAVÉS DO ARQUIVO JSON -->

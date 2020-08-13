@@ -1,10 +1,10 @@
 <?php
 
     // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN E NÍVEL DE PERMISSÃO
-    if ( file_exists ( "permissaoLogin.php" ) )
-        include "permissaoLogin.php";
+    if ( file_exists ( "permissaoAdmin.php" ) )
+        include "permissaoAdmin.php";
     else
-        include "../permissaoLogin.php";
+        include "../permissaoAdmin.php";
 
     include "config/funcoes.php";
 
@@ -51,10 +51,12 @@
 		$consulta->bindValue(":codigo",$codigo);
 
         if ( $consulta->execute() ) {
+            $titulo = "";
             $mensagem = "Status alterado!";
             $link = "listar/modalidade-inativo";
             sucessLink($titulo, $mensagem, $link);
         } else {
+            $titulo = "";
             $mensagem = "Não foi possível alterar o Status!";
             $link = "listar/modalidade";
             errorLink($titulo, $mensagem, $link);
@@ -77,10 +79,12 @@
 		$consulta->bindValue(":codigo",$codigo);
 
         if ( $consulta->execute() ) {
+            $titulo = "";
             $mensagem = "Status alterado!";
             $link = "listar/modalidade";
             sucessLink($titulo, $mensagem, $link);
         } else {
+            $titulo = "";
             $mensagem = "Não foi possível alterar o Status!";
             $link = "listar/modalidade-inativo";
             errorLink($titulo, $mensagem, $link);
@@ -88,6 +92,7 @@
     }
     
     } else {
+        $titulo = "";
         $mensagem = "Parâmetros Inválidos!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

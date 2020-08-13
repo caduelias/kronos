@@ -35,7 +35,7 @@
                         <th width="10%">Status</th> 
                         <th width="20%">Aluno</th>
                         <th width="15%">CPF</th>
-                        <th width="5%">Data</th>
+                        <th width="10%">Data Cadastro</th>
                         <th width="20%">Ações</th>       
                     </tr>             
                 </thead>
@@ -100,157 +100,158 @@
                         $sexo = "Masculino";
                     }
 
-                    echo "
-                        <tr class='text-center'>
-                            <td class='text-uppercase'>$status</td>
-                            <td class='text-uppercase'>$nome_aluno</td>
-                            <td class='text-uppercase'>$cpf</td>
-                            <td class='text-uppercase'>$data_cadastro</td>
-                            <td class='text-center'> 
-                            <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>
-                            <a href='cadastros/aluno/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
-                            <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
-                            <i class='fas fa-eye'></i>
-                            </a>
-                            </td>
-                        </tr>
+                    $ficha = " <tr class='text-center'>
+                    <td class='text-uppercase'>$status</td>
+                    <td class='text-uppercase'>$nome_aluno</td>
+                    <td class='text-uppercase'>$cpf</td>
+                    <td class='text-uppercase'>$data_cadastro</td>
+                    <td class='text-center'> 
+                    <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>
+                    <a href='cadastros/aluno/$codigo' class='btn btn-dark m-1'><i class='fas fa-pencil-alt'></i></a>
+                    <a href='cadastros/gerenciaraluno/$codigo' class='btn btn-info m-1'><i class='fas fa-file-alt'></i></a>
+                    <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
+                    <i class='fas fa-eye'></i>
+                    </a>
+                    </td>
+                </tr>
 
-                    <div class='modal' id='$modal' aria-hidden='true' style='display: none;'>
-                        <div class='modal-dialog modal-xl'>
-                            <div class='modal-content'>
+            <div class='modal' id='$modal' aria-hidden='true' style='display: none;'>
+                <div class='modal-dialog modal-xl'>
+                    <div class='modal-content'>
 
-                                <div class='modal-header'>
+                        <div class='modal-header'>
 
-                                    <h4 class='modal-title text-uppercase'>Aluno(a): $nome_aluno</h4>
-                                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                        <span aria-hidden='true'>×</span>
-                                    </button> 
+                            <h4 class='modal-title text-uppercase'>Aluno(a): $nome_aluno</h4>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>×</span>
+                            </button> 
 
-                                </div>
-
-                                <div class='modal-body'>
-                                    <label class='text-uppercase'>Informações:</label>
-                                    <div class='row'>
-                                    
-                                    <div class='col-4'>
-                                        <div class='form-group mt-2'>
-                                            <label>Status:</label>
-                                            <div class='form-control'>$status</div>
-                                        </div> 
-                                        
-                                        <div class='form-group mt-2'>
-                                            <label>E-mail:</label>
-                                            <div class='form-control'>$email</div>
-                                        </div> 
-                                    </div>
-
-                                    <div class='col-4'>
-                                        <div class='form-group mt-2'>
-                                            <label>CPF:</label>
-                                            <div class='form-control'>$cpf</div>     
-                                        </div>  
-
-                                        <div class='form-group mt-2'>
-                                            <label>RG:</label>
-                                            <div class='form-control'>$rg</div>   
-                                        </div>  
-                                    </div>
-
-                                    <div class='col-4'>
-                                        <div class='form-group mt-2'>
-                                            <label>Nascimento:</label>
-                                            <div class='form-control'>$data_nasc</div>    
-                                        </div>  
-
-                                        <div class='form-group mt-2'>
-                                            <label>Gênero:</label>
-                                            <div class='form-control'>$sexo</div> 
-                                        </div>  
-                                    </div>
-
-                                    </div>
-                                    
-                                    <div class='form-group mt-2'>
-                                        <label>Objetivo:</label>
-                                        <div class='form-control'>$objetivo</div>
-                                    </div> 
-
-                                    <hr>
-                                    <div class='row'>
-                                  
-                                        <div class='col-4'>
-                                            <div class='form-group mt-2'>
-                                                <label>Telefone:</label>
-                                                <div class='form-control'>$num_celular</div>
-                                            </div>  
-                                        </div>
-                                        <div class='col-4'>
-                                            <div class='form-group mt-2'>
-                                                <label>Celular:</label>
-                                                <div class='form-control'>$num_celular</div>
-                                            </div>  
-                                        </div>
-                                    </div>
-
-                                    <hr />
-                                    <label class='text-uppercase'>Endereço:</label>
-                                  
-                                    <div class='row'>
-                                        <div class='col-3'>
-                                            <div class='form-group mt-2'>
-                                                <label>Cidade:</label>
-                                                <div class='form-control'>$cidade</div>
-                                            </div>  
-                                        </div>
-
-                                        <div class='col-3'>
-                                            <div class='form-group mt-2'>
-                                                <label>Estado:</label>
-                                                <div class='form-control'>$estado</div>
-                                            </div>  
-                                        </div>
-
-                                        <div class='col-3'>
-                                            <div class='form-group mt-2'>
-                                                <label>Número:</label>
-                                                <div class='form-control'>$numero</div>
-                                            </div>  
-                                        </div>
-
-                                        <div class='col-6'>
-                                            <div class='form-group mt-2'>
-                                                <label>Rua:</label>
-                                                <div class='form-control'>$rua</div>
-                                            </div>  
-                                        </div>
-
-                                        <div class='col-6'>
-                                        <div class='form-group mt-2'>
-                                            <label>Bairro:</label>
-                                            <div class='form-control'>$bairro</div>
-                                        </div>  
-                                    </div>
-                                   
-                                    </div>
-                                    <div class='float-right'>
-                                        <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>
-                                    </div>
-                                </div>
-
-                                <div class='modal-footer justify-content-between'>
-                                    <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
-                                    
-                                    <a target='_blank' href='pdf/kronos-pdf/$codigo' class='btn btn-info m-1'><i class='fas fa-pencil-alt'></i></a>
-                                </div>
-                            
-                            </div>
-                        <!-- /.modal-content -->
                         </div>
-                    <!-- /.modal-dialog -->
+
+                        <div class='modal-body'>
+                            <label class='text-uppercase'>Informações:</label>
+                            <div class='row'>
+                            
+                            <div class='col-4'>
+                                <div class='form-group mt-2'>
+                                    <label>Status:</label>
+                                    <div class='form-control'>$status</div>
+                                </div> 
+                                
+                                <div class='form-group mt-2'>
+                                    <label>E-mail:</label>
+                                    <div class='form-control'>$email</div>
+                                </div> 
+                            </div>
+
+                            <div class='col-4'>
+                                <div class='form-group mt-2'>
+                                    <label>CPF:</label>
+                                    <div class='form-control'>$cpf</div>     
+                                </div>  
+
+                                <div class='form-group mt-2'>
+                                    <label>RG:</label>
+                                    <div class='form-control'>$rg</div>   
+                                </div>  
+                            </div>
+
+                            <div class='col-4'>
+                                <div class='form-group mt-2'>
+                                    <label>Nascimento:</label>
+                                    <div class='form-control'>$data_nasc</div>    
+                                </div>  
+
+                                <div class='form-group mt-2'>
+                                    <label>Gênero:</label>
+                                    <div class='form-control'>$sexo</div> 
+                                </div>  
+                            </div>
+
+                            </div>
+                            
+                            <div class='form-group mt-2'>
+                                <label>Objetivo:</label>
+                                <div class='form-control'>$objetivo</div>
+                            </div> 
+
+                            <hr>
+                            <div class='row'>
+                          
+                                <div class='col-4'>
+                                    <div class='form-group mt-2'>
+                                        <label>Telefone:</label>
+                                        <div class='form-control'>$num_celular</div>
+                                    </div>  
+                                </div>
+                                <div class='col-4'>
+                                    <div class='form-group mt-2'>
+                                        <label>Celular:</label>
+                                        <div class='form-control'>$num_celular</div>
+                                    </div>  
+                                </div>
+                            </div>
+
+                            <hr />
+                            <label class='text-uppercase'>Endereço:</label>
+                          
+                            <div class='row'>
+                                <div class='col-3'>
+                                    <div class='form-group mt-2'>
+                                        <label>Cidade:</label>
+                                        <div class='form-control'>$cidade</div>
+                                    </div>  
+                                </div>
+
+                                <div class='col-3'>
+                                    <div class='form-group mt-2'>
+                                        <label>Estado:</label>
+                                        <div class='form-control'>$estado</div>
+                                    </div>  
+                                </div>
+
+                                <div class='col-3'>
+                                    <div class='form-group mt-2'>
+                                        <label>Número:</label>
+                                        <div class='form-control'>$numero</div>
+                                    </div>  
+                                </div>
+
+                                <div class='col-6'>
+                                    <div class='form-group mt-2'>
+                                        <label>Rua:</label>
+                                        <div class='form-control'>$rua</div>
+                                    </div>  
+                                </div>
+
+                                <div class='col-6'>
+                                <div class='form-group mt-2'>
+                                    <label>Bairro:</label>
+                                    <div class='form-control'>$bairro</div>
+                                </div>  
+                            </div>
+                           
+                            </div>
+                           
+                        </div>
+                        
+
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
+                            <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>
+                            <a href='cadastros/aluno/$codigo' class='btn btn-dark m-1'><i class='fas fa-pencil-alt'></i></a>
+                            <a href='cadastros/gerenciaraluno/$codigo' class='btn btn-info m-1'><i class='fas fa-file-alt'></i></a>
+                        </div>
+                    
                     </div>
-                            
-                    ";
-                            
+                <!-- /.modal-content -->
+                </div>
+            <!-- /.modal-dialog -->
+            </div>
+                    
+            ";
+                   echo $ficha;
+                              
                     } 
               
                     ?>
@@ -301,7 +302,12 @@
                 responsive: {
                     details: true
                 }
-            }
+            },
+            dom: "<'row'<'col-md-3'B><'col-md-3'f><'col-md-3'><'col-md-3'l>><'row'<'col-md-12't>><'row'<'col-md-3'i><'col-md-6'><'col-md-3'p>>",
+            buttons: [
+                { text: '', extend: 'excel', className: 'btn btn-success fas fa-file-excel' },
+                { text: '', extend: 'pdf', className: 'btn btn-danger fas fa-file-pdf' },
+            ]
         });
 
     });

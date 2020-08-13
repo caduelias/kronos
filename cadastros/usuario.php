@@ -13,7 +13,7 @@
 
     $propio =  base64_encode($usuario);
     
-    $codigo_usuario = $nome = $email = $senha = $status = $data = $estado = $cidade = $bairro = $rua = $numero = "";
+    $codigo_usuario = $nome = $email = $senha = $login = $status = $data = $estado = $cidade = $bairro = $rua = $numero = "";
 
     if ( isset ($p[2]) && ($p[2]) != $propio ) 
     {

@@ -1,5 +1,5 @@
 <?php
- 
+
     // FUNÇÃO ALERTA DE MENSAGEM
     function error($titulo, $mensagem) {
         ?>

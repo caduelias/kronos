@@ -47,6 +47,7 @@
 
             } else {
               // ERRO
+              $titulo = "";
               $mensagem = "Usuário Inexistente ou Desativado";
               error($titulo, $mensagem);
             }

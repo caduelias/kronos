@@ -8,7 +8,6 @@
 
     include "config/funcoes.php";
 
-
     if ( $_POST ) {
         
         foreach ($_POST as $key => $value) {
@@ -20,17 +19,21 @@
         }
 
         if ( empty( $login ) ) {
+            $titulo = "";
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
         } else if ( empty( $senha ) ) {
+            $titulo = "";
             $mensagem = "Preencha a senha!";
             warning($titulo, $mensagem);
         } else if (empty( $perfil ) ) {
+            $titulo = "";
             $mensagem = "Selecione o perfil!";
             warning($titulo, $mensagem);
         }
 
         if ($email != $redigite_email) {
+            $titulo = "";
             $mensagem = "E-mails são diferentes!";
             warning($titulo, $mensagem);
         }
@@ -55,6 +58,7 @@
 
         if ( isset($dados->codigo_usuario ) ) {
             // ALERTA
+            $titulo = "";
             $mensagem = "Este login já está sendo utilizado!";
             warning($titulo, $mensagem);
             exit;
@@ -76,6 +80,7 @@
 
         if ( isset($dados->email) ) {
             // ALERTA
+            $titulo = "";
             $mensagem = "Este e-mail já está sendo utilizado!";
             warning($titulo, $mensagem);
             exit;
@@ -178,6 +183,7 @@
 			// COMMIT
             $pdo->commit();
             // ALERTA
+            $titulo = "";
             $mensagem = "Usuário registrado com sucesso!";
             $link = "index.php";
 			sucessLink($titulo, $mensagem, $link);
@@ -187,6 +193,7 @@
             $pdo->rollBack();
             //echo $consulta->errorInfo()[2];
             // ALERTA
+            $titulo = "";
 			$mensagem = "Erro ao registrar Usuário!";
             errorBack( $titulo, $mensagem );
             exit;
@@ -194,6 +201,7 @@
              
     } else {
         // ALERTA
+        $titulo = "";
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

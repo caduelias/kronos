@@ -26,7 +26,7 @@
     $consulta->execute();
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-    $codigo_treino = $dados->codigo_treino;
+    $codigo_treino = $dados->codigo_treino ?? null;
 
     if ( !isset($codigo_treino) ) {
         $sql = "SELECT codigo_treino, status from Treino where codigo_treino = :codigo_treino limit 1";
@@ -52,10 +52,12 @@
             $consulta->bindValue(":codigo_treino",$codigo_treino);
     
             if ( $consulta->execute() ) {
+                $titulo = "";
                 $mensagem = "Status alterado!";
                 $link = "listar/treino";
                 sucessLink($titulo, $mensagem, $link);
             } else {
+                $titulo = "";
                 $mensagem = "Não foi possível alterar o Status!";
                 $link = "listar/treino-inativo";
                 errorLink($titulo, $mensagem, $link);
@@ -75,10 +77,12 @@
             $consulta->bindValue(":codigo_treino",$codigo_treino);
     
             if ( $consulta->execute() ) {
+                $titulo = "";
                 $mensagem = "Status alterado!";
                 $link = "listar/treino-inativo";
                 sucessLink($titulo, $mensagem, $link);
             } else {
+                $titulo = "";
                 $mensagem = "Não foi possível alterar o Status!";
                 $link = "listar/treino";
                 errorLink($titulo, $mensagem, $link);

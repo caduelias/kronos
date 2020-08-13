@@ -24,11 +24,13 @@
   
         if ( empty( $periodo ) ) 
         {
+            $titulo = "";
             $mensagem = "Selecione um período!";
             warning($titulo, $mensagem);
         } 
         else if ( empty( $horario_treino ) ) 
         {
+            $titulo = "";
             $mensagem = "Informe um horário!";
             warning($titulo, $mensagem);
         } 
@@ -60,6 +62,7 @@
         if ( isset ( $dados->codigo_horario ) ) 
         {
             // ALERTA
+            $titulo = "";
             $mensagem = "Este horário já foi registrado!";
             warning($titulo, $mensagem);
             exit;
@@ -121,6 +124,7 @@
             $pdo->commit();
             
             // ALERTA
+            $titulo = "";
             $mensagem = "Registro salvo com sucesso!";
             $link = "listar/horario";
 			sucessLink($titulo, $mensagem, $link);
@@ -132,6 +136,7 @@
             $pdo->rollBack();
             echo $consulta->errorInfo()[2];
             // ALERTA
+            $titulo = "";
 			$mensagem = "Erro ao salvar registro !";
             errorBack( $titulo, $mensagem );
             exit;
@@ -142,6 +147,7 @@
     else 
     {
         // ALERTA
+        $titulo = "";
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

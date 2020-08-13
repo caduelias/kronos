@@ -17,6 +17,10 @@ include "config/funcoes.php";
 
         $aluno = $_POST;
 
+        if (!$aluno['num_telefone'] && !$aluno['num_celular']) {
+            throw new Exception("Informe ao menos um telefone ou celular!", 400);
+        }
+
         if (!validaCPF($aluno['cpf']) ) {
             throw new Exception("CPF inválido", 400);
         }
@@ -34,6 +38,7 @@ include "config/funcoes.php";
             $consulta->bindParam(1,$aluno['cpf']);
         }
         
+     
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
@@ -196,7 +201,7 @@ include "config/funcoes.php";
 
                 $pdo->commit();
                 sucessLink(null, "Registro salvo!", "listar/aluno");
-            } catch (PDOException $erro) {
+            } catch (PDOException $e) {
                 $pdo->rollBack();
                 // echo $consulta->errorInfo()[2];
                 // exit;

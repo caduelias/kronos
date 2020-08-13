@@ -8,10 +8,12 @@
 
     include "config/funcoes.php";
 
+    $codigo_modalidade = "";
+
 	if ( isset ( $p[2] ) )
         $parametro = (int)$p[2];
 
-    if ( empty($parametro) ) {
+    if ( !isset($parametro) ) {
         $titulo = "Horário não encontrado!";
         $mensagem = "Parâmetros inválidos!";
         $link = "listar/horario";
@@ -28,10 +30,10 @@
         $consulta->execute();
         $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-        $codigo_modalidade = $dados->codigo_modalidade;
+        $codigo_modalidade = $dados->codigo_modalidade ?? null;
     }
 
-    if ( empty($codigo_modalidade) ) {
+    if ( !isset($codigo_modalidade) ) {
         $sql = "
             DELETE FROM Horario 
             WHERE codigo_horario = :codigo_horario LIMIT 1
@@ -41,6 +43,7 @@
 		$consulta->bindValue(":codigo_horario",$parametro);
 
         if ($consulta->execute() ) {
+            $titulo = "";
             $mensagem = "Registro removido com sucesso!";
             $link = "listar/horario";
             sucessLink($titulo, $mensagem, $link);

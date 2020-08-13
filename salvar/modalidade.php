@@ -21,6 +21,7 @@
         }
   
         if ( empty( $nome_modalidade ) ) {
+            $titulo = "";
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
         }  
@@ -44,6 +45,7 @@
 
         if ( isset ( $dados->codigo_modalidade ) ) {
             // ALERTA
+            $titulo = "";
             $mensagem = "Essa modalidade já foi cadastrada!";
             warning($titulo, $mensagem);
             exit;
@@ -94,13 +96,13 @@
             $consulta->bindValue(":descricao",$descricao);
             $consulta->bindValue(":status",$status);
             $consulta->bindValue(":codigo_modalidade",$codigo_modalidade);
-
 		}
 
         if ( $consulta->execute() ) {
 			// COMMIT
             $pdo->commit();
             // ALERTA
+            $titulo = "";
             $mensagem = "Registro salvo com sucesso!";
             $link = "listar/modalidade";
 			sucessLink($titulo, $mensagem, $link);
@@ -110,6 +112,7 @@
             $pdo->rollBack();
             //echo $consulta->errorInfo()[2];
             // ALERTA
+            $titulo = "";
 			$mensagem = "Erro ao salvar registro!";
             errorBack( $titulo, $mensagem );
             exit;
@@ -117,6 +120,7 @@
          
     } else {
         // ALERTA
+        $titulo = "";
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

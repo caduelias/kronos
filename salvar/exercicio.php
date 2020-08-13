@@ -19,12 +19,15 @@
         }
   
         if ( empty( $nome_exercicio ) ) {
+            $titulo = "";
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
         } else if ( empty( $tipo_exercicio ) ) {
+            $titulo = "";
             $mensagem = "Selecione um tipo!";
             warning($titulo, $mensagem);
         } else if ( empty( $codigo_treino ) ) {
+            $titulo = "";
             $mensagem = "Selecione um treino!";
             warning($titulo, $mensagem);
         }
@@ -50,6 +53,7 @@
 
         if ( isset ( $dados->codigo_exercicio ) ) {
             // ALERTA
+            $titulo = "";
             $mensagem = "Este exercício já foi cadastrado nesta modalidade!";
             warning($titulo, $mensagem);
             exit;
@@ -154,15 +158,16 @@
             $pdo->commit();
             
             // ALERTA
+            $titulo = "";
             $mensagem = "Registro salvo com sucesso!";
             $link = "listar/exercicio";
 			sucessLink($titulo, $mensagem, $link);
-
         } else {
             // ROLLBACK
             $pdo->rollBack();
             //echo $consulta->errorInfo()[2];
             // ALERTA
+            $titulo = "";
 			$mensagem = "Erro ao salvar registro !";
             errorBack( $titulo, $mensagem );
             exit;
@@ -170,6 +175,7 @@
           
     } else {
         // ALERTA
+        $titulo = "";
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

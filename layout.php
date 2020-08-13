@@ -22,11 +22,10 @@
         <a href="index.php" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Item</a>
+        <a href="listar/alunos" class="nav-link">Alunos</a>
       </li>
-
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Item</a>
+        <a href="cadastros/gerenciaraluno" class="nav-link">Gerenciar alunos</a>
       </li>
     </ul>
 

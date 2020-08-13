@@ -102,13 +102,9 @@
           </div>
         </div>
 
-       
-        
-      
-
         <div class="col-4">
           <div class="form-group">
-            <label>Peso Inicial:</label>
+            <label>Peso:</label>
             <input type="text" id="peso" class="form-control" name="peso_inicial" value="<?=$peso_inicial;?>" placeholder="Peso">
           </div>
         </div>

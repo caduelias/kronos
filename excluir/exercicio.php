@@ -26,7 +26,7 @@
     $consulta->execute();
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 
-    $codigo_exercicio = $dados->codigo_exercicio;
+    $codigo_exercicio = $dados->codigo_exercicio ?? null;
 
     if ( isset($codigo_exercicio) ) {
         $sql = "
@@ -38,6 +38,7 @@
 		$consulta->bindValue(":codigo_exercicio",$codigo_exercicio);
 
         if ( $consulta->execute() ) {
+            $titulo = "";
             $mensagem = "Registro removido com sucesso!";
             $link = "listar/exercicio";
             sucessLink($titulo, $mensagem, $link);
