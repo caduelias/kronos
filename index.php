@@ -48,6 +48,9 @@
 <link rel="stylesheet" type="text/css" href="plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
+<!-- Bootstrap4 Duallistbox -->
+<link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="build/js/parsley.min.js"></script>
@@ -121,10 +124,12 @@
 
   $(function () {
     //Initialize Select2 Elements
+    $('.select2').select2()
+
     $('.select2').select2({
       theme: 'bootstrap4'
     })
-
+    
     //Datemask dd/mm/yyyy
     $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
     //Datemask2 mm/dd/yyyy
