@@ -17,12 +17,28 @@
         $link = "listar/exercicio";
         errorLink($titulo, $mensagem, $link);
         exit;
-    } else {
-        $sql = "SELECT codigo_exercicio FROM Exercicio WHERE codigo_exercicio = :codigo_exercicio LIMIT 1";
-        $consulta = $pdo->prepare( $sql );
-        $consulta->bindValue(":codigo_exercicio",$parametro);
-    }
+    } 
 
+    $sql = "SELECT codigo_exercicio FROM aluno_exercicio WHERE codigo_exercicio = :codigo_exercicio LIMIT 1";
+    $consulta = $pdo->prepare( $sql );
+    $consulta->bindValue(":codigo_exercicio",$parametro);
+    
+    $consulta->execute();
+    $dados = $consulta->fetch(PDO::FETCH_OBJ);
+
+    $codigo_aluno_exercicio = $dados->codigo_exercicio ?? null;
+
+    if (isset($codigo_aluno_exercicio) ) {
+        $titulo = "Operação não permitida!";
+        $mensagem = "O exercício está vinculado aos alunos!";
+        $link = "listar/exercicio";
+        errorLink($titulo, $mensagem, $link);
+        exit;
+    } 
+
+    $sql = "SELECT codigo_exercicio FROM Exercicio WHERE codigo_exercicio = :codigo_exercicio LIMIT 1";
+    $consulta = $pdo->prepare( $sql );
+    $consulta->bindValue(":codigo_exercicio",$parametro);
     $consulta->execute();
     $dados = $consulta->fetch(PDO::FETCH_OBJ);
 

@@ -7,7 +7,7 @@
 
     include "config/funcoes.php";
 
-    $nome_aluno = $objetivo = $data_nascimento = $sexo = "";
+    $nome_aluno = $objetivo = $data_nascimento = $sexo = $selects = "";
 
     if ( isset ($p[2]) ) {
       $codigo_aluno =  base64_decode($p[2]);
@@ -79,8 +79,8 @@
                   <h3 class="card-title text-uppercase">Gerenciar Aluno</h3>
               </div>
               <div class="col">
-                  <a  href="cadastros/aluno" class="btn btn-success float-right m-1">Novo aluno<i class="ml-2 fas fa-table"></i></a>
-                  <a  href="listar/aluno" class="btn btn-dark float-right m-1">Listar alunos <i class="ml-2 fas fa-list"></i></a>
+                  <a  href="cadastros/aluno" class="btn btn-success float-right m-1">Novo<i class="ml-2 fas fa-table"></i></a>
+                  <a  href="listar/aluno" class="btn btn-dark float-right m-1">Listar<i class="ml-2 fas fa-list"></i></a>
               </div>
           </div>
 
@@ -196,14 +196,16 @@
               </div>
           </div>
       
+
+
         <?php
 
-        if ($codigos_modalidades) {
+        if ($codigos_modalidades && $codigo_plano) {
           echo "
             <div class='col-2'>
             <div class='form-group'>
               <label>Exercicios:</label>
-              <a target='_blank' class='form-control btn btn-success' data-toggle='modal' data-target='#exercicio'>
+              <a target='_blank' class='form-control btn btn-info' data-toggle='modal' data-target='#exercicio'>
               <i class='fas fa-running'>
               </i><i class='ml-2 fas fa-dumbbell'></i>
               <i class='ml-2 fas fa-walking'></i>
@@ -214,120 +216,172 @@
         }
 
         ?>
+
         </div>
-
-      <div class='modal' id='exercicio' aria-hidden='true' style='display: none;'>
-                <div class='modal-dialog modal-xl'>
-                    <div class='modal-content'>
-
-                        <div class='modal-header'>
-
-                            <h4 class='modal-title text-uppercase'>cadastro exercícios</h4>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>×</span>
-                            </button> 
-
-                        </div>
-
-                        <?php
-                            $sql = "
-                            SELECT m.nome_modalidade, t.nome_treino, e.* from exercicio e 
-                            INNER JOIN treino t on t.codigo_treino = e.Treino_codigo_treino
-                            INNER JOIN treino_modalidade tm on tm.Treino_codigo_treino = e.Treino_codigo_treino 
-                            INNER JOIN modalidade m ON m.codigo_modalidade = tm.Modalidade_codigo_modalidade
-                            WHERE tm.Modalidade_codigo_modalidade IN ($codigos_modalidades)
-                            GROUP by 3
-                            ";
-
-                            $consulta = $pdo->prepare($sql);
-                            $consulta->bindValue(":codigo_aluno",$codigo_aluno);
-                            $consulta->execute();
-                            $dados = $consulta->fetchAll(PDO::FETCH_GROUP);
-
-                            $exercicios = $dados ?? null;
-
-                            var_dump($exercicios);
-                        ?>
-
-                        <div class='modal-body'>
-                           
-                          <?php
-                            foreach($exercicios as $exercicio) {
-                              var_dump($exercicio);
-                              $selects = '
-                              <div class="card card-default">
-                              <div class="card-header">
-                                <h3 class="card-title">'.$exercicio->nome_modalidade.'</h3>
-                    
-                                <div class="card-tools">
-                                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
-                                </div>
-                              </div>
-                              <!-- /.card-header -->
-                              <div class="card-body">
-                                    <div class="form-group">
-                                      <label>'.$exercicio->nome_treino.'</label>
-                                      <select class="duallistbox form-control" id="selectExercicios" multiple="multiple">
-                                        <option>Alabama</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
-                                      </select>
-                                    </div>
-                                    <!-- /.form-group -->
-                              </div>
-                              <!-- /.card-body -->
-                              <div class="card-footer">
-                                                
-                              </div>
-                            </div>
-                              ';
-
-                              echo $selects;
-                            }
-                          ?>
-       
-                           
-                      
-                        </div>
-
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
-                        </div>
-                    
-                    </div>
-                <!-- /.modal-content -->
-                </div>
-            <!-- /.modal-dialog -->
-            </div>
-                    
-
-
-      <!-- /.card-body -->
-      <div class="card-footer">
+        <!-- /.card-body -->
+        <div class="card-footer">
         <button type="submit" class="btn btn-success float-right"><i class="fas fa-save mr-1"></i>Salvar</button>
       </div>
     </div>
   </form>
 </div>
+
+<?php
+    if ($codigos_modalidades && $codigo_plano) {
+?>
+<div class='modal' id='exercicio' aria-hidden='true' style='display: none;'>
+          <div class='modal-dialog modal-xl'>
+              <div class='modal-content'>
+
+                  <div class='modal-header'>
+
+                      <h4 class='modal-title text-uppercase'>cadastro exercícios do aluno</h4>
+                      <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                          <span aria-hidden='true'>×</span>
+                      </button> 
+
+                  </div>
+                  <div class='modal-body'>
+                  <form class="form-horizontal" name="gerenciarexercicios" method="POST" action="gerenciar/exercicio">     
+                  <input type="hidden" class="form-control" name="codigo_aluno" value="<?=$codigo_aluno;?>"> 
+                  <?php
+                      $sql = "
+                            SELECT 
+                              m.codigo_modalidade,
+                              m.nome_modalidade,
+                              t.codigo_treino,
+                              t.nome_treino
+                            FROM modalidade m 
+                              INNER JOIN treino_modalidade tm ON tm.Modalidade_codigo_modalidade = m.codigo_modalidade 
+                              INNER JOIN treino t ON t.codigo_treino = tm.Treino_codigo_treino
+                              WHERE tm.Modalidade_codigo_modalidade IN($codigos_modalidades) order by m.nome_modalidade
+                      ";
+
+                      $consulta = $pdo->prepare($sql);
+                      $consulta->execute();
+                      $dados = $consulta->fetchAll(PDO::FETCH_OBJ);
+
+                      $modalidades = $dados ?? null;
+
+                      $codigos_treinos = null;
+                      if ($modalidades) {
+                        foreach($modalidades as $modalidade) {
+                          $codigos_treinos .= $modalidade->codigo_treino;
+                          $codigos_treinos .= ",";
+                        }
+                        $codigos_treinos = rtrim($codigos_treinos, ',');
+                      }
+                
+                      $sql = "
+                            SELECT 
+                              ae.*
+                            FROM aluno_exercicio ae 
+                              WHERE ae.codigo_aluno = $codigo_aluno
+                      ";
+
+                      $consulta = $pdo->prepare($sql);
+                      $consulta->execute();
+                      $dados = $consulta->fetchAll(PDO::FETCH_OBJ);
+
+                      $exercicios_old = "";
+                      if ($dados) {
+                        foreach($dados as $old) {
+                          $exercicios_old .= $old->codigo_exercicio;
+                          $exercicios_old .= ",";
+                        }
+                        $exercicios_old = rtrim($exercicios_old, ',');
+                      }
+                    
+                      foreach($modalidades as $modalidade) {
+                      
+                        $selects .= '
+                        <div class="card card-default">
+                          <div class="card-header text-light bg-dark">
+                          <h6 class="text-center">
+                            Modalidade: '.$modalidade->nome_modalidade.' | Treino: '.$modalidade->nome_treino.'
+                          </h6>
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            </div>
+                          </div>
+                        
+                        <div class="card-body">
+                          <div class="form-group">  
+                          <select class="duallistbox form-control" size="10" name="exercicios[]" multiple="multiple">
+                        ';
+
+                        $sql = "
+                          SELECT e.* FROM exercicio e 
+                            INNER JOIN treino t ON t.codigo_treino = e.Treino_codigo_treino
+                          WHERE e.Treino_codigo_treino = $modalidade->codigo_treino AND t.status = 1
+                          ORDER BY e.nome_exercicio
+                        ";
+                        $consulta = $pdo->prepare($sql);
+                        
+                        $consulta->execute();
+                
+                        $dados = $consulta->fetchAll(PDO::FETCH_OBJ);
+                       
+                        if ($dados) {
+                            foreach($dados as $exercicio) {
+                              // var_dump($exercicio);
+                             
+                              $peso = " - ". $exercicio->peso_inicial . "Kg" ?? null;
+                              $selects .= '
+                                <option value="'.$exercicio->codigo_exercicio.'">'.$exercicio->nome_exercicio.$peso.'</option>
+                              ';
+                            }
+                        }
+
+                        $selects .= '
+                          </select>
+                          </div>    
+                        </div>      
+                        </div>
+                        <script type="text/javascript">
+                          $(".duallistbox").val(['.$exercicios_old.']);
+                        </script>
+                        ';
+
+                      }
+                      echo $selects;
+                    ?>
+                    
+                      <div class='modal-footer'>
+                      <button type="submit" class="btn btn-success float-right"><i class="fas fa-save mr-1"></i>Salvar exercícios</button>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
+                      </div>
+                    </form>
+                  </div>
+      </div>
+  <!-- /.modal-content -->
+  </div>
+<!-- /.modal-dialog -->
+</div>
+                    
 <script>
-var selectCustom = $('#selectExercicios').bootstrapDualListbox({
+var selectCustom = $('.duallistbox').bootstrapDualListbox({
   filterTextClear:'Todos',
   filterPlaceHolder:'Filtrar',
   moveSelectedLabel:'Mover selecionado',
   moveAllLabel:'Mover todos',
   removeSelectedLabel:'Remover selecionado',
   infoTextEmpty:'Sem exercícios', 
-  infoTextFiltered: '<span class="text-danger">Filtrando</span> {0} de {1} exercícios',
+  infoTextFiltered: '<span class="badge badge-warning">Filtrando</span> {0} de {1} exercícios',
   removeAllLabel:'Remover todos',
   infoText:'Exibindo {0} exercícios',
   nonSelectedListLabel: 'Exercícios não selecionados',
   selectedListLabel: 'Exercícios selecionados',
   preserveSelectionOnMove: 'moved',
-  moveOnSelect: true
+  btnClass: 'btn-outline-dark',
+  btnMoveText: '<span class="text-success">Adicionar</span>',    
+  btnRemoveText: '<span class="text-danger">Remover</span>',
+  btnMoveAllText: '<span class="text-success">Adiconar todos</span>',    
+  btnRemoveAllText: '<span class="text-danger">Remover todos</span>', 
+  moveOnSelect: false
 });
 </script>
+
+<?php
+  }
+?>
