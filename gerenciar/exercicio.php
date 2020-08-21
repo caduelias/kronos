@@ -21,7 +21,7 @@ include "config/funcoes.php";
             throw new Exception("O código do aluno é obrigatório!", 400);
         }
 
-        if (!isset($exercicios['exercicios'])) {
+        if (!isset($exercicios['listexercicios'])) {
             throw new Exception("Informe ao menos um exercício!", 400);
         }
 
@@ -49,7 +49,7 @@ include "config/funcoes.php";
             // ALUNO_EXERCICIOS
 
             try {
-                foreach($exercicios['exercicios'] as $exercicio) { 
+                foreach($exercicios['listexercicios'] as $exercicio) { 
                     $sql = "
                     SELECT 
                        am.codigo_modalidade
@@ -82,7 +82,7 @@ include "config/funcoes.php";
                     $consulta->execute();
                 }
                
-                foreach($exercicios['exercicios'] as $exercicio) {
+                foreach($exercicios['listexercicios'] as $exercicio) {
 
                     $sql = "INSERT INTO aluno_exercicio
                     (codigo_aluno_exercicio, codigo_aluno, codigo_exercicio)

@@ -94,62 +94,34 @@
 
             <div class="row">
 
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label for="taxa">Taxa de adesão:</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-dollar-sign"></i>
-                          </span>
-                        </div>
-                        <input type="text" class="form-control" name="taxa_adesao" id="taxa" value="<?=$taxa_adesao;?>" placeholder="Taxa" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">      
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="taxa">Taxa de adesão:</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="fas fa-dollar-sign"></i>
+                        </span>
                       </div>
+                      <input type="text" class="form-control" name="taxa_adesao" id="taxa" value="<?=$taxa_adesao;?>" placeholder="Taxa" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">      
                     </div>
                   </div>
+                </div>
 
-                  <div class="col-6">
-
-                  <!-- <div class="form-group">
-                    <label for="dependentes">Dependentes:</label>
-                    <select id="dependentes" class="form-control" name="dependentes" required data-parsley-required-message="<i class='fas fa-times'></i> Selecione!">
-                        <option value="">Selecione... </option>
-                        <option value="1" selected>Sim</option>
-                        <option value="0">Não</option>  
-                    </select>
-
-                    <script type="text/javascript">
-                        $("#dependentes").val('<?=$dependentes;?>');
-                    </script>
-
-                  </div> -->
-
-                  </div> 
-
-            </div>
-
-            <div class="row">
-
-              <div class="col-6">
-                <div class="form-group">
-                      <label for="valor">Mensalidade:</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-dollar-sign"></i>
-                          </span>
+                <div class="col-6">
+                  <div class="form-group">
+                        <label for="valor">Mensalidade:</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <i class="fas fa-dollar-sign"></i>
+                            </span>
+                          </div>
+                          <input type="text" class="form-control" name="mensalidade" id="valor" value="<?=$mensalidade;?>" placeholder="Valor" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
                         </div>
-                        <input type="text" class="form-control" name="mensalidade" id="valor" value="<?=$mensalidade;?>" placeholder="Valor" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">  
                       </div>
-                    </div>
-              </div>
+                </div>
 
-              <div class="col-6">
-                  <!-- <div class="form-group">
-                      <label for="quantidade">Quantidade dependentes:</label>
-                      <input type="number" class="form-control" name="qtd_dependentes" value="<?=$qtd_dependentes;?>" required data-parsley-required-message="<i class='fas fa-times'></i> Preencha!" >
-                  </div> -->
-              </div>
             </div>
 
               <div class="form-group">

@@ -7,7 +7,7 @@
 
     include "config/funcoes.php";
 
-    $nome_aluno = $objetivo = $data_nascimento = $sexo = $selects = "";
+    $nome_aluno = $objetivo = $data_nascimento = $sexo = $selects = $exercicios_old = "";
 
     if ( isset ($p[2]) ) {
       $codigo_aluno =  base64_decode($p[2]);
@@ -200,12 +200,12 @@
 
         <?php
 
-        if ($codigos_modalidades && $codigo_plano) {
+        if (isset($codigos_modalidades)) {
           echo "
             <div class='col-2'>
             <div class='form-group'>
               <label>Exercicios:</label>
-              <a target='_blank' class='form-control btn btn-info' data-toggle='modal' data-target='#exercicio'>
+              <a class='form-control btn btn-info' data-toggle='modal' data-target='#exercicio'>
               <i class='fas fa-running'>
               </i><i class='ml-2 fas fa-dumbbell'></i>
               <i class='ml-2 fas fa-walking'></i>
@@ -283,7 +283,6 @@
                       $consulta->execute();
                       $dados = $consulta->fetchAll(PDO::FETCH_OBJ);
 
-                      $exercicios_old = "";
                       if ($dados) {
                         foreach($dados as $old) {
                           $exercicios_old .= $old->codigo_exercicio;
@@ -307,7 +306,7 @@
                         
                         <div class="card-body">
                           <div class="form-group">  
-                          <select class="duallistbox form-control" size="10" name="exercicios[]" multiple="multiple">
+                          <select class="duallistbox form-control" size="10" id="selectlistbox" name="listexercicios[]" multiple="multiple">
                         ';
 
                         $sql = "
@@ -326,25 +325,31 @@
                             foreach($dados as $exercicio) {
                               // var_dump($exercicio);
                              
-                              $peso = " - ". $exercicio->peso_inicial . "Kg" ?? null;
+                              $peso = null;
+                              if ($exercicio->peso_inicial) {
+                                $peso = " - ". $exercicio->peso_inicial . "Kg";
+                              }
+                              
                               $selects .= '
                                 <option value="'.$exercicio->codigo_exercicio.'">'.$exercicio->nome_exercicio.$peso.'</option>
                               ';
+                              
                             }
                         }
 
                         $selects .= '
-                          </select>
-                          </div>    
+                        </select>
+                          <script type="text/javascript">
+                            $(".duallistbox").val(['.$exercicios_old.']);
+                          </script>
                         </div>      
                         </div>
-                        <script type="text/javascript">
-                          $(".duallistbox").val(['.$exercicios_old.']);
-                        </script>
+                        </div>  
                         ';
-
+                        
                       }
                       echo $selects;
+                      $exercicios_old = null;
                     ?>
                     
                       <div class='modal-footer'>
@@ -358,27 +363,25 @@
   </div>
 <!-- /.modal-dialog -->
 </div>
-                    
+
 <script>
 var selectCustom = $('.duallistbox').bootstrapDualListbox({
+  moveOnSelect: false,
   filterTextClear:'Todos',
   filterPlaceHolder:'Filtrar',
-  moveSelectedLabel:'Mover selecionado',
   moveAllLabel:'Mover todos',
-  removeSelectedLabel:'Remover selecionado',
   infoTextEmpty:'Sem exercícios', 
   infoTextFiltered: '<span class="badge badge-warning">Filtrando</span> {0} de {1} exercícios',
   removeAllLabel:'Remover todos',
   infoText:'Exibindo {0} exercícios',
   nonSelectedListLabel: 'Exercícios não selecionados',
   selectedListLabel: 'Exercícios selecionados',
-  preserveSelectionOnMove: 'moved',
+  preserveSelectionOnMove: false,
   btnClass: 'btn-outline-dark',
   btnMoveText: '<span class="text-success">Adicionar</span>',    
   btnRemoveText: '<span class="text-danger">Remover</span>',
   btnMoveAllText: '<span class="text-success">Adiconar todos</span>',    
-  btnRemoveAllText: '<span class="text-danger">Remover todos</span>', 
-  moveOnSelect: false
+  btnRemoveAllText: '<span class="text-danger">Remover todos</span>'
 });
 </script>
 

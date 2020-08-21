@@ -339,7 +339,7 @@ function redimensionarImagem($pastaFotos,$imagem,$nome)	{
     ImageDestroy($imagem_fin);
 
     //apagar a imagem antiga
-    unlink ($imagem);
+    unset($imagem);
 }
 
     //FUNCÃO PARA VALIDAR CPF

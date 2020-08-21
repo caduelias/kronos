@@ -104,8 +104,8 @@
 
         <div class="col-4">
           <div class="form-group">
-            <label>Peso:</label>
-            <input type="text" id="peso" class="form-control" name="peso_inicial" value="<?=$peso_inicial;?>" placeholder="Peso">
+            <label>Peso(Kg):</label>
+            <input type="int" id="peso" class="form-control" name="peso_inicial" value="<?=$peso_inicial;?>" placeholder="Peso">
           </div>
         </div>
 
@@ -232,7 +232,7 @@
   });
 
   $(document).ready(function(){
-    $('#peso').mask('00(kg)');
+    $('#peso').mask('000');
   });
 
 function ApenasLetras(e, t) {

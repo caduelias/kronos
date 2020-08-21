@@ -18,12 +18,15 @@
         }
 
         if ( empty( $nome_plano ) ) {
+            $titulo = "";
             $mensagem = "Preencha o nome!";
             warning($titulo, $mensagem);
         } else if ( empty( $taxa_adesao ) ) {
+            $titulo = "";
             $mensagem = "Informe uma taxa!";
             warning($titulo, $mensagem);
         } else if (empty( $mensalidade ) ) {
+            $titulo = "";
             $mensagem = "Informe uma mensalidade!";
             warning($titulo, $mensagem);
         }
@@ -46,6 +49,7 @@
 
         if ( isset($dados->codigo_plano ) ) {
             // ALERTA
+            $titulo = "";
             $mensagem = "Este plano já foi cadastrado!";
             warning($titulo, $mensagem);
             exit;
@@ -108,6 +112,7 @@
 			// COMMIT
             $pdo->commit();
             // ALERTA
+            $titulo = "";
             $mensagem = "Registro salvo com sucesso!";
             $link = "listar/plano";
 			sucessLink($titulo, $mensagem, $link);
@@ -118,6 +123,7 @@
             echo $consulta->errorInfo()[2];
             exit;
             // ALERTA
+            $titulo = "";
 			$mensagem = "Erro ao salvar registro!";
             errorBack( $titulo, $mensagem );
             exit;
@@ -125,6 +131,7 @@
             
     } else {
         // ALERTA
+        $titulo = "";
         $mensagem = "Requisição Inválida!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);
