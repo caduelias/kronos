@@ -40,7 +40,7 @@
     $codigo_usuario = $dados->Usuario_codigo_usuario;
     $codigo_endereco = $dados->Endereco_codigo_endereco;
     $nome_aluno = $dados->nome_aluno;
-    $data_nasc 	= $dados->data_nasc;
+    $data_nasc 	= $dados->nascimento;
     $sexo = $dados->sexo;
     $rg = $dados->rg;
     $cpf = $dados->cpf;

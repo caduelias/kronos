@@ -232,7 +232,7 @@
   });
 
   $(document).ready(function(){
-    $('#peso').mask('000');
+    $('#peso').mask("00#", {reverse: true});
   });
 
 function ApenasLetras(e, t) {

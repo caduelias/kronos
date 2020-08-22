@@ -108,7 +108,7 @@
                     <td class='text-center'> 
                     <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>
                     <a href='cadastros/aluno/$codigo' class='btn btn-dark m-1'><i class='fas fa-pencil-alt'></i></a>
-                    <a href='cadastros/gerenciaraluno/$codigo' class='btn btn-info m-1'><i class='fas fa-file-alt'></i></a>
+                    <a href='cadastros/gerenciaraluno/$codigo' class='btn btn-info m-1'><i class='fas fa-wrench'></i></a>
                     <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
                     <i class='fas fa-eye'></i>
                     </a>
@@ -240,7 +240,7 @@
                             <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
                             <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>
                             <a href='cadastros/aluno/$codigo' class='btn btn-dark m-1'><i class='fas fa-pencil-alt'></i></a>
-                            <a href='cadastros/gerenciaraluno/$codigo' class='btn btn-info m-1'><i class='fas fa-file-alt'></i></a>
+                            <a href='cadastros/gerenciaraluno/$codigo' class='btn btn-info m-1'><i class='fas fa-wrench'></i></a>
                         </div>
                     
                     </div>
