@@ -42,7 +42,7 @@
     
     $data_ultima_avaliacao = $ultima_avaliacao->ultimaavaliacao ?? null;
     $dias_restante = $ultima_avaliacao->diasrestante ?? null;
-    var_dump($data_ultima_avaliacao, $dias_restante);
+   // var_dump($data_ultima_avaliacao, $dias_restante);
 
     } else {
       $titulo = "";
@@ -83,9 +83,16 @@
           <h6>Aluno: <strong><?=$aluno->nome_aluno;?></strong></h6>
         </div>
         
-        <div class="float-right">
-          <h6>Data da ultima avaliação: <strong><?=$data_ultima_avaliacao;?></strong></h6>
-        </div>
+        <?php 
+
+          if ($data_ultima_avaliacao) {
+            echo "<div class='mr-2 float-right'>
+                    <h6>Data da ultima avaliação: <strong>$data_ultima_avaliacao</strong></h6>
+                  </div>";
+          }
+
+        ?>
+        
       <table class="table table-bordered table-hover">
                 <thead>
                 
@@ -145,7 +152,7 @@
                                 <div class='modal-content'>
                                     <div class='modal-header'>
                                         <div class='modal-title text-uppercase'>
-                                          <p>Aluno(a): $aluno->nome_aluno | Data da avaliação: $avaliacao->data_avaliacao</p>
+                                          <p>Aluno(a): $aluno->nome_aluno</p>
                                         </div>
                                         <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                                             <span aria-hidden='true'>×</span>
@@ -243,6 +250,9 @@
               
                                   </div>
                                       
+                                    </div>
+                                    <div class='ml-3 text-uppercase'>
+                                      <p>Data da avaliação: $avaliacao->data_avaliacao</p>
                                     </div>
                                     <div class='modal-footer'>
                                         <button type='button' class='btn btn-default' data-dismiss='modal'>Fechar</button>
