@@ -7,8 +7,6 @@ WHERE av.imc BETWEEN 25.00 and 29.99
 and (case when null is null then true else av.idade BETWEEN 32 and 70 end)
 
 
-
-
 select a.codigo_aluno, a.nome_aluno, COUNT(a.codigo_aluno) as total from aluno a 
 INNER join (
 select DISTINCT(a.codigo_aluno) from avaliacao a WHERE a.data_avaliacao BETWEEN '2020-01-01' and '2020-12-12') alunos

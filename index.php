@@ -51,6 +51,14 @@
 <!-- Bootstrap4 Duallistbox -->
 <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
 
+<!-- DateRanger -->
+<link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<!-- bootstrap datepicker -->
+<link rel="stylesheet" href="plugins/datepicker/css/bootstrap-datepicker.min.css">
+<!-- Bootstrap time Picker -->
+<link rel="stylesheet" href="plugins/timepicker/css/bootstrap-timepicker.min.css">
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="build/js/parsley.min.js"></script>
@@ -85,9 +93,18 @@
 <script src="plugins/inputmask/jquery.inputmask.bundle.js"></script>
 <script type="text/javascript" src="build/js/jquery.maskMoney.min.js"></script>
 <script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/moment/locale/pt-br.js"></script>
 <!-- date-range-picker -->
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap time picker -->
+<script src="plugins/timepicker/js/bootstrap-timepicker.min.js"></script>
+<!-- bootstrap datepicker -->
+<script src="plugins/datepicker/js/bootstrap-datepicker.min.js"></script>
+
 <script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<script src="plugins/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/inputmask/inputmask/jquery.inputmask.date.extensions.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
@@ -140,39 +157,37 @@
     //Date range picker
     $('#reservation').daterangepicker()
     //Date range picker with time picker
-    $('#reservationtime').daterangepicker({
-      timePicker: true,
-      timePickerIncrement: 30,
-      locale: {
-        format: 'MM/DD/YYYY hh:mm A'
+    $('#reservationtime').daterangepicker(
+      { timePicker: true, timePickerIncrement: 30, locale: {
+       format: 'DD/MM/YYYY hh:mm'
       }
-    })
+      })
     //Date range as a button
     $('#daterange-btn').daterangepicker(
       {
         ranges   : {
-          'Today'       : [moment(), moment()],
-          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          'Hoje'       : [moment(), moment()],
+          'Ontem'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Ultímos 7 dias' : [moment().subtract(6, 'days'), moment()],
+          'Ultímos 30 dias': [moment().subtract(29, 'days'), moment()],
+          'Esse mês'  : [moment().startOf('month'), moment().endOf('month')],
+          'Mês Anterior'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         },
         startDate: moment().subtract(29, 'days'),
         endDate  : moment()
       },
       function (start, end) {
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+        $('#daterange-btn span').html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'))
       }
     )
 
-    //Timepicker
-    $('#timepicker').datetimepicker({
-      format: 'LT'
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: false,
+      language: 'pt-br'
     })
-    
-    //Bootstrap Duallistbox
-    $('.duallistbox').bootstrapDualListbox()
+
+    $('#datepicker').datepicker 
 
     //Colorpicker
     $('.my-colorpicker1').colorpicker()
@@ -182,6 +197,10 @@
     $('.my-colorpicker2').on('colorpickerChange', function(event) {
       $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
     });
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
   })
 </script>
 

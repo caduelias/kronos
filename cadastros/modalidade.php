@@ -110,7 +110,7 @@
                         <label for="status">Status:</label>
                         <select id="status" class="form-control" name="status" required data-parsley-required-message="Selecione!">
                             <option value="">Selecione...</option>
-                            <option value="0">Inativo</option>
+                            <option value="2">Inativo</option>
                             <option value="1" selected>Ativo</option>    
                         </select>
                     </div>

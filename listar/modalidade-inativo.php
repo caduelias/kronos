@@ -41,7 +41,7 @@
                     $sql = "SELECT m.*, h.* 
                     FROM Modalidade m
                     INNER JOIN Horario h on m.Horario_codigo_horario = h.codigo_horario
-                    WHERE status = 0
+                    WHERE status = 2
                     ORDER BY nome_modalidade";
 
                     $consulta = $pdo->prepare($sql);

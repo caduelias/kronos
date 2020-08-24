@@ -222,23 +222,23 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
+                <a href="relatorio/aluno" class="nav-link">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Alunos</p>
                 </a>
               </li>
              
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
+                <a href="relatorio/situacao_aluno" class="nav-link">
+                  <i class="fas fa-heartbeat nav-icon"></i>
+                  <p>Situação Aluno</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
+                <a href="relatorio/modalidade" class="nav-link">
+                  <i class="fas fa-stream nav-icon"></i>
+                  <p>Modalidades</p>
                 </a>
               </li>
 

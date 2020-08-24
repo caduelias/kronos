@@ -90,7 +90,7 @@
 
                     if ($status == '1') {
                         $status = "<p class='text-success'>Ativo</p>";
-                    } else if ($status == '0') {
+                    } else if ($status == '2') {
                         $status = "<p class='text-danger'>Inativo</p>";
                     }
 

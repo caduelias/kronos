@@ -41,7 +41,7 @@
         $sql = "
         
         UPDATE Modalidade
-		SET status = 0 
+		SET status = 2 
 		WHERE codigo_modalidade = :codigo
         LIMIT 1
         
@@ -64,7 +64,7 @@
     
      } 
      
-     if ($nome_modalidade && $status == "0") {
+     if ($nome_modalidade && $status == "2") {
 
 		$sql = "
         
