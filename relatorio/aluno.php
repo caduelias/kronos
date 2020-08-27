@@ -173,7 +173,6 @@
                                 <th width='5%'>Data cadastro</th>
                                 <th width='5%'>Gênero</th>
                                 <th width='5%'>Situação</th> 
-                                <th width='5%'></th> 
                             </tr>             
                         </thead>
                         <tbody>
@@ -195,7 +194,6 @@
                     <td class='text-uppercase'>$aluno->data_cadastro</td>
                     <td class='text-uppercase'>$aluno->sexo</td>
                     <td class='text-uppercase'>$situacao</td>
-                    <td class='text-uppercase'></td>
                     </tr>
                     
                     ";
@@ -205,8 +203,7 @@
                 </tbody>
                     <tfoot>
                         <tr>
-                        <th id='total' colspan='5'>Total aluno(s) :</th>
-                        <td>$qtde->quantidade</td>
+                        <th id='total' colspan='5'>Total aluno(s) :$qtde->quantidade</th>
                         </tr>
                     </tfoot>
                 </table>

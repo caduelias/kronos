@@ -90,28 +90,28 @@ include "config/funcoes.php";
 
             if ($idade > 65 && $idade < 100) {
                 #Idosos
-                if ($imc <= 22.0) {
+                if ($imc <= 22.00) {
                     $classificacao = "Abaixo do peso";
-                } else if ($imc > 22.0 && $imc < 27.0) {
+                } else if ($imc > 22.00 && $imc < 27.00) {
                     $classificacao = "Peso Ideal";
-                } else if ($imc >= 27.0) {
+                } else if ($imc >= 27.00) {
                     $classificacao = "Sobrepeso";
                 } else {
                     $classificacao = "Indefinida";
                 }
             } else if ($idade > 0 && $idade <= 65) {
                 #Adultos
-                if ($imc < 18.5) {
+                if ($imc < 18.50) {
                     $classificacao = "Abaixo do peso";
-                } else if ($imc >= 18.5 && $imc <= 24.9) {
+                } else if ($imc >= 18.50 && $imc <= 24.99) {
                     $classificacao = "Peso Ideal";
-                } else if ($imc >= 25.0 && $imc <= 29.9) {
+                } else if ($imc >= 25.00 && $imc <= 29.99) {
                     $classificacao = "Sobrepeso";
-                } else if ($imc >= 30.0 && $imc <= 34.9) {
+                } else if ($imc >= 30.00 && $imc <= 34.99) {
                     $classificacao = "Obesidade I";
-                } else if ($imc >= 35.0 && $imc <= 39.9) {
+                } else if ($imc >= 35.00 && $imc <= 39.99) {
                     $classificacao = "Obesidade II";
-                } else if ($imc >= 40.0) {
+                } else if ($imc >= 40.00) {
                     $classificacao = "Obesidade III";
                 } else {
                     $classificacao = "Indefinida";
