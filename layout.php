@@ -19,16 +19,10 @@
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link">Início</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="listar/alunos" class="nav-link">Alunos</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="cadastros/gerenciaraluno" class="nav-link">Gerenciar alunos</a>
-      </li>
+      
     </ul>
-
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -179,12 +173,26 @@
                 </a>
               </li>
 
+              <?php 
+
+              if ($perfil === "1" || $perfil === "2")
+
+              {
+
+              ?>
+
               <li class="nav-item">
                 <a href="listar/plano" class="nav-link">
                   <i class="fas fa-file-invoice-dollar nav-icon"></i>
                   <p>Planos</p>
                 </a>
               </li>
+
+              <?php 
+
+              }
+
+              ?>
 
               <li class="nav-item">
                 <a href="listar/horario" class="nav-link">
@@ -200,15 +208,16 @@
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="listar/avaliacoes" class="nav-link">
-                  <i class="fas fa-clipboard nav-icon"></i>
-                  <p>Avaliações</p>
-                </a>
-              </li>
-
             </ul>
           </li>
+
+          <?php 
+
+          if ($perfil === "1" || $perfil === "2")
+
+          {
+
+          ?>
 
           </li>
           <li class="nav-header">Informações</li>
@@ -242,26 +251,9 @@
                 </a>
               </li>
 
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Item</p>
-                </a>
-              </li>
             </ul>
           </li>
         
-         
-
-          <?php 
-
-          if ($perfil === "1" || $perfil === "2")
-
-          {
-
-          ?>
-
           <li class="nav-header">Sistema</li>
           <li class="nav-item has-treeview">
             <a class="nav-link">
@@ -297,6 +289,7 @@
           <?php
 
           }
+
           ?>
          
             </ul>
@@ -325,7 +318,7 @@
     Todos os direitos reservados.
     <div class="float-right d-none d-sm-inline-block">
       
-      <b><a class="text-dark" href="https://github.com/caduelias?tab=repositories">Version</a></b> 1.0.0 
+      <b><a class="text-dark" href="https://github.com/caduelias?tab=repositories">v</a></b> 1.10.142 
       
     </div>
   </footer>

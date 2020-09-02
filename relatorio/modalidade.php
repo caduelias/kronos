@@ -1,10 +1,10 @@
 <?php
 
-  // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN
-    if ( file_exists ( "verificaLogin.php" ) )
-      include "verificaLogin.php";
+    // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN
+    if ( file_exists ( "permissaoAdmin.php" ) )
+        include "permissaoAdmin.php";
     else
-      include "../verificaLogin.php";
+        include "../permissaoAdmin.php";
 
     include "config/funcoes.php";
 

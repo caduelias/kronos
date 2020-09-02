@@ -61,6 +61,8 @@
         <?php
           if ($dias_restante && $dias_restante > 0) {
             echo "<div class='float-left'><h3 class='card-title text-uppercase'>Próxima avaliação disponível em:<a class='text-danger'> $dias_restante</a> dias!</h3></div>";
+          } else if ($aluno->status == 2) {
+            echo "<div class='float-left'><h3 class='card-title text-uppercase'>Avaliação indisponível:<a class='ml-1 text-danger'> Aluno inativo!</a></h3></div>";
           } else {
             echo "<div class='float-left'><h3 class='card-title text-uppercase text-success'>Avaliação disponível!</h3></div>";
           }
@@ -69,7 +71,7 @@
         <div class="float-right text-light">
             <a href="listar/aluno" class="btn btn-dark float-right m-1">Listar Alunos<i class="ml-2 fas fa-list"></i></a>
             <?php
-                if (!$dias_restante && $dias_restante <= 0) {
+                if (!$dias_restante && $dias_restante <= 0 && $aluno->status == 1) {
                   echo "
                   <a class='btn btn-success m-1' data-toggle='modal' data-target='#modalavaliacao'>Nova Avaliação<i class='ml-2 fas fa-clipboard'></i></a>
                   ";

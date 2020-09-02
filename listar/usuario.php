@@ -47,7 +47,7 @@
 
     if ($perfil == "1") {
         // SELECT DADOS USUARIOS TABELA ADMIN DIFERENTE DE MASTER E ALUNO
-        $sql = "SELECT *, date_format(data,'%d/%m/%Y') data FROM Usuario
+        $sql = "SELECT *, date_format(data,'%d/%m/%Y') as data FROM Usuario
         WHERE Perfil_codigo_perfil <> 1 AND Perfil_codigo_perfil <> 4 
         AND status = 1
         ORDER BY nome";
@@ -58,7 +58,7 @@
 
     if ($perfil == "2") {
         // SELECT DADOS USUARIOS TABELA ADMIN DIFERENTE DE ADMIN,MASTER E ALUNO
-        $sql = "SELECT *, date_format(data,'%d/%m/%Y') data FROM Usuario
+        $sql = "SELECT *, date_format(data,'%d/%m/%Y') as data FROM Usuario
         WHERE Perfil_codigo_perfil <> 1 AND Perfil_codigo_perfil <> 2
         AND Perfil_codigo_perfil <> 4 AND status = 1
         ORDER BY nome";

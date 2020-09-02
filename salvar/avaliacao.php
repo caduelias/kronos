@@ -168,9 +168,6 @@ include "config/funcoes.php";
             throw new Exception("Erro ao calcular densidade corporal do aluno!", 500);
         }
 
-        // var_dump($avaliacao, $peso, $altura, $imc, $classificacao);
-        // var_dump($densidade_corporal, $gordura, $gordura_absoluta, $massa_magra);
-        // exit;
         try {
             $pdo->beginTransaction();
 

@@ -1,10 +1,10 @@
 <?php
 
     // INCLUINDO FUNÇÕES, VERIFICAÇÃO DE LOGIN
-    if ( file_exists ( "verificaLogin.php" ) )
-      include "verificaLogin.php";
+    if ( file_exists ( "permissaoAdmin.php" ) )
+        include "permissaoAdmin.php";
     else
-      include "../verificaLogin.php";
+        include "../permissaoAdmin.php";
 
     include "config/funcoes.php";
 
@@ -83,6 +83,7 @@
                     <div class="form-group">
                         <label for="sexo">Situação:</label>
                         <select class="form-control" name="situacao_imc">
+                            <option value="">Todas</option>
                             <option value="1">Abaixo do peso</option>
                             <option value="2" selected>Peso Ideal</option>  
                             <option value="3">Sobrepeso</option>
@@ -190,17 +191,19 @@
                     from aluno a 
                         INNER join (
                                 select 
-                                DISTINCT(a.codigo_aluno)
+                                    a.codigo_aluno
                                 from avaliacao a 
                                 WHERE a.data_avaliacao BETWEEN :datainicial and :datafinal
-                                and a.imc BETWEEN :mediaum and :mediadois ) alunos
+                                and (case when :situacao_imc is null then true else a.imc BETWEEN :mediaum and :mediadois end)
+                                ) alunos
                                 on alunos.codigo_aluno = a.codigo_aluno
                         INNER join avaliacao av on av.codigo_aluno = a.codigo_aluno
-                    WHERE av.imc BETWEEN :mediaum and :mediadois 
+                    WHERE av.data_avaliacao BETWEEN :datainicial and :datafinal
+                    and (case when :situacao_imc is null then true else av.imc BETWEEN :mediaum and :mediadois end)
                     and (case when :idade is null then true else av.idade BETWEEN :idadeum and :idadedois end)
                     and (case when :sexo is null then true else a.sexo = :sexo end) 
                     and (case when :codigo_aluno is null then true else a.codigo_aluno = :codigo_aluno end) 
-                    GROUP by a.codigo_aluno  
+                    GROUP by 1,10 
                 ";
                     
                 $consulta = $pdo->prepare($sql);
@@ -209,18 +212,26 @@
 
                 if ($categoria_idade == 1) {
 
-                    if ($situacao_imc == 1) {
-                        $consulta->bindValue(":mediaum", 1);
-                        $consulta->bindValue(":mediadois", 18.50);
-                    } else if ($situacao_imc == 2) {
-                        $consulta->bindValue(":mediaum", 18.50);
-                        $consulta->bindValue(":mediadois", 24.99);
-                    } else if ($situacao_imc == 3) {
-                        $consulta->bindValue(":mediaum", 25.00);
-                        $consulta->bindValue(":mediadois", 29.99);
-                    } else if ($situacao_imc == 4) {
-                        $consulta->bindValue(":mediaum", 30.00);
-                        $consulta->bindValue(":mediadois", 99.99);
+                    
+                    if ($situacao_imc) {
+                        $consulta->bindValue(":situacao_imc", $situacao_imc);
+                        if ($situacao_imc == 1) {
+                            $consulta->bindValue(":mediaum", 1);
+                            $consulta->bindValue(":mediadois", 18.50);
+                        } else if ($situacao_imc == 2) {
+                            $consulta->bindValue(":mediaum", 18.50);
+                            $consulta->bindValue(":mediadois", 24.99);
+                        } else if ($situacao_imc == 3) {
+                            $consulta->bindValue(":mediaum", 25.00);
+                            $consulta->bindValue(":mediadois", 29.99);
+                        } else if ($situacao_imc == 4) {
+                            $consulta->bindValue(":mediaum", 30.00);
+                            $consulta->bindValue(":mediadois", 99.99);
+                        }
+                    } else  {
+                        $consulta->bindValue(":situacao_imc", null);
+                        $consulta->bindValue(":mediaum", null);
+                        $consulta->bindValue(":mediadois", null);
                     }
 
                     $consulta->bindValue(":idade", true);
@@ -228,19 +239,27 @@
                     $consulta->bindValue(":idadedois", 65);
                 } else if ($categoria_idade == 2) {
 
-                    if ($situacao_imc == 1) {
-                        $consulta->bindValue(":mediaum", 1);
-                        $consulta->bindValue(":mediadois", 22.00);
-                    } else if ($situacao_imc == 2) {
-                        $consulta->bindValue(":mediaum", 22.00);
-                        $consulta->bindValue(":mediadois", 27.00);
-                    } else if ($situacao_imc == 3) {
-                        $consulta->bindValue(":mediaum", 27.00);
-                        $consulta->bindValue(":mediadois", 99.99);
-                    } else if ($situacao_imc == 4) {
-                        $consulta->bindValue(":mediaum", 27.00);
-                        $consulta->bindValue(":mediadois", 99.99);
+                    if ($situacao_imc) {
+                        $consulta->bindValue(":situacao_imc", $situacao_imc);
+                        if ($situacao_imc == 1) {
+                            $consulta->bindValue(":mediaum", 1);
+                            $consulta->bindValue(":mediadois", 22.00);
+                        } else if ($situacao_imc == 2) {
+                            $consulta->bindValue(":mediaum", 22.00);
+                            $consulta->bindValue(":mediadois", 27.00);
+                        } else if ($situacao_imc == 3) {
+                            $consulta->bindValue(":mediaum", 27.00);
+                            $consulta->bindValue(":mediadois", 99.99);
+                        } else if ($situacao_imc == 4) {
+                            $consulta->bindValue(":mediaum", 27.00);
+                            $consulta->bindValue(":mediadois", 99.99);
+                        }
+                    } else  {
+                        $consulta->bindValue(":situacao_imc", null);
+                        $consulta->bindValue(":mediaum", null);
+                        $consulta->bindValue(":mediadois", null);
                     }
+
                     $consulta->bindValue(":idade", true);
                     $consulta->bindValue(":idadeum", 66);
                     $consulta->bindValue(":idadedois", 100);
@@ -273,10 +292,12 @@
                             WHERE a.data_avaliacao BETWEEN :datainicial and :datafinal) alunos
                             on alunos.codigo_aluno = a.codigo_aluno
                         INNER join avaliacao av on av.codigo_aluno = a.codigo_aluno
-                    WHERE (case when :idade is null then true else av.idade BETWEEN :idadeum and :idadedois end)
-                    and av.imc BETWEEN :mediaum and :mediadois
+                    WHERE av.data_avaliacao BETWEEN :datainicial and :datafinal
+                    and (case when :idade is null then true else av.idade BETWEEN :idadeum and :idadedois end)
+                    and (case when :situacao_imc is null then true else av.imc BETWEEN :mediaum and :mediadois end)
                     and (case when :sexo is null then true else a.sexo = :sexo end) 
                     and (case when :codigo_aluno is null then true else a.codigo_aluno = :codigo_aluno end) 
+                    group by a.codigo_aluno
                 ";
                 
                 $consulta = $pdo->prepare($sql);
@@ -285,18 +306,25 @@
 
                 if ($categoria_idade == 1) {
 
-                    if ($situacao_imc == 1) {
-                        $consulta->bindValue(":mediaum", 1);
-                        $consulta->bindValue(":mediadois", 18.50);
-                    } else if ($situacao_imc == 2) {
-                        $consulta->bindValue(":mediaum", 18.50);
-                        $consulta->bindValue(":mediadois", 24.99);
-                    } else if ($situacao_imc == 3) {
-                        $consulta->bindValue(":mediaum", 25.00);
-                        $consulta->bindValue(":mediadois", 29.99);
-                    } else if ($situacao_imc == 4) {
-                        $consulta->bindValue(":mediaum", 30.00);
-                        $consulta->bindValue(":mediadois", 99.99);
+                    if ($situacao_imc) {
+                        $consulta->bindValue(":situacao_imc", $situacao_imc);
+                        if ($situacao_imc == 1) {
+                            $consulta->bindValue(":mediaum", 1);
+                            $consulta->bindValue(":mediadois", 18.50);
+                        } else if ($situacao_imc == 2) {
+                            $consulta->bindValue(":mediaum", 18.50);
+                            $consulta->bindValue(":mediadois", 24.99);
+                        } else if ($situacao_imc == 3) {
+                            $consulta->bindValue(":mediaum", 25.00);
+                            $consulta->bindValue(":mediadois", 29.99);
+                        } else if ($situacao_imc == 4) {
+                            $consulta->bindValue(":mediaum", 30.00);
+                            $consulta->bindValue(":mediadois", 99.99);
+                        }
+                    } else  {
+                        $consulta->bindValue(":situacao_imc", null);
+                        $consulta->bindValue(":mediaum", null);
+                        $consulta->bindValue(":mediadois", null);
                     }
 
                     $consulta->bindValue(":idade", true);
@@ -304,19 +332,27 @@
                     $consulta->bindValue(":idadedois", 65);
                 } else if ($categoria_idade == 2) {
 
-                    if ($situacao_imc == 1) {
-                        $consulta->bindValue(":mediaum", 1);
-                        $consulta->bindValue(":mediadois", 22.00);
-                    } else if ($situacao_imc == 2) {
-                        $consulta->bindValue(":mediaum", 22.00);
-                        $consulta->bindValue(":mediadois", 27.00);
-                    } else if ($situacao_imc == 3) {
-                        $consulta->bindValue(":mediaum", 27.00);
-                        $consulta->bindValue(":mediadois", 99.99);
-                    } else if ($situacao_imc == 4) {
-                        $consulta->bindValue(":mediaum", 27.00);
-                        $consulta->bindValue(":mediadois", 99.99);
+                    if ($situacao_imc) {
+                        $consulta->bindValue(":situacao_imc", $situacao_imc);
+                        if ($situacao_imc == 1) {
+                            $consulta->bindValue(":mediaum", 1);
+                            $consulta->bindValue(":mediadois", 22.00);
+                        } else if ($situacao_imc == 2) {
+                            $consulta->bindValue(":mediaum", 22.00);
+                            $consulta->bindValue(":mediadois", 27.00);
+                        } else if ($situacao_imc == 3) {
+                            $consulta->bindValue(":mediaum", 27.00);
+                            $consulta->bindValue(":mediadois", 99.99);
+                        } else if ($situacao_imc == 4) {
+                            $consulta->bindValue(":mediaum", 27.00);
+                            $consulta->bindValue(":mediadois", 99.99);
+                        }
+                    } else  {
+                        $consulta->bindValue(":situacao_imc", null);
+                        $consulta->bindValue(":mediaum", null);
+                        $consulta->bindValue(":mediadois", null);
                     }
+
                     $consulta->bindValue(":idade", true);
                     $consulta->bindValue(":idadeum", 66);
                     $consulta->bindValue(":idadedois", 100);
