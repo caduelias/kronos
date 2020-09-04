@@ -78,8 +78,8 @@
 
               <div class="col-4">
                 <div class="form-group">
-                    <label>Horário Início:</label>
-                      <input type="text" class="form-control" id="time" name="horario_treino" value="<?=$horario_treino;?>" placeholder="Horas:Minutos" required required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
+                    <label>Horário:</label>
+                      <input type="time" class="form-control" id="time" name="horario_treino" value="<?=$horario_treino;?>" placeholder="Horas:Minutos" required required data-parsley-required-message="<i class='fas fa-times'></i> Preencha este campo!">
                 </div>
               </div>
 

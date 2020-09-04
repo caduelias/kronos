@@ -228,7 +228,7 @@
                     if (isset($avaliacao->diasrestante) && $avaliacao->diasrestante <= 0) {
                         $cadastro_avaliacao = " <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>";
                     } else if (isset($avaliacao->diasrestante) && $avaliacao->diasrestante > 0) {
-                        $cadastro_avaliacao = " <a href='cadastros/avaliacao/$codigo' class='btn btn-warning m-1'><i class='fas fa-clipboard'></i></a>";
+                        $cadastro_avaliacao = " <a href='cadastros/avaliacao/$codigo' class='btn btn-danger m-1'><i class='fas fa-clipboard'></i></a>";
                     } else {
                         $cadastro_avaliacao = " <a href='cadastros/avaliacao/$codigo' class='btn btn-success m-1'><i class='fas fa-clipboard'></i></a>";
                     }
@@ -244,6 +244,7 @@
                     <a class='btn btn-default m-1' data-toggle='modal' data-target='#$modal'>
                     <i class='fas fa-folder-open'></i>
                     </a>
+                    <a href='pdf/exercicios/$codigo' target='_blank' class='btn btn-default'><i class='fas fa-print'></i></a>
                     </td>
                 </tr>
 

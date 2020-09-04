@@ -97,10 +97,12 @@
             $consulta->bindValue(":codigo",$codigo);
 
             if ( $consulta->execute() ) {
+                $titulo = "";
                 $mensagem = "Status alterado!";
                 $link = "listar/inativo";
                 sucessLink($titulo, $mensagem, $link);
             } else {
+                $titulo = "";
                 $mensagem = "Não foi possível alterar o Status do usuário";
                 $link = "listar/usuario";
                 errorLink($titulo, $mensagem, $link);
@@ -114,10 +116,12 @@
             $consulta->bindValue(":codigo",$codigo);
 
             if ( $consulta->execute() ) {
+                $titulo = "";
                 $mensagem = "Status alterado!";
                 $link = "listar/usuario";
                 sucessLink($titulo, $mensagem, $link);
             } else {
+                $titulo = "";
                 $mensagem = "Não foi possível alterar o Status do usuário";
                 $link = "listar/inativo";
                 errorLink($titulo, $mensagem, $link);
@@ -125,6 +129,7 @@
         }
 
     } else {
+        $titulo = "";
         $mensagem = "Parâmetros Inválidos!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);

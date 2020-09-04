@@ -374,6 +374,12 @@
 
                 $total = $consulta->fetch(PDO::FETCH_OBJ);
 
+                if (isset($total->total)) {
+                    $total = $total->total;
+                } else {
+                    $total = 0;
+                }
+
                 $table = "
                 <table class='table table-bordered table-hover'>
                         <thead>
@@ -414,7 +420,7 @@
                 </tbody>
                     <tfoot>
                         <tr>
-                        <th colspan='9'>Total aluno(s) : $total->total</th>
+                        <th colspan='9'>Total aluno(s) : $total</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -423,7 +429,7 @@
 
                 echo $table;
 
-                $resultadoTotal = 'Total: '.$total->total. ' aluno(s)';
+                $resultadoTotal = 'Total: '.$total. ' aluno(s)';
                 $filtros = 'Filtros: Data_inicio:'.$data_inicial.' Data_fim:'.$data_final.' Idade:'.$categoria_idade.' Gênero:'.$sexo.' Situacao:'.$situacao_imc.' Aluno:'.$codigo_aluno;
     ?>
 

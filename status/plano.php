@@ -42,10 +42,12 @@
 		$consulta->bindValue(":codigo_plano",$codigo_plano);
 
         if ( $consulta->execute() ){
+            $titulo = "";
             $mensagem = "Status alterado!";
             $link = "listar/plano-inativo";
             sucessLink($titulo, $mensagem, $link);
         } else {
+            $titulo = "";
             $mensagem = "Não foi possível alterar o Status!";
             $link = "listar/plano";
             errorLink($titulo, $mensagem, $link);
@@ -66,10 +68,12 @@
 		$consulta->bindValue(":codigo_plano",$codigo_plano);
 
         if ( $consulta->execute() ) {
+            $titulo = "";
             $mensagem = "Status alterado!";
             $link = "listar/plano";
             sucessLink($titulo, $mensagem, $link);
         } else {
+            $titulo = "";
             $mensagem = "Não foi possível alterar o Status!";
             $link = "listar/plano-inativo";
             errorLink($titulo, $mensagem, $link);
@@ -77,6 +81,7 @@
     }
     
     } else {
+        $titulo = "";
         $mensagem = "Parâmetros inválidos!";
         $link = "index.php";
         errorLink($titulo, $mensagem, $link);
