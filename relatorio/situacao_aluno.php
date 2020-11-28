@@ -297,7 +297,6 @@
                     and (case when :situacao_imc is null then true else av.imc BETWEEN :mediaum and :mediadois end)
                     and (case when :sexo is null then true else a.sexo = :sexo end) 
                     and (case when :codigo_aluno is null then true else a.codigo_aluno = :codigo_aluno end) 
-                    group by a.codigo_aluno
                 ";
                 
                 $consulta = $pdo->prepare($sql);
