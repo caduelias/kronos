@@ -1,5 +1,5 @@
 <?php
-	$senha = "admin";
+	$senha = "master";
 
 	//criptografar
 	$senhac = password_hash($senha, PASSWORD_DEFAULT);
